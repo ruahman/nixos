@@ -9,6 +9,7 @@
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     # utils
+    terminator
     neofetch
     htop
     xclip
@@ -35,10 +36,10 @@
     irssi
 
     # fonts
-    #nerd-fonts.fira-code
-    #nerd-fonts.caskaydia-cove
-    #nerd-fonts.jetbrains-mono
-    #nerd-fonts.hack
+    nerd-fonts.fira-code
+    nerd-fonts.caskaydia-cove
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.hack
   ];
 
   programs.git = {
