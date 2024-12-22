@@ -91,6 +91,7 @@
     packages = with pkgs; [
     #  thunderbird
     ];
+    shell = pkgs.nushell;
   };
 
   # Install firefox.
