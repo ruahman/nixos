@@ -9,7 +9,8 @@
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     # utils
-    terminator
+    #terminator
+    google-chrome
     neofetch
     htop
     xclip
@@ -69,11 +70,21 @@
     };
   };
 
+  programs.terminator = {
+    enable = true;
+    config = {
+      profiles.default.font = "FiraCode Nerd Font Regular 20";
+    };
+  };
+
   programs.kitty = {
     enable = true;
     font = {
       name = "FiraCode Nerd Font";
       size = 18.0;
+    };
+    settings = {
+      shell = "${pkgs.nushell}/bin/nu";
     };
   };
 
