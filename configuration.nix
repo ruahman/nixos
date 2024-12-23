@@ -44,6 +44,14 @@
     LC_TIME = "es_PR.UTF-8";
   };
 
+  fonts.packages = with pkgs; [ 
+    nerd-fonts.fira-code 
+    nerd-fonts.hack
+    nerd-fonts.caskaydia-cove
+    nerd-fonts.jetbrains-mono 
+  ];
+
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 

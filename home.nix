@@ -35,12 +35,6 @@
     ranger
     bruno
     irssi
-
-    # fonts
-    nerd-fonts.fira-code
-    nerd-fonts.caskaydia-cove
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.hack
   ];
 
   programs.git = {
