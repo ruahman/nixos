@@ -13,7 +13,9 @@
     htop
     xclip
     unzip
+    wget
     ripgrep
+    fd
     fzf
     ispell
     tree
@@ -25,9 +27,14 @@
     node2nix
 
     # for neovim
-    lua
-    luarocks 
-    nodejs
+    lua51Packages.lua
+    lua51Packages.luarocks
+    lua51Packages.luacheck
+    lua-language-server
+    stylua
+    vscode-langservers-extracted
+    vscode-js-debug
+    vscode-extensions.vadimcn.vscode-lldb
 
     # tools
     ranger
