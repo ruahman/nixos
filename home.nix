@@ -9,8 +9,6 @@
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     # utils
-    #terminator
-    google-chrome
     neofetch
     htop
     xclip
@@ -89,7 +87,26 @@
   };
 
   programs.nushell.enable = true;
-  programs.starship.enable = true;
+  programs.starship = {
+    enable = true;
+    settings = {
+      time = {
+        disabled = false;
+      };
+      nodejs = {
+        symbol = " ";
+        style = "bold #54a245";
+      };
+      rust = {
+        symbol = "󱘗 ";
+        style = "bold #f7931a";
+      };
+      bun = {
+        symbol = " ";
+        style = "bold #f9f1e1";
+      };
+    };
+  };
   programs.gpg.enable = true;
   programs.emacs.enable = true;
   programs.google-chrome.enable = true;

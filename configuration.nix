@@ -50,8 +50,7 @@
     nerd-fonts.caskaydia-cove
     nerd-fonts.jetbrains-mono 
   ];
-
-
+  
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
@@ -105,6 +104,8 @@
   # Install firefox.
   programs.firefox.enable = true;
 
+  programs.hyprland.enable = true;
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -113,7 +114,34 @@
   environment.systemPackages = with pkgs; [
     vim 
     git
+    gcc
+    gnumake 
+    cmake 
+    zig
+    # inorder for worksapces to work on hyperland
+    (waybar.overrideAttrs (oldAttrs: {
+      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true"];
+    }))
+    # for notifications
+    dunst
+    libnotify
+    # wallpaper deamon 
+    hyprpaper
+    kitty
+    rofi-wayland
   ];
+
+  # desktop portals, enables screen share, etc???
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+ 
+  # in case of nvidia 
+  #environment.sessionVariables = {
+  #  # disable hardware cursors, on some systems the cursor becomes invisable without it
+  #  WLR_NO_HARDWARE_CURSORS = "1";
+  #  # tell electron apps to use wayland
+  #  NIXOS_OZONE_WL = "1";
+  #};
 
   environment.etc = {
     "gitconfig" = {
