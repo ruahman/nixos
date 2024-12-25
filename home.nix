@@ -40,6 +40,11 @@
     ranger
     bruno
     irssi
+
+    telegram-desktop
+    slack
+    signal-desktop
+    whatsapp-for-linux
   ];
 
   programs.git = {
@@ -86,7 +91,7 @@
     enable = true;
     font = {
       name = "FiraCode Nerd Font";
-      size = 18.0;
+      size = 16.0;
     };
     settings = {
       shell = "${pkgs.nushell}/bin/nu";

@@ -2,10 +2,15 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ inputs, pkgs, ... }:
 
 {
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    substituters = ["https://hyprland.cachix.org"];
+    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+  };
 
   imports =
     [ # Include the results of the hardware scan.
@@ -44,11 +49,19 @@
     LC_TIME = "es_PR.UTF-8";
   };
 
+  fonts.fontDir.enable = true;
   fonts.packages = with pkgs; [ 
+    font-awesome
     nerd-fonts.fira-code 
+    nerd-fonts.fira-mono
     nerd-fonts.hack
+    nerd-fonts.hasklug
     nerd-fonts.caskaydia-cove
+    nerd-fonts.caskaydia-mono
     nerd-fonts.jetbrains-mono 
+    nerd-fonts.symbols-only
+    nerd-fonts.terminess-ttf 
+    nerd-fonts.im-writing
   ];
   
   # Enable the X11 windowing system.
@@ -59,6 +72,8 @@
   services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
+  # gsettings reset org.gnome.desktop.input-sources xkb-options
+  # gsettings reset org.gnome.desktop.input-sources sources
   services.xserver.xkb = {
     layout = "us";
     variant = "";
@@ -104,7 +119,14 @@
   # Install firefox.
   programs.firefox.enable = true;
 
-  programs.hyprland.enable = true;
+  #programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    # set the flake package
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    # make sure to also set the portal package, so that they are in sync
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -114,21 +136,23 @@
   environment.systemPackages = with pkgs; [
     vim 
     git
+    kitty
+    # dev-utils
     gcc
     gnumake 
     cmake 
-    zig
-    # inorder for worksapces to work on hyperland
-    (waybar.overrideAttrs (oldAttrs: {
-      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true"];
-    }))
-    # for notifications
-    dunst
-    libnotify
-    # wallpaper deamon 
+    binutils 
+    glibc.dev 
+    pkg-config
+    # hyperland
+    waybar
+    # search
+    wofi
+    # wallpaper 
     hyprpaper
-    kitty
-    rofi-wayland
+    # notifications
+    #dunst
+    libnotify
   ];
 
   # desktop portals, enables screen share, etc???
@@ -136,12 +160,12 @@
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
  
   # in case of nvidia 
-  #environment.sessionVariables = {
-  #  # disable hardware cursors, on some systems the cursor becomes invisable without it
-  #  WLR_NO_HARDWARE_CURSORS = "1";
-  #  # tell electron apps to use wayland
-  #  NIXOS_OZONE_WL = "1";
-  #};
+  environment.sessionVariables = {
+    # disable hardware cursors, on some systems the cursor becomes invisable without it
+    WLR_NO_HARDWARE_CURSORS = "1";
+    # tell electron apps to use wayland
+    NIXOS_OZONE_WL = "1";
+  };
 
   environment.etc = {
     "gitconfig" = {
