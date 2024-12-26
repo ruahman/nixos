@@ -144,15 +144,21 @@
     binutils 
     glibc.dev 
     pkg-config
-    # hyperland
+    # hyperland-bar
     waybar
     # search
     wofi
+    # screen shot
+    hyprshot
     # wallpaper 
     hyprpaper
     # notifications
-    #dunst
+    swaynotificationcenter
     libnotify
+    # screenlock
+    hyprlock
+    # idle 
+    hypridle
   ];
 
   # desktop portals, enables screen share, etc???

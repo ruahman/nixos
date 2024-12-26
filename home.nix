@@ -95,6 +95,7 @@
     };
     settings = {
       shell = "${pkgs.nushell}/bin/nu";
+      background_opacity = 0.9;
     };
   };
 
