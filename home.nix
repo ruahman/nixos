@@ -8,7 +8,20 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
+    # text editors
+    neovide
+    neovim
+    emacs30-pgtk
+    zed-editor
+    vscode
+    # browsers
+    google-chrome
+    ladybird
     # utils
+    zsh
+    #nushell
+    lazygit
+    tmux
     neofetch
     htop
     xclip
@@ -39,12 +52,14 @@
     # tools
     ranger
     bruno
-    irssi
 
+    # message apps
     telegram-desktop
-    slack
-    signal-desktop
     whatsapp-for-linux
+    signal-desktop
+    slack
+    discord
+    irssi
   ];
 
   programs.git = {
@@ -120,10 +135,4 @@
       };
     };
   };
-  programs.gpg.enable = true;
-  programs.emacs.enable = true;
-  programs.google-chrome.enable = true;
-  programs.neovim.enable = true;
-  programs.lazygit.enable = true;
-  programs.tmux.enable = true;
 }

@@ -136,6 +136,7 @@
   environment.systemPackages = with pkgs; [
     vim 
     git
+    gnupg
     kitty
     # dev-utils
     gcc
