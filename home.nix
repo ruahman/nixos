@@ -8,6 +8,10 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
+    # email
+    thunderbird
+    # paint
+    drawing
     # text editors
     neovide
     neovim
@@ -16,7 +20,6 @@
     vscode
     # browsers
     google-chrome
-    ladybird
     # utils
     zsh
     #nushell
@@ -50,6 +53,7 @@
 
     # tools
     ranger
+    ueberzugpp
     bruno
 
     # message apps

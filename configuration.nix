@@ -109,12 +109,19 @@
   users.users.ruahman = {
     isNormalUser = true;
     description = "ruahman";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
     packages = with pkgs; [
     #  thunderbird
     ];
     shell = pkgs.nushell;
   };
+
+  # setup docker
+  virtualisation.docker.enable = true;
+
+  # setup kvm
+  boot.kernelModules = [ "kvm-amd" ]; 
+  virtualisation.libvirtd.enable = true;
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -139,6 +146,8 @@
     lazygit
     gnupg
     kitty
+    # Virutaliztion 
+    virt-manager
     # dev-utils
     gcc
     gnumake 
@@ -162,6 +171,7 @@
     # idle 
     hypridle
   ];
+
 
   # desktop portals, enables screen share, etc???
   xdg.portal.enable = true;
