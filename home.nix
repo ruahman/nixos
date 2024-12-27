@@ -105,7 +105,7 @@
   programs.kitty = {
     enable = true;
     font = {
-      name = "FiraCode Nerd Font";
+      name = "terminus";
       size = 16.0;
     };
     settings = {
