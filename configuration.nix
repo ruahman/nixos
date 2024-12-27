@@ -136,6 +136,7 @@
   environment.systemPackages = with pkgs; [
     vim 
     git
+    lazygit
     gnupg
     kitty
     # dev-utils

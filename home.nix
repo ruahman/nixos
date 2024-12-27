@@ -20,7 +20,6 @@
     # utils
     zsh
     #nushell
-    lazygit
     tmux
     neofetch
     htop
