@@ -10,6 +10,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "github:hyprwm/Hyprland";
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {

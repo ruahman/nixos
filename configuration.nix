@@ -146,6 +146,7 @@
     lazygit
     gnupg
     kitty
+    inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default
     # Virutaliztion 
     virt-manager
     # dev-utils

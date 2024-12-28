@@ -10,32 +10,68 @@
   home.packages = with pkgs; [
     # email
     thunderbird
+
     # paint
     drawing
+
     # text editors
     neovide
     neovim
     emacs30-pgtk
     zed-editor
     vscode
+
     # browsers
     google-chrome
-    # utils
+
+    # utils/tools
     zsh
-    #nushell
-    tmux
+    zellij
     neofetch
+    fastfetch
+    cpufetch
+    cmatrix
     htop
+    btop
+    stacer
+    wireshark
+    angryipscanner
+    gdu
+    teller
     xclip
+    trashy
+    entr
+    eza
+    lsd
+    rnr
+    tldr
+    cheat
     unzip
     wget
     ripgrep
     fd
     fzf
+    delta
     ispell
+    pandoc
+    imagemagick
+    gimp
+    inkscape
+    ffmpeg
+    vlc
+    pdfcpu
     tree
     bat
     jq
+    yq
+    jqp
+    jless
+    htmlq
+    difftastic
+    ranger
+    yazi
+    ueberzugpp
+    bruno
 
     # nix tools
     nix-prefetch-git
@@ -51,16 +87,12 @@
     vscode-js-debug
     vscode-extensions.vadimcn.vscode-lldb
 
-    # tools
-    ranger
-    ueberzugpp
-    bruno
-
     # message apps
     telegram-desktop
     whatsapp-for-linux
     signal-desktop
     slack
+    zoom-us
     discord
     irssi
   ];
@@ -117,7 +149,18 @@
     };
   };
 
-  programs.nushell.enable = true;
+  programs.nushell = {
+    enable = true;
+    extraConfig = ''
+      $env.config.show_banner = false
+    '';
+  };
+
+  programs.carapace = {
+    enable = true;
+    enableNushellIntegration = true;
+  };
+
   programs.starship = {
     enable = true;
     settings = {
@@ -137,5 +180,18 @@
         style = "bold #f9f1e1";
       };
     };
+  };
+
+  programs.tmux = {
+    enable = true;
+    plugins = with pkgs; [
+      tmuxPlugins.catppuccin
+      tmuxPlugins.tmux-fzf
+    ];
+    extraConfig = ''
+      set -g mouse on
+      set-option -g status-position top
+      set -g base-index 1
+    ''; 
   };
 }
