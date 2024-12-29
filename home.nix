@@ -25,6 +25,7 @@
     google-chrome
 
     # utils/tools
+    lazygit
     zsh
     zellij
     neofetch

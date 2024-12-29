@@ -143,7 +143,6 @@
   environment.systemPackages = with pkgs; [
     vim 
     git
-    lazygit
     gnupg
     kitty
     inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default
