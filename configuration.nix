@@ -167,6 +167,7 @@
     waypaper
     # GTK-setting editor
     nwg-look
+    catppuccin-gtk
     # network manager
     #networkmanagerapplet
     # notifications
