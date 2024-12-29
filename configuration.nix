@@ -164,6 +164,11 @@
     hyprshot
     # wallpaper 
     hyprpaper
+    waypaper
+    # GTK-setting editor
+    nwg-look
+    # network manager
+    #networkmanagerapplet
     # notifications
     swaynotificationcenter
     libnotify
