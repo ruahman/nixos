@@ -145,6 +145,7 @@
     git
     gnupg
     kitty
+    # ghostty
     inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default
     # Virutaliztion 
     virt-manager

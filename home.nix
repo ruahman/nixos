@@ -27,6 +27,8 @@
     # utils/tools
     lazygit
     zsh
+    fish
+    elvish
     zellij
     neofetch
     fastfetch
@@ -72,7 +74,7 @@
     ranger
     yazi
     ueberzugpp
-    bruno
+    #bruno
 
     # nix tools
     nix-prefetch-git
@@ -150,6 +152,7 @@
       # basic colors
       foreground =  "#c6d0f5";
       background =  "#303446";
+      background_opacity = 0.9;
       selection_foreground = "#303446";
       selection_background = "#f2d5cf";
 
