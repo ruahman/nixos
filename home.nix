@@ -100,6 +100,21 @@
     irssi
   ];
 
+  home.file = {
+    #".config/hypr/hyprland.conf".source = ./.dotfiles/hypr/hyprland.conf; 
+
+    ".config/ghostty/config".text = ''
+      window-decoration = false
+
+      theme = AdventureTime
+      background-opacity = 0.85
+      
+      font-family = "JetBrainsMono Nerd Font"
+      window-inherit-font-size = false
+      font-size = 16
+    '';
+  };
+
   programs.git = {
     enable = true;
     userName = "Diego R Vila";
