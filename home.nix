@@ -72,7 +72,7 @@
     htmlq
     difftastic
     ranger
-    yazi
+    #yazi
     ueberzugpp
     #bruno
 
@@ -101,7 +101,15 @@
   ];
 
   home.file = {
-    #".config/hypr/hyprland.conf".source = ./.dotfiles/hypr/hyprland.conf; 
+    ".config/hypr/hyprland.conf".source = ./.dotfiles/hypr/hyprland.conf; 
+    ".config/hypr/mocha.conf".source = ./.dotfiles/hypr/mocha.conf; 
+    ".config/hypr/hyprpaper.conf".source = ./.dotfiles/hypr/hyprpaper.conf; 
+    ".config/hypr/hyprlock.conf".source = ./.dotfiles/hypr/hyprlock.conf; 
+    ".config/hypr/hypridle.conf".source = ./.dotfiles/hypr/hypridle.conf; 
+
+    ".config/waybar".source = ./.dotfiles/waybar;
+
+    "Pictures/wallpapers".source = ./.wallpapers;
 
     ".config/ghostty/config".text = ''
       window-decoration = false
@@ -114,6 +122,8 @@
       font-size = 16
     '';
   };
+
+  programs.home-manager.enable = true;
 
   programs.git = {
     enable = true;
@@ -242,6 +252,15 @@
     enable = true;
     extraConfig = ''
       $env.config.show_banner = false
+      def --env y [...args] {
+	let tmp = (mktemp -t "yazi-cwd.XXXXXX")
+	yazi ...$args --cwd-file $tmp
+	let cwd = (open $tmp)
+	if $cwd != "" and $cwd != $env.PWD {
+		cd $cwd
+	}
+	rm -fp $tmp
+      }
     '';
   };
 
@@ -282,5 +301,16 @@
       set-option -g status-position top
       set -g base-index 1
     ''; 
+  };
+  
+  programs.yazi = {
+    enable = true;
+    settings = { 
+      manager = {
+        linemode = "size";
+        show_hidden = true;
+	show_symlink = true;
+      };
+    };
   };
 }

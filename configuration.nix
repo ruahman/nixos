@@ -126,6 +126,7 @@
   # Install firefox.
   programs.firefox.enable = true;
 
+
   #programs.hyprland.enable = true;
   programs.hyprland = {
     enable = true;
@@ -145,8 +146,11 @@
     git
     gnupg
     kitty
+    yazi
     # ghostty
     inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default
+    # home-manager
+    #inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default
     # Virutaliztion 
     virt-manager
     # dev-utils
