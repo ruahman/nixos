@@ -71,9 +71,8 @@
     jless
     htmlq
     difftastic
-    ranger
-    #yazi
     ueberzugpp
+    vscode-extensions.vadimcn.vscode-lldb
     #bruno
 
     # nix tools
