@@ -10,12 +10,18 @@
   home.packages = with pkgs; [
     # email
     thunderbird
+    protonmail-bridge
 
     # paint
     drawing
+    gimp
+    inkscape
+
+    # music
+    audacity
+    vlc
 
     # text editors
-    neovide
     neovim
     emacs30-pgtk
     zed-editor
@@ -23,6 +29,10 @@
 
     # browsers
     google-chrome
+
+    # bitcoin
+    electrum
+    sparrow
 
     # utils/tools
     lazygit
@@ -77,6 +87,7 @@
 
     # nix tools
     nix-prefetch-git
+    prefetch-npm-deps
     node2nix
 
     # for neovim
@@ -94,9 +105,10 @@
     whatsapp-for-linux
     signal-desktop
     slack
-    zoom-us
+    #zoom-us
     discord
     irssi
+
   ];
 
   home.file = {
@@ -247,6 +259,16 @@
     };
   };
 
+  programs.neovide = {
+    enable = true;
+    settings = {
+      font = {
+        normal = ["FiraCode Nerd Font"];
+        size = 14.0;
+      };
+    };
+  };
+
   programs.nushell = {
     enable = true;
     extraConfig = ''
@@ -285,6 +307,10 @@
       bun = {
         symbol = " ";
         style = "bold #f9f1e1";
+      };
+      lua = {
+        symbol = " ";
+        style = "bold #00007F";
       };
     };
   };

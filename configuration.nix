@@ -19,6 +19,7 @@
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
@@ -87,7 +88,7 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -160,6 +161,9 @@
     binutils 
     glibc.dev 
     pkg-config
+    # gnome
+    gnome-control-center  # GNOME Settings app
+    gnome-tweaks          # Optional: for advanced settings
     # hyperland-bar
     waybar
     # search
@@ -169,6 +173,9 @@
     # wallpaper 
     hyprpaper
     waypaper
+    # color picker
+    hyprpicker
+    wl-clipboard
     # GTK-setting editor
     nwg-look
     catppuccin-gtk
