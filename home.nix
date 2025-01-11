@@ -39,7 +39,7 @@
     zsh
     fish
     elvish
-    zellij
+    #zellij
     neofetch
     fastfetch
     cpufetch
@@ -296,6 +296,10 @@
       time = {
         disabled = false;
       };
+      c = {
+        symbol = " ";
+        style = "bold #005697";
+      };
       nodejs = {
         symbol = " ";
         style = "bold #54a245";
@@ -303,6 +307,10 @@
       rust = {
         symbol = "󱘗 ";
         style = "bold #f7931a";
+      };
+      golang = {
+        symbol = " ";
+        style = "bold #79D4FD";
       };
       bun = {
         symbol = " ";
@@ -326,6 +334,14 @@
       set-option -g status-position top
       set -g base-index 1
     ''; 
+  };
+
+  programs.zellij = {
+    enable = true;
+    settings = {
+      default_layout = "compact";
+      theme = "catppuccin-frappe";
+    };
   };
   
   programs.yazi = {
