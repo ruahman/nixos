@@ -54,7 +54,7 @@
     angryipscanner
     gdu
     teller
-    xclip
+    #xclip
     trashy
     entr
     eza

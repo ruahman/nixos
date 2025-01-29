@@ -122,7 +122,13 @@
     enable = true;                      # Enable Nginx
     virtualHosts.localhost = {
       listen = [ { addr = "127.0.0.1"; port = 8080; } ];  # Listen on localhost:80
-      root = "/var/www/localhost";      # Directory to serve files from
+      #root = "/var/www/localhost";      # Directory to serve files from
+      locations."/" = {
+        extraConfig = ''
+          default_type text/plain;  # Set the Content-Type to text/plain
+          return 200 'Hello, world!, nginx';
+        '';
+      };
     };
   };
 
@@ -142,6 +148,14 @@
       #type database  DBuser  auth-method
       local all       all     trust
     '';
+  };
+
+  # pgadmin
+  services.pgadmin = {
+    enable = true;
+    port = 5050; # Default port for pgAdmin
+    initialEmail = "ruahman@gmail.com"; # Initial admin email
+    initialPasswordFile = "/etc/pgadmin-password"; # File containing the initial password
   };
 
   # redis
@@ -210,7 +224,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim 
+    vim
+    xclip 
     git
     gnupg
     kitty
@@ -288,6 +303,10 @@
         [safe]
           directory = /etc/nixos
       '';
+    };
+    "pgadmin-password" = {
+      target = "pgadmin-password";
+      text = "password";
     };
   };
 
