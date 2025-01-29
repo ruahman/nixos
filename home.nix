@@ -10,7 +10,6 @@
   home.packages = with pkgs; [
     # email
     thunderbird
-    protonmail-bridge
 
     # paint
     drawing
@@ -26,9 +25,13 @@
     emacs30-pgtk
     zed-editor
     vscode
+    jetbrains.idea-community
+    #jetbrains.rust-rover
 
     # browsers
     google-chrome
+    brave
+    microsoft-edge
 
     # bitcoin
     electrum
@@ -37,8 +40,8 @@
     # utils/tools
     lazygit
     zsh
-    fish
-    elvish
+    #fish
+    #elvish
     #zellij
     neofetch
     fastfetch
@@ -68,10 +71,7 @@
     ispell
     pandoc
     imagemagick
-    gimp
-    inkscape
     ffmpeg
-    vlc
     pdfcpu
     tree
     bat
@@ -105,7 +105,7 @@
     whatsapp-for-linux
     signal-desktop
     slack
-    #zoom-us
+    zoom-us
     discord
     irssi
 
@@ -326,13 +326,14 @@
   programs.tmux = {
     enable = true;
     plugins = with pkgs; [
-      tmuxPlugins.catppuccin
+      tmuxPlugins.power-theme
       tmuxPlugins.tmux-fzf
     ];
     extraConfig = ''
       set -g mouse on
       set-option -g status-position top
       set -g base-index 1
+      set -g @tmux_power_theme 'moon'
     ''; 
   };
 

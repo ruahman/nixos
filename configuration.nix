@@ -75,6 +75,7 @@
   services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
+  # run:
   # gsettings reset org.gnome.desktop.input-sources xkb-options
   # gsettings reset org.gnome.desktop.input-sources sources
   services.xserver.xkb = {
@@ -108,11 +109,54 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  # couchdb
+  services.couchdb = {
+    enable = true;                # Enable the CouchDB service
+    adminUser = "admin";      # Set the admin username
+    adminPass = "password";   # Set the admin password
+    bindAddress = "0.0.0.0";      # Bind address (default is localhost)
+  };
+
+  # nginx
+  services.nginx = {
+    enable = true;                      # Enable Nginx
+    virtualHosts.localhost = {
+      listen = [ { addr = "127.0.0.1"; port = 8080; } ];  # Listen on localhost:80
+      root = "/var/www/localhost";      # Directory to serve files from
+    };
+  };
+
+  # caddy
+  services.caddy = {
+    enable = true;
+    virtualHosts.localhost.extraConfig = ''
+      respond "Hello, world!, caddy"
+    '';
+  };
+
+  # postgres
+  services.postgresql = {
+    enable = true;
+    ensureDatabases = [ "mydatabase" ];
+    authentication = pkgs.lib.mkOverride 10 ''
+      #type database  DBuser  auth-method
+      local all       all     trust
+    '';
+  };
+
+  # redis
+  services.redis.servers."" = {
+     enable = true;
+     settings = {
+       port = 6379;
+     };
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ruahman = {
     isNormalUser = true;
     description = "ruahman";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "podman" ];
     packages = with pkgs; [
     #  thunderbird
     ];
@@ -120,17 +164,38 @@
   };
 
   # setup docker
-  virtualisation.docker.enable = true;
+  #virtualisation.docker.enable = true;
+
+  # setup virtualisation
+  virtualisation = {
+    containers.enable = true;
+    podman = {
+      enable = true;
+      dockerCompat = true;  # Optional, creates `docker` alias for `podman`
+      defaultNetwork.settings.dns_enabled = true;  # For containers to talk to each other
+    };
+  };
+
+  # run these containers at startup
+  virtualisation.oci-containers.containers = {
+    "activemq-artemis" = {
+      image = "docker.io/apache/activemq-artemis:latest-alpine";
+      autoStart = true;
+      ports = [ "0.0.0.0:8161:8161" "0.0.0.0:61613:61613" "0.0.0.0:61616:61616" ];
+    };
+    "fluent-bit" = {
+      image = "cr.fluentbit.io/fluent/fluent-bit";
+      autoStart = true;
+    };
+  };
 
   # setup kvm
-  boot.kernelModules = [ "kvm-amd" ]; 
-  virtualisation.libvirtd.enable = true;
+  #boot.kernelModules = [ "kvm-amd" ]; 
+  #virtualisation.libvirtd.enable = true;
 
   # Install firefox.
   programs.firefox.enable = true;
 
-
-  #programs.hyprland.enable = true;
   programs.hyprland = {
     enable = true;
     # set the flake package
@@ -155,7 +220,7 @@
     # home-manager
     #inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default
     # Virutaliztion 
-    virt-manager
+    #virt-manager
     # dev-utils
     gcc
     gnumake 
