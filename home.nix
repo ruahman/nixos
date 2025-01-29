@@ -134,6 +134,10 @@
     '';
   };
 
+  home.sessionVariables = {
+    DIRENV_LOG_FORMAT = "";
+  };
+
   programs.home-manager.enable = true;
 
   programs.git = {
@@ -164,6 +168,7 @@
 
   programs.direnv = {
     enable = true;
+    silent = true;
     nix-direnv = {
       enable = true;
     };

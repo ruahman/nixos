@@ -17,6 +17,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./fluent-bit.nix
     ];
 
   # Bootloader.
@@ -52,20 +53,23 @@
     LC_TIME = "es_PR.UTF-8";
   };
 
-  fonts.fontDir.enable = true;
-  fonts.packages = with pkgs; [ 
-    font-awesome
-    nerd-fonts.fira-code 
-    nerd-fonts.fira-mono
-    nerd-fonts.hack
-    nerd-fonts.hasklug
-    nerd-fonts.caskaydia-cove
-    nerd-fonts.caskaydia-mono
-    nerd-fonts.jetbrains-mono 
-    nerd-fonts.symbols-only
-    nerd-fonts.terminess-ttf 
-    nerd-fonts.im-writing
-  ];
+  # setup fonts
+  fonts = {
+    fontDir.enable = true;
+    packages = with pkgs; [ 
+      font-awesome
+      nerd-fonts.fira-code 
+      nerd-fonts.fira-mono
+      nerd-fonts.hack
+      nerd-fonts.hasklug
+      nerd-fonts.caskaydia-cove
+      nerd-fonts.caskaydia-mono
+      nerd-fonts.jetbrains-mono 
+      nerd-fonts.symbols-only
+      nerd-fonts.terminess-ttf 
+      nerd-fonts.im-writing
+    ];
+  };
   
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -109,13 +113,6 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  # couchdb
-  services.couchdb = {
-    enable = true;                # Enable the CouchDB service
-    adminUser = "admin";      # Set the admin username
-    adminPass = "password";   # Set the admin password
-    bindAddress = "0.0.0.0";      # Bind address (default is localhost)
-  };
 
   # nginx
   services.nginx = {
@@ -138,6 +135,14 @@
     virtualHosts.localhost.extraConfig = ''
       respond "Hello, world!, caddy"
     '';
+  };
+
+  # couchdb
+  services.couchdb = {
+    enable = true;                # Enable the CouchDB service
+    adminUser = "admin";      # Set the admin username
+    adminPass = "password";   # Set the admin password
+    bindAddress = "0.0.0.0";      # Bind address (default is localhost)
   };
 
   # postgres
@@ -165,6 +170,9 @@
        port = 6379;
      };
   };
+
+  # fluent-bit
+  services.fluent-bit.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ruahman = {
@@ -197,9 +205,14 @@
       autoStart = true;
       ports = [ "0.0.0.0:8161:8161" "0.0.0.0:61613:61613" "0.0.0.0:61616:61616" ];
     };
-    "fluent-bit" = {
-      image = "cr.fluentbit.io/fluent/fluent-bit";
+    #"fluent-bit" = {
+    #  image = "cr.fluentbit.io/fluent/fluent-bit";
+    #  autoStart = true;
+    #};
+    "jaeger" = {
+      image = "docker.io/jaegertracing/jaeger:2.2.0";
       autoStart = true;
+      ports = [ "16686:16686" "4317:4317" "4318:4318" "5778:5778" "9411:9411" ];
     };
   };
 
@@ -226,17 +239,16 @@
   environment.systemPackages = with pkgs; [
     vim
     xclip 
+    fluent-bit
     git
     gnupg
     kitty
     yazi
-    # ghostty
     inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default
     # home-manager
     #inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default
     # Virutaliztion 
     #virt-manager
-    # dev-utils
     gcc
     gnumake 
     cmake 
