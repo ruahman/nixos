@@ -244,7 +244,7 @@
     gnupg
     kitty
     yazi
-    inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default
+    ghostty
     # home-manager
     #inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default
     # Virutaliztion 

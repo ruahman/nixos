@@ -83,7 +83,7 @@
     difftastic
     ueberzugpp
     vscode-extensions.vadimcn.vscode-lldb
-    #bruno
+    bruno
 
     # nix tools
     nix-prefetch-git
@@ -105,10 +105,9 @@
     whatsapp-for-linux
     signal-desktop
     slack
-    zoom-us
+    #zoom-us
     discord
     irssi
-
   ];
 
   home.file = {
@@ -119,26 +118,13 @@
     ".config/hypr/hypridle.conf".source = ./.dotfiles/hypr/hypridle.conf; 
 
     ".config/waybar".source = ./.dotfiles/waybar;
-
-    "Pictures/wallpapers".source = ./.wallpapers;
-
-    ".config/ghostty/config".text = ''
-      window-decoration = false
-
-      theme = AdventureTime
-      background-opacity = 0.85
-      
-      font-family = "JetBrainsMono Nerd Font"
-      window-inherit-font-size = false
-      font-size = 16
-    '';
   };
 
   home.sessionVariables = {
     DIRENV_LOG_FORMAT = "";
   };
 
-  programs.home-manager.enable = true;
+  #programs.home-manager.enable = true;
 
   programs.git = {
     enable = true;
@@ -169,15 +155,27 @@
   programs.direnv = {
     enable = true;
     silent = true;
+    enableNushellIntegration = true;
     nix-direnv = {
       enable = true;
     };
   };
-
-  programs.terminator = {
+ 
+  programs.ghostty = {
     enable = true;
-    config = {
-      profiles.default.font = "FiraCode Nerd Font Regular 20";
+    settings = {
+      window-decoration = false;
+
+      theme = "AdventureTime";
+      background-opacity = 0.85;
+      
+      font-family = "JetBrainsMono Nerd Font";
+      window-inherit-font-size = false;
+      font-size = 16;
+      
+      keybind = [
+        "super+t=toggle_tab_overview"
+      ];
     };
   };
 
