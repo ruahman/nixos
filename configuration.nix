@@ -174,6 +174,19 @@
   # fluent-bit
   services.fluent-bit.enable = true;
 
+  # bitcoind
+  services.bitcoind.regtest = {
+    enable = true;
+    rpc.users.admin = {
+      name = "admin"; 
+      passwordHMAC = "be546df24d3ac2e4f2cff6549eedc73d$a7713c060038b2df69da6344a397ab62454bdfc1eafcd1c2c40eb5b2d26cbecf";
+    };
+    extraConfig = ''
+      regtest=1
+      txindex=1
+    '';
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ruahman = {
     isNormalUser = true;
@@ -239,6 +252,8 @@
   environment.systemPackages = with pkgs; [
     vim
     xclip 
+    pavucontrol
+    blueman
     fluent-bit
     git
     gnupg

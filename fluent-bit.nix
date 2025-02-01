@@ -8,12 +8,18 @@ let
   # config file for fluent-bit
   configFile = pkgs.writeText "fluent-bit.conf" ''
     [INPUT]
-        Name         cpu
-        Interval_Sec 1
-
+        name           tail
+        path           /home/ruahman/source/velas/bitscaler/packages/transaction-manager/logs/transaction_manager.log
+        tag            transaction_manager
+        read_from_head true
+        parser         json
+    
     [OUTPUT]
-        Name         stdout
-        Match        *
+        name         opentelemetry
+        match        transaction_manager
+        host         127.0.0.1
+        port         4317
+        tls          off
   '';
 in {
 

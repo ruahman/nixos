@@ -262,15 +262,15 @@
     };
   };
 
-  programs.neovide = {
-    enable = true;
-    settings = {
-      font = {
-        normal = ["FiraCode Nerd Font"];
-        size = 14.0;
-      };
-    };
-  };
+  #programs.neovide = {
+  #  enable = true;
+  #  settings = {
+  #    font = {
+  #      normal = ["FiraCode Nerd Font"];
+  #      size = 14.0;
+  #    };
+  #  };
+  #};
 
   programs.nushell = {
     enable = true;
@@ -340,13 +340,13 @@
     ''; 
   };
 
-  programs.zellij = {
-    enable = true;
-    settings = {
-      default_layout = "compact";
-      theme = "catppuccin-frappe";
-    };
-  };
+  #programs.zellij = {
+  #  enable = true;
+  #  settings = {
+  #    default_layout = "compact";
+  #    theme = "catppuccin-frappe";
+  #  };
+  #};
   
   programs.yazi = {
     enable = true;
