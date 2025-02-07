@@ -115,27 +115,27 @@
 
 
   # nginx
-  services.nginx = {
-    enable = true;                      # Enable Nginx
-    virtualHosts.localhost = {
-      listen = [ { addr = "127.0.0.1"; port = 8080; } ];  # Listen on localhost:80
-      #root = "/var/www/localhost";      # Directory to serve files from
-      locations."/" = {
-        extraConfig = ''
-          default_type text/plain;  # Set the Content-Type to text/plain
-          return 200 'Hello, world!, nginx';
-        '';
-      };
-    };
-  };
+  #services.nginx = {
+  #  enable = true;                      # Enable Nginx
+  #  virtualHosts.localhost = {
+  #    listen = [ { addr = "127.0.0.1"; port = 8080; } ];  # Listen on localhost:80
+  #    #root = "/var/www/localhost";      # Directory to serve files from
+  #    locations."/" = {
+  #      extraConfig = ''
+  #        default_type text/plain;  # Set the Content-Type to text/plain
+  #        return 200 'Hello, world!, nginx';
+  #      '';
+  #    };
+  #  };
+  #};
 
   # caddy
-  services.caddy = {
-    enable = true;
-    virtualHosts.localhost.extraConfig = ''
-      respond "Hello, world!, caddy"
-    '';
-  };
+  #services.caddy = {
+  #  enable = true;
+  #  virtualHosts.localhost.extraConfig = ''
+  #    respond "Hello, world!, caddy"
+  #  '';
+  #};
 
   # couchdb
   services.couchdb = {
@@ -172,7 +172,7 @@
   };
 
   # fluent-bit
-  services.fluent-bit.enable = true;
+  #services.fluent-bit.enable = true;
 
   # bitcoind
   services.bitcoind.regtest = {
@@ -197,6 +197,9 @@
     ];
     shell = pkgs.nushell;
   };
+ 
+  # virt-manager 
+  users.groups.libvirtd.members = ["ruahman"];
 
   # setup docker
   #virtualisation.docker.enable = true;
@@ -211,6 +214,14 @@
     };
   };
 
+  # virt-manager
+  virtualisation.libvirtd.enable = true;
+  
+  # virt-manager
+  virtualisation.spiceUSBRedirection.enable = true;
+
+
+
   # run these containers at startup
   virtualisation.oci-containers.containers = {
     "activemq-artemis" = {
@@ -218,20 +229,39 @@
       autoStart = true;
       ports = [ "0.0.0.0:8161:8161" "0.0.0.0:61613:61613" "0.0.0.0:61616:61616" ];
     };
-    #"fluent-bit" = {
-    #  image = "cr.fluentbit.io/fluent/fluent-bit";
+    #"jaeger" = {
+    #  image = "docker.io/jaegertracing/jaeger:2.2.0";
     #  autoStart = true;
+    #  ports = [ "16686:16686" "4317:4317" "4318:4318" "5778:5778" "9411:9411" ];
     #};
     "jaeger" = {
-      image = "docker.io/jaegertracing/jaeger:2.2.0";
+      image = "docker.io/jaegertracing/all-in-one:1.47";
       autoStart = true;
-      ports = [ "16686:16686" "4317:4317" "4318:4318" "5778:5778" "9411:9411" ];
+      environment = {
+        COLLECTOR_OTLP_ENABLED = "true";
+        COLLECTOR_ZIPKIN_HTTP_PORT = "9411";
+      };
+      ports = [ 
+        "6831:6831/udp"  # Jaeger compact Thrift protocol (UDP)
+        "6832:6832/udp"  # Jaeger binary Thrift protocol (UDP)
+        "5778:5778"      # Jaeger agent HTTP management port
+        "16686:16686"    # Jaeger query UI port
+        "4317:4317"      # Jaeger gRPC HTTP collector port
+        "4318:4318"      # Jaeger gRPC HTTP collector port (encrypted)
+        "14250:14250"    # Jaeger gRPC tracing port
+        "14268:14268"    # Jaeger gRPC HTTP internal service communication port
+        "14269:14269"    # Jaeger gRPC HTTP internal service communication port (encrypted) 
+        "9411:9411"      # Zipkin collector port
+      ];
     };
   };
 
   # setup kvm
   #boot.kernelModules = [ "kvm-amd" ]; 
   #virtualisation.libvirtd.enable = true;
+
+  # virt-manager
+  programs.virt-manager.enable = true;
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -264,6 +294,9 @@
     #inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default
     # Virutaliztion 
     #virt-manager
+    podman
+    podman-compose
+    fluent-bit
     gcc
     gnumake 
     cmake 

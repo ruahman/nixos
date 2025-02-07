@@ -124,6 +124,14 @@
     DIRENV_LOG_FORMAT = "";
   };
 
+  # for virt-manager
+  dconf.settings = {
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
+    };
+  };
+
   #programs.home-manager.enable = true;
 
   programs.git = {
@@ -173,9 +181,9 @@
       window-inherit-font-size = false;
       font-size = 16;
       
-      keybind = [
-        "super+t=toggle_tab_overview"
-      ];
+      #keybind = [
+      #  "ctrl+x=close_tab"
+      #];
     };
   };
 

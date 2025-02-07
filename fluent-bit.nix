@@ -15,11 +15,21 @@ let
         parser         json
     
     [OUTPUT]
-        name         opentelemetry
-        match        transaction_manager
-        host         127.0.0.1
-        port         4317
-        tls          off
+        name                 opentelemetry
+        match                * 
+        host                 127.0.0.1
+        port                 4318
+        header               Content-Type application/json
+        metrics_uri          /v1/metrics
+        logs_uri             /v1/logs
+        traces_uri           /v1/traces
+        Log_response_payload True
+        tls                  off
+        tls.verify           off
+
+        # add user-defined labels
+        add_label            app fluent-bit
+        add_label            color blue
   '';
 in {
 
