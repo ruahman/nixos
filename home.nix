@@ -8,15 +8,14 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    # email
-    thunderbird
+    thunderbird # email
 
     # paint
     drawing
     gimp
     inkscape
 
-    # music
+    # music and video
     audacity
     vlc
 
@@ -26,7 +25,8 @@
     zed-editor
     vscode
     jetbrains.idea-community
-    #jetbrains.rust-rover
+    jetbrains.rust-rover
+    notes
 
     # browsers
     google-chrome
@@ -54,7 +54,7 @@
     angryipscanner
     gdu
     teller
-    #xclip
+    xclip
     trashy
     entr
     eza
@@ -70,8 +70,8 @@
     delta
     ispell
     pandoc
-    imagemagick
-    ffmpeg
+    imagemagick # image
+    ffmpeg # video
     pdfcpu
     tree
     bat
@@ -81,9 +81,8 @@
     jless
     htmlq
     difftastic
-    ueberzugpp
-    vscode-extensions.vadimcn.vscode-lldb
-    bruno
+    ueberzugpp # for showing pics in terminal
+    bruno # api testing tool
 
     # nix tools
     nix-prefetch-git
@@ -96,9 +95,9 @@
     lua51Packages.luacheck
     lua-language-server
     stylua
-    vscode-langservers-extracted
-    vscode-js-debug
-    vscode-extensions.vadimcn.vscode-lldb
+    vscode-langservers-extracted # lsp for html, css, js
+    vscode-js-debug # for debug js
+    vscode-extensions.vadimcn.vscode-lldb # for debuging rust 
 
     # message apps
     telegram-desktop

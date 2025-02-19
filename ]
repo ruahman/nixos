@@ -194,25 +194,28 @@
     user = "ruahman";
     command = "jupyter lab";
     notebookDir = "/home/ruahman/";
-    kernels = {
+    kernals = {
        python3 = let
-         python = (pkgs.python3.withPackages (pythonPackages: with pythonPackages; [
+         env = (pkgs.python312.withPackages (pythonPackages: with pythonPackages; [
                  ipykernel
                  pandas
-                 numpy
-                 matplotlib
+                 scikit-learn
                ]));
          in {
-           displayName = "Python 3 for testing out nixos";
+           displayName = "Python 3 for machine learning";
            argv = [
-             "${python.interpreter}"
+             "${env.interpreter}"
              "-m"
              "ipykernel_launcher"
              "-f"
              "{connection_file}"
            ];
            language = "python";
-           #logo32 = "${python.sitePackages}/ipykernel/resources/logo-32x32.png";
+           logo32 = "${env.sitePackages}/ipykernel/resources/logo-32x32.png";
+           logo64 = "${env.sitePackages}/ipykernel/resources/logo-64x64.png";
+           extraPaths = {
+             "cool.txt" = pkgs.writeText "cool" "cool content";
+           };
          };
     };
   };
