@@ -40,9 +40,6 @@
     # utils/tools
     lazygit
     zsh
-    #fish
-    #elvish
-    #zellij
     neofetch
     fastfetch
     cpufetch
@@ -83,6 +80,8 @@
     difftastic
     ueberzugpp # for showing pics in terminal
     bruno # api testing tool
+    just # new make tool
+    marimo # jupyter replacement
 
     # nix tools
     nix-prefetch-git
@@ -163,6 +162,7 @@
     enable = true;
     silent = true;
     enableNushellIntegration = true;
+    enableBashIntegration = true;
     nix-direnv = {
       enable = true;
     };
@@ -178,7 +178,7 @@
       
       font-family = "JetBrainsMono Nerd Font";
       window-inherit-font-size = false;
-      font-size = 16;
+      font-size = 18;
       
       #keybind = [
       #  "ctrl+x=close_tab"
@@ -269,16 +269,6 @@
     };
   };
 
-  #programs.neovide = {
-  #  enable = true;
-  #  settings = {
-  #    font = {
-  #      normal = ["FiraCode Nerd Font"];
-  #      size = 14.0;
-  #    };
-  #  };
-  #};
-
   programs.nushell = {
     enable = true;
     extraConfig = ''
@@ -298,6 +288,7 @@
   programs.carapace = {
     enable = true;
     enableNushellIntegration = true;
+    enableBashIntegration = true;
   };
 
   programs.starship = {
@@ -331,6 +322,8 @@
         style = "bold #00007F";
       };
     };
+    enableBashIntegration = true;
+    enableNushellIntegration = true;
   };
 
   programs.tmux = {
@@ -346,14 +339,6 @@
       set -g @tmux_power_theme 'moon'
     ''; 
   };
-
-  #programs.zellij = {
-  #  enable = true;
-  #  settings = {
-  #    default_layout = "compact";
-  #    theme = "catppuccin-frappe";
-  #  };
-  #};
   
   programs.yazi = {
     enable = true;

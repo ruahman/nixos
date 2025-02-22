@@ -22,7 +22,7 @@
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 10;
+  boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
@@ -187,35 +187,35 @@
     '';
   };
 
-  services.jupyter = {
-    enable = true;
-    password = "argon2:$argon2id$v=19$m=10240,t=10,p=8$yxqT63lLdW6xBw9O49wF7g$hRSk2czr8QbPwOGgPzHIxe38ypNQx8XxNA1iLtJWQCo";
-    port = 8888;
-    user = "ruahman";
-    command = "jupyter lab";
-    notebookDir = "/home/ruahman/";
-    kernels = {
-       python3 = let
-         python = (pkgs.python3.withPackages (pythonPackages: with pythonPackages; [
-                 ipykernel
-                 pandas
-                 numpy
-                 matplotlib
-               ]));
-         in {
-           displayName = "Python 3 for testing out nixos";
-           argv = [
-             "${python.interpreter}"
-             "-m"
-             "ipykernel_launcher"
-             "-f"
-             "{connection_file}"
-           ];
-           language = "python";
-           #logo32 = "${python.sitePackages}/ipykernel/resources/logo-32x32.png";
-         };
-    };
-  };
+  #services.jupyter = {
+  #  enable = true;
+  #  password = "argon2:$argon2id$v=19$m=10240,t=10,p=8$yxqT63lLdW6xBw9O49wF7g$hRSk2czr8QbPwOGgPzHIxe38ypNQx8XxNA1iLtJWQCo";
+  #  port = 8888;
+  #  user = "ruahman";
+  #  command = "jupyter lab";
+  #  notebookDir = "/home/ruahman/";
+  #  kernels = {
+  #     python3 = let
+  #       python = (pkgs.python3.withPackages (pythonPackages: with pythonPackages; [
+  #               ipykernel
+  #               pandas
+  #               numpy
+  #               matplotlib
+  #             ]));
+  #       in {
+  #         displayName = "Python 3 for testing out nixos";
+  #         argv = [
+  #           "${python.interpreter}"
+  #           "-m"
+  #           "ipykernel_launcher"
+  #           "-f"
+  #           "{connection_file}"
+  #         ];
+  #         language = "python";
+  #         #logo32 = "${python.sitePackages}/ipykernel/resources/logo-32x32.png";
+  #       };
+  #  };
+  #};
 
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -238,9 +238,10 @@
   # setup virtualisation
   virtualisation = {
     containers.enable = true;
+    docker.enable = true;
     podman = {
       enable = true;
-      dockerCompat = true;  # Optional, creates `docker` alias for `podman`
+      #dockerCompat = true;  # Optional, creates `docker` alias for `podman`
       defaultNetwork.settings.dns_enabled = true;  # For containers to talk to each other
     };
   };
@@ -260,52 +261,52 @@
       autoStart = true;
       ports = [ "0.0.0.0:8161:8161" "0.0.0.0:61613:61613" "0.0.0.0:61616:61616" ];
     };
-    #"jaeger" = {
-    #  image = "docker.io/jaegertracing/jaeger:2.2.0";
-    #  autoStart = true;
-    #  ports = [ "16686:16686" "4317:4317" "4318:4318" "5778:5778" "9411:9411" ];
-    #};
-    "jaeger" = {
-      image = "docker.io/jaegertracing/all-in-one:1.47";
-      autoStart = true;
-      environment = {
-        COLLECTOR_OTLP_ENABLED = "true";
-        COLLECTOR_ZIPKIN_HTTP_PORT = "9411";
-      };
-      ports = [ 
-        "6831:6831/udp"  # Jaeger compact Thrift protocol (UDP)
-        "6832:6832/udp"  # Jaeger binary Thrift protocol (UDP)
-        "5778:5778"      # Jaeger agent HTTP management port
-        "16686:16686"    # Jaeger query UI port
-        "4317:4317"      # Jaeger gRPC HTTP collector port
-        "4318:4318"      # Jaeger gRPC HTTP collector port (encrypted)
-        "14250:14250"    # Jaeger gRPC tracing port
-        "14268:14268"    # Jaeger gRPC HTTP internal service communication port
-        "14269:14269"    # Jaeger gRPC HTTP internal service communication port (encrypted) 
-        "9411:9411"      # Zipkin collector port
-      ];
-    };
-    #"zipkin" = {
-    #  image = "docker.io/openzipkin/zipkin";
-    #  autoStart = true;
-    #  ports = [ "9411:9411" ];
-    #};
-   "esplora" = {
-     image = "docker.io/blockstream/esplora";
-     autoStart = true;
-     #volumes = [
-     #  "/var/lib/bitcoin-regtest:/data"
-     #];
-     ports = [
-       "50001:50001"
-       "8094:80" 
-     ];
-     cmd = [ "bash" "-c" "/srv/explorer/run.sh bitcoin-regtest explorer" ];
-   };
+  #  #"jaeger" = {
+  #  #  image = "docker.io/jaegertracing/jaeger:2.2.0";
+  #  #  autoStart = true;
+  #  #  ports = [ "16686:16686" "4317:4317" "4318:4318" "5778:5778" "9411:9411" ];
+  #  #};
+  #  "jaeger" = {
+  #    image = "docker.io/jaegertracing/all-in-one:1.47";
+  #    autoStart = true;
+  #    environment = {
+  #      COLLECTOR_OTLP_ENABLED = "true";
+  #      COLLECTOR_ZIPKIN_HTTP_PORT = "9411";
+  #    };
+  #    ports = [ 
+  #      "6831:6831/udp"  # Jaeger compact Thrift protocol (UDP)
+  #      "6832:6832/udp"  # Jaeger binary Thrift protocol (UDP)
+  #      "5778:5778"      # Jaeger agent HTTP management port
+  #      "16686:16686"    # Jaeger query UI port
+  #      "4317:4317"      # Jaeger gRPC HTTP collector port
+  #      "4318:4318"      # Jaeger gRPC HTTP collector port (encrypted)
+  #      "14250:14250"    # Jaeger gRPC tracing port
+  #      "14268:14268"    # Jaeger gRPC HTTP internal service communication port
+  #      "14269:14269"    # Jaeger gRPC HTTP internal service communication port (encrypted) 
+  #      "9411:9411"      # Zipkin collector port
+  #    ];
+  #  };
+  #  #"zipkin" = {
+  #  #  image = "docker.io/openzipkin/zipkin";
+  #  #  autoStart = true;
+  #  #  ports = [ "9411:9411" ];
+  #  #};
+  # "esplora" = {
+  #   image = "docker.io/blockstream/esplora";
+  #   autoStart = true;
+  #   #volumes = [
+  #   #  "/var/lib/bitcoin-regtest:/data"
+  #   #];
+  #   ports = [
+  #     "50001:50001"
+  #     "8094:80" 
+  #   ];
+  #   cmd = [ "bash" "-c" "/srv/explorer/run.sh bitcoin-regtest explorer" ];
+  # };
   };
 
   # setup kvm
-  #boot.kernelModules = [ "kvm-amd" ]; 
+  boot.kernelModules = [ "kvm-amd" ]; 
 
   # virt-manager
   programs.virt-manager.enable = true;
@@ -328,6 +329,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim
+    neovim
     xclip 
     pavucontrol
     blueman
@@ -336,17 +338,17 @@
     kitty
     yazi
     ghostty
-    # home-manager
-    #inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default
     # Virutaliztion 
-    #virt-manager
+    virt-manager
+    docker
+    docker-compose
     podman
     podman-compose
-    #fluent-bit
-    #zipkin
+    qemu
+    incus
+    colima
     jdk
-    #python313
-    jupyter
+    python3
     nodejs
     gcc
     gnumake 
