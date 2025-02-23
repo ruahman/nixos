@@ -347,7 +347,6 @@
     qemu
     incus
     colima
-    jdk
     python3
     nodejs
     gcc
