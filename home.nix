@@ -8,7 +8,7 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    thunderbird # email
+    #thunderbird # email
 
     # paint
     drawing
@@ -24,18 +24,20 @@
     emacs30-pgtk
     zed-editor
     vscode
-    jetbrains.idea-community
-    jetbrains.rust-rover
+    #jetbrains.idea-community
+    #jetbrains.rust-rover
     notes
 
     # browsers
     google-chrome
-    brave
-    microsoft-edge
+    #brave
+    #microsoft-edge
 
     # bitcoin
-    electrum
+    #electrum
+    bitcoind
     sparrow
+    lnd
 
     # utils/tools
     lazygit
@@ -328,16 +330,16 @@
 
   programs.tmux = {
     enable = true;
-    plugins = with pkgs; [
-      tmuxPlugins.power-theme
-      tmuxPlugins.tmux-fzf
-    ];
-    extraConfig = ''
-      set -g mouse on
-      set-option -g status-position top
-      set -g base-index 1
-      set -g @tmux_power_theme 'moon'
-    ''; 
+    #plugins = with pkgs; [
+    #  tmuxPlugins.power-theme
+    #  tmuxPlugins.tmux-fzf
+    #];
+    #extraConfig = ''
+    #  set -g mouse on
+    #  set-option -g status-position top
+    #  set -g base-index 1
+    #  set -g @tmux_power_theme 'moon'
+    #''; 
   };
   
   programs.yazi = {

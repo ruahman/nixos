@@ -138,22 +138,22 @@
   #};
 
   # couchdb
-  services.couchdb = {
-    enable = true;                # Enable the CouchDB service
-    adminUser = "admin";      # Set the admin username
-    adminPass = "password";   # Set the admin password
-    bindAddress = "0.0.0.0";      # Bind address (default is localhost)
-  };
+  #services.couchdb = {
+  #  enable = true;                # Enable the CouchDB service
+  #  adminUser = "admin";      # Set the admin username
+  #  adminPass = "password";   # Set the admin password
+  #  bindAddress = "0.0.0.0";      # Bind address (default is localhost)
+  #};
 
   # postgres
-  services.postgresql = {
-    enable = true;
-    ensureDatabases = [ "mydatabase" ];
-    authentication = pkgs.lib.mkOverride 10 ''
-      #type database  DBuser  auth-method
-      local all       all     trust
-    '';
-  };
+  #services.postgresql = {
+  #  enable = true;
+  #  ensureDatabases = [ "mydatabase" ];
+  #  authentication = pkgs.lib.mkOverride 10 ''
+  #    #type database  DBuser  auth-method
+  #    local all       all     trust
+  #  '';
+  #};
 
   # pgadmin
   #services.pgadmin = {
@@ -164,28 +164,53 @@
   #};
 
   # redis
-  services.redis.servers."" = {
-     enable = true;
-     settings = {
-       port = 6379;
-     };
-  };
+  #services.redis.servers."" = {
+  #   enable = true;
+  #   settings = {
+  #     port = 6379;
+  #   };
+  #};
 
   # fluent-bit
   #services.fluent-bit.enable = true;
 
   # bitcoind
-  services.bitcoind.regtest = {
-    enable = false;
-    rpc.users.admin = {
-      name = "admin"; 
-      passwordHMAC = "be546df24d3ac2e4f2cff6549eedc73d$a7713c060038b2df69da6344a397ab62454bdfc1eafcd1c2c40eb5b2d26cbecf";
-    };
-    extraConfig = ''
-      regtest=1
-      txindex=1
-    '';
-  };
+  #services.bitcoind.regtest = {
+  #  enable = false;
+  #  #rpc.users.admin = {
+  #  #  name = "admin"; 
+  #  #  passwordHMAC = "be546df24d3ac2e4f2cff6549eedc73d$a7713c060038b2df69da6344a397ab62454bdfc1eafcd1c2c40eb5b2d26cbecf";
+  #  #};
+  #  extraConfig = ''
+  #    # setup regtest
+  #    regtest=1
+
+  #    # Run as a server (required for RPC and ZeroMQ)
+  #    server=1
+
+  #    # index transactions
+  #    txindex=1
+  #  
+  #    # minimum confirmations
+  #    minconf=1
+
+  #    # default fee rate to use
+  #    fallbackfee=0.0002
+
+  #    zmqpubhashblock=tcp://127.0.0.1:29100
+  #    zmqpubhashtx=tcp://127.0.0.1:29101
+  #    zmqpubrawblock=tcp://127.0.0.1:29102
+  #    zmqpubrawtx=tcp://127.0.0.1:29103
+
+  #    [regtest]
+  #    port=21444
+  #    rpcport=21443
+  #    rpcallowip=127.0.0.1
+  #    rpcbind=127.0.0.1
+  #    rpcuser=maki
+  #    rpcpassword=tekka
+  #  '';
+  #};
 
   #services.jupyter = {
   #  enable = true;
@@ -238,10 +263,10 @@
   # setup virtualisation
   virtualisation = {
     containers.enable = true;
-    docker.enable = true;
+    #docker.enable = true;
     podman = {
       enable = true;
-      #dockerCompat = true;  # Optional, creates `docker` alias for `podman`
+      dockerCompat = true;  # Optional, creates `docker` alias for `podman`
       defaultNetwork.settings.dns_enabled = true;  # For containers to talk to each other
     };
   };
@@ -256,11 +281,11 @@
 
   # run these containers at startup
   virtualisation.oci-containers.containers = {
-    "activemq-artemis" = {
-      image = "docker.io/apache/activemq-artemis:latest-alpine";
-      autoStart = true;
-      ports = [ "0.0.0.0:8161:8161" "0.0.0.0:61613:61613" "0.0.0.0:61616:61616" ];
-    };
+  #  "activemq-artemis" = {
+  #    image = "docker.io/apache/activemq-artemis:latest-alpine";
+  #    autoStart = true;
+  #    ports = [ "0.0.0.0:8161:8161" "0.0.0.0:61613:61613" "0.0.0.0:61616:61616" ];
+  #  };
   #  #"jaeger" = {
   #  #  image = "docker.io/jaegertracing/jaeger:2.2.0";
   #  #  autoStart = true;
@@ -328,6 +353,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    nano
     vim
     neovim
     xclip 
@@ -336,12 +362,11 @@
     git
     gnupg
     kitty
-    yazi
     ghostty
     # Virutaliztion 
     virt-manager
-    docker
-    docker-compose
+    #docker
+    #docker-compose
     podman
     podman-compose
     qemu
