@@ -24,14 +24,15 @@
     emacs30-pgtk
     zed-editor
     vscode
-    #jetbrains.idea-community
-    #jetbrains.rust-rover
     notes
 
     # browsers
     google-chrome
     #brave
     #microsoft-edge
+
+    #db
+    sqlitebrowser
 
     # bitcoin
     #electrum
@@ -50,6 +51,8 @@
     btop
     stacer
     wireshark
+    httpie
+    httpie-desktop
     angryipscanner
     gdu
     teller

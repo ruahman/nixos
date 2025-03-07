@@ -94,6 +94,18 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Install HPLIP with plugin support
+  services.printing.drivers = [ pkgs.hplipWithPlugin ];
+
+  # Optionally, enable Avahi for network printer discovery
+  services.avahi.enable = true;
+  services.avahi.nssmdns4 = true; # For IPv4 name resolution
+  services.avahi.openFirewall = true; # Open firewall for printer discovery
+
+  # Ensure USB printing works (optional, for USB connection)
+  hardware.sane.enable = true; # Enables scanning support
+  #hardware.usb.enahhle = true;
+
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -252,6 +264,7 @@
     #  thunderbird
     ];
     shell = pkgs.nushell;
+    #shell = pkgs.bash;
   };
  
   # virt-manager 
@@ -363,6 +376,9 @@
     gnupg
     kitty
     ghostty
+    hplipWithPlugin  # HPLIP with proprietary plugins
+    sane-backends    # For scanning
+    xsane   # Optional GUI scanner tool
     # Virutaliztion 
     virt-manager
     #docker
