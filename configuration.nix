@@ -10,8 +10,6 @@
     experimental-features = [ "nix-command" "flakes" ];
     substituters = ["https://hyprland.cachix.org"];
     trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
-    #makeCacheWritable = true;
-    #build-use-sandbox = false;
   };
 
   imports =
@@ -79,7 +77,7 @@
   services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
-  # run:
+  # to get it to run:
   # gsettings reset org.gnome.desktop.input-sources xkb-options
   # gsettings reset org.gnome.desktop.input-sources sources
   services.xserver.xkb = {
@@ -186,75 +184,6 @@
   # fluent-bit
   #services.fluent-bit.enable = true;
 
-  # bitcoind
-  #services.bitcoind.regtest = {
-  #  enable = false;
-  #  #rpc.users.admin = {
-  #  #  name = "admin"; 
-  #  #  passwordHMAC = "be546df24d3ac2e4f2cff6549eedc73d$a7713c060038b2df69da6344a397ab62454bdfc1eafcd1c2c40eb5b2d26cbecf";
-  #  #};
-  #  extraConfig = ''
-  #    # setup regtest
-  #    regtest=1
-
-  #    # Run as a server (required for RPC and ZeroMQ)
-  #    server=1
-
-  #    # index transactions
-  #    txindex=1
-  #  
-  #    # minimum confirmations
-  #    minconf=1
-
-  #    # default fee rate to use
-  #    fallbackfee=0.0002
-
-  #    zmqpubhashblock=tcp://127.0.0.1:29100
-  #    zmqpubhashtx=tcp://127.0.0.1:29101
-  #    zmqpubrawblock=tcp://127.0.0.1:29102
-  #    zmqpubrawtx=tcp://127.0.0.1:29103
-
-  #    [regtest]
-  #    port=21444
-  #    rpcport=21443
-  #    rpcallowip=127.0.0.1
-  #    rpcbind=127.0.0.1
-  #    rpcuser=maki
-  #    rpcpassword=tekka
-  #  '';
-  #};
-
-  #services.jupyter = {
-  #  enable = true;
-  #  password = "argon2:$argon2id$v=19$m=10240,t=10,p=8$yxqT63lLdW6xBw9O49wF7g$hRSk2czr8QbPwOGgPzHIxe38ypNQx8XxNA1iLtJWQCo";
-  #  port = 8888;
-  #  user = "ruahman";
-  #  command = "jupyter lab";
-  #  notebookDir = "/home/ruahman/";
-  #  kernels = {
-  #     python3 = let
-  #       python = (pkgs.python3.withPackages (pythonPackages: with pythonPackages; [
-  #               ipykernel
-  #               pandas
-  #               numpy
-  #               matplotlib
-  #             ]));
-  #       in {
-  #         displayName = "Python 3 for testing out nixos";
-  #         argv = [
-  #           "${python.interpreter}"
-  #           "-m"
-  #           "ipykernel_launcher"
-  #           "-f"
-  #           "{connection_file}"
-  #         ];
-  #         language = "python";
-  #         #logo32 = "${python.sitePackages}/ipykernel/resources/logo-32x32.png";
-  #       };
-  #  };
-  #};
-
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ruahman = {
     isNormalUser = true;
@@ -263,7 +192,7 @@
     packages = with pkgs; [
     #  thunderbird
     ];
-    shell = pkgs.nushell;
+    #shell = pkgs.nushell;
     #shell = pkgs.bash;
   };
  
@@ -366,16 +295,18 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    hunspellDicts.es_PR
+    xdg-utils
     nano
     vim
     neovim
-    xclip 
+    xclip  # for sharing clipboard in terminal 
     pavucontrol
     blueman
     git
     gnupg
-    kitty
-    ghostty
+    kitty  # kitty terminal
+    ghostty  # ghostty terminal
     hplipWithPlugin  # HPLIP with proprietary plugins
     sane-backends    # For scanning
     xsane   # Optional GUI scanner tool
@@ -386,8 +317,8 @@
     podman
     podman-compose
     qemu
-    incus
-    colima
+    incus  # LXC/LXD
+    colima # container runtime manager
     python3
     nodejs
     gcc

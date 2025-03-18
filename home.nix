@@ -19,30 +19,34 @@
     audacity
     vlc
 
+    # offic
+    libreoffice
+    
+    # typst
+    typst
+
+    # notes
+    obsidian
+
     # text editors
     neovim
     emacs30-pgtk
     zed-editor
     vscode
-    notes
 
     # browsers
     google-chrome
-    #brave
-    #microsoft-edge
 
     #db
     sqlitebrowser
 
     # bitcoin
-    #electrum
     bitcoind
     sparrow
     lnd
 
     # utils/tools
-    lazygit
-    zsh
+    lazygit # git
     neofetch
     fastfetch
     cpufetch
@@ -51,12 +55,10 @@
     btop
     stacer
     wireshark
-    httpie
-    httpie-desktop
     angryipscanner
     gdu
     teller
-    xclip
+    xclip # clipboard
     trashy
     entr
     eza
@@ -75,18 +77,19 @@
     imagemagick # image
     ffmpeg # video
     pdfcpu
-    tree
-    bat
-    jq
-    yq
+    tree # show directory tree
+    bat # cooler cat
+    jq # json 
+    yq-go # yaml 
     jqp
     jless
     htmlq
     difftastic
     ueberzugpp # for showing pics in terminal
     bruno # api testing tool
+    #httpie # rest testing tool for console
+    httpie-desktop # rest desktop tool
     just # new make tool
-    marimo # jupyter replacement
 
     # nix tools
     nix-prefetch-git
@@ -100,15 +103,14 @@
     lua-language-server
     stylua
     vscode-langservers-extracted # lsp for html, css, js
-    vscode-js-debug # for debug js
-    vscode-extensions.vadimcn.vscode-lldb # for debuging rust 
+    #vscode-js-debug # for debug js
+    #vscode-extensions.vadimcn.vscode-lldb # for debuging rust 
 
     # message apps
     telegram-desktop
     whatsapp-for-linux
     signal-desktop
     slack
-    #zoom-us
     discord
     irssi
   ];
@@ -124,7 +126,7 @@
   };
 
   home.sessionVariables = {
-    DIRENV_LOG_FORMAT = "";
+    #DIRENV_LOG_FORMAT = "";
   };
 
   # for virt-manager
@@ -166,11 +168,18 @@
   programs.direnv = {
     enable = true;
     silent = true;
-    enableNushellIntegration = true;
+    #enableNushellIntegration = true;
     enableBashIntegration = true;
     nix-direnv = {
       enable = true;
     };
+  };
+
+  programs.bash = {
+    enable = true;
+    initExtra = ''
+      export EDITOR="vim"
+    '';
   };
  
   programs.ghostty = {
@@ -198,7 +207,7 @@
       size = 16.0;
     };
     settings = {
-      shell = "${pkgs.nushell}/bin/nu";
+      #shell = "${pkgs.nushell}/bin/nu";
 
       # basic colors
       foreground =  "#c6d0f5";
@@ -292,7 +301,6 @@
 
   programs.carapace = {
     enable = true;
-    enableNushellIntegration = true;
     enableBashIntegration = true;
   };
 
@@ -326,23 +334,30 @@
         symbol = " ";
         style = "bold #00007F";
       };
+      python = {
+        symbol = " ";
+        style = "bold #FFDF5A";
+      };
+      zig = {
+        symbol = " ";
+        style = "bold #F7A41D";
+      };
     };
     enableBashIntegration = true;
-    enableNushellIntegration = true;
+    #enableNushellIntegration = true;
   };
 
   programs.tmux = {
     enable = true;
     #plugins = with pkgs; [
+    #  tmuxPlugins.catppuccin
     #  tmuxPlugins.power-theme
-    #  tmuxPlugins.tmux-fzf
     #];
-    #extraConfig = ''
-    #  set -g mouse on
-    #  set-option -g status-position top
-    #  set -g base-index 1
-    #  set -g @tmux_power_theme 'moon'
-    #''; 
+    extraConfig = ''
+      set -g mouse on
+      set-option -g status-position top
+      set -g base-index 1
+    ''; 
   };
   
   programs.yazi = {
