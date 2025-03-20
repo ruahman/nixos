@@ -203,26 +203,26 @@
   #virtualisation.docker.enable = true;
 
   # setup virtualisation
-  virtualisation = {
-    containers.enable = true;
-    #docker.enable = true;
-    podman = {
-      enable = true;
-      dockerCompat = true;  # Optional, creates `docker` alias for `podman`
-      defaultNetwork.settings.dns_enabled = true;  # For containers to talk to each other
-    };
-  };
+  #virtualisation = {
+  #  containers.enable = true;
+  #  #docker.enable = true;
+  #  podman = {
+  #    enable = true;
+  #    dockerCompat = true;  # Optional, creates `docker` alias for `podman`
+  #    defaultNetwork.settings.dns_enabled = true;  # For containers to talk to each other
+  #  };
+  #};
 
   # virt-manager
-  virtualisation.libvirtd.enable = true;
+  #virtualisation.libvirtd.enable = true;
   
   # virt-manager
-  virtualisation.spiceUSBRedirection.enable = true;
+  #virtualisation.spiceUSBRedirection.enable = true;
 
 
 
   # run these containers at startup
-  virtualisation.oci-containers.containers = {
+  #virtualisation.oci-containers.containers = {
   #  "activemq-artemis" = {
   #    image = "docker.io/apache/activemq-artemis:latest-alpine";
   #    autoStart = true;
@@ -270,13 +270,13 @@
   #   ];
   #   cmd = [ "bash" "-c" "/srv/explorer/run.sh bitcoin-regtest explorer" ];
   # };
-  };
+  #};
 
   # setup kvm
-  boot.kernelModules = [ "kvm-amd" ]; 
+  #boot.kernelModules = [ "kvm-amd" ]; 
 
   # virt-manager
-  programs.virt-manager.enable = true;
+  #programs.virt-manager.enable = true;
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -299,28 +299,32 @@
     xdg-utils
     nano
     vim
-    neovim
+    #(vim.overrideAttrs (old: {
+    #  postInstall = ''
+    #    ${old.postInstall or ""}
+    #    wrapProgram $out/bin/vim --add-flags "-u /etc/vimrc"
+    #  '';
+    #  buildInputs = (old.buildInputs or []) ++ [ makeWrapper ];
+    #}))
     xclip  # for sharing clipboard in terminal 
-    pavucontrol
-    blueman
-    git
+    pavucontrol # volume control
+    blueman # bluetooth control
+    git # source control
     gnupg
-    kitty  # kitty terminal
-    ghostty  # ghostty terminal
+    #kitty  # kitty terminal
+    #ghostty  # ghostty terminal
     hplipWithPlugin  # HPLIP with proprietary plugins
     sane-backends    # For scanning
     xsane   # Optional GUI scanner tool
     # Virutaliztion 
-    virt-manager
+    #virt-manager
     #docker
     #docker-compose
-    podman
-    podman-compose
-    qemu
-    incus  # LXC/LXD
-    colima # container runtime manager
-    python3
-    nodejs
+    #podman
+    #podman-compose
+    #qemu
+    #incus  # LXC/LXD
+    #colima # container runtime manager
     gcc
     gnumake 
     cmake 
@@ -333,7 +337,7 @@
     wofi # search for hyprland
     hyprshot # screen shot for hyperland
     hyprpaper # wallpaper for hyperland
-    waypaper # ???
+    waypaper # wallpaper selector
     hyprpicker # color picker for hyperland
     wl-clipboard # clipboard for hyperland
     nwg-look # GTK-setting editor
@@ -378,10 +382,25 @@
           directory = /etc/nixos
       '';
     };
-    "pgadmin-password" = {
-      target = "pgadmin-password";
-      text = "password";
-    };
+    #"pgadmin-password" = {
+    #  target = "pgadmin-password";
+    #  text = "password";
+    #};
+    "vimrc".text = ''
+      set number          " Show line numbers
+      set relativenumber  " Relative line numbers
+      set tabstop=4       " 4 spaces for tabs
+      set shiftwidth=4    " Indentation width
+      set expandtab       " Use spaces instead of tabs
+      syntax on           " Enable syntax highlighting
+ 
+      " Set leader to space
+      let mapleader = " " 
+
+      " xclip integration (if xclip is installed)
+      noremap <Leader>y :w !xclip -selection clipboard<CR><CR>
+      noremap <Leader>p :r !xclip -o -selection clipboard<CR>
+    '';
   };
 
   # Some programs need SUID wrappers, can be configured further or are

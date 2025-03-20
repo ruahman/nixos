@@ -34,6 +34,12 @@
     zed-editor
     vscode
 
+    # terminals
+    ghostty
+    kitty
+    terminator
+    termite
+
     # browsers
     google-chrome
 
@@ -41,9 +47,9 @@
     sqlitebrowser
 
     # bitcoin
-    bitcoind
+    #bitcoind
+    #lnd
     sparrow
-    lnd
 
     # utils/tools
     lazygit # git
@@ -87,9 +93,10 @@
     difftastic
     ueberzugpp # for showing pics in terminal
     bruno # api testing tool
-    #httpie # rest testing tool for console
+    httpie # rest testing tool for console
     httpie-desktop # rest desktop tool
     just # new make tool
+    github-desktop # gui client for git
 
     # nix tools
     nix-prefetch-git
@@ -103,8 +110,8 @@
     lua-language-server
     stylua
     vscode-langservers-extracted # lsp for html, css, js
-    #vscode-js-debug # for debug js
-    #vscode-extensions.vadimcn.vscode-lldb # for debuging rust 
+    python3
+    nodejs
 
     # message apps
     telegram-desktop
@@ -113,6 +120,7 @@
     slack
     discord
     irssi
+    
   ];
 
   home.file = {
@@ -126,16 +134,15 @@
   };
 
   home.sessionVariables = {
-    #DIRENV_LOG_FORMAT = "";
   };
 
   # for virt-manager
-  dconf.settings = {
-    "org/virt-manager/virt-manager/connections" = {
-      autoconnect = ["qemu:///system"];
-      uris = ["qemu:///system"];
-    };
-  };
+  #dconf.settings = {
+  #  "org/virt-manager/virt-manager/connections" = {
+  #    autoconnect = ["qemu:///system"];
+  #    uris = ["qemu:///system"];
+  #  };
+  #};
 
   #programs.home-manager.enable = true;
 
@@ -168,7 +175,6 @@
   programs.direnv = {
     enable = true;
     silent = true;
-    #enableNushellIntegration = true;
     enableBashIntegration = true;
     nix-direnv = {
       enable = true;
@@ -203,8 +209,8 @@
   programs.kitty = {
     enable = true;
     font = {
-      name = "terminus";
-      size = 16.0;
+      name = "FiraCode Nerd Font";
+      size = 20.0;
     };
     settings = {
       #shell = "${pkgs.nushell}/bin/nu";
@@ -283,6 +289,19 @@
     };
   };
 
+  programs.terminator = {
+    enable = true;
+    config = {
+      profiles.default.use_system_font = false;
+      profiles.default.font = "Terminess Nerd Font 20";
+    };
+  };
+
+  programs.termite = {
+    enable = true;
+    font = "Hack Nerd Font 20";
+  };
+
   programs.nushell = {
     enable = true;
     extraConfig = ''
@@ -344,7 +363,6 @@
       };
     };
     enableBashIntegration = true;
-    #enableNushellIntegration = true;
   };
 
   programs.tmux = {
@@ -354,6 +372,7 @@
     #  tmuxPlugins.power-theme
     #];
     extraConfig = ''
+      set-option -g default-shell ${pkgs.bash}/bin/bash
       set -g mouse on
       set-option -g status-position top
       set -g base-index 1
