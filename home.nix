@@ -19,7 +19,7 @@
     audacity
     vlc
 
-    # offic
+    # office
     libreoffice
     
     # typst
@@ -51,7 +51,14 @@
     #lnd
     sparrow
 
+    # android 
+    android-studio
+
+    # rust-rover 
+    jetbrains.rust-rover
+
     # utils/tools
+    lsof
     lazygit # git
     neofetch
     fastfetch
@@ -109,9 +116,7 @@
     lua51Packages.luacheck
     lua-language-server
     stylua
-    vscode-langservers-extracted # lsp for html, css, js
-    python3
-    nodejs
+    tree-sitter
 
     # message apps
     telegram-desktop
