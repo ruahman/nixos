@@ -83,7 +83,7 @@
   services.xserver.xkb = {
     layout = "us";
     variant = "";
-    options = "caps:ctrl_modifier";
+    options = "caps:ctrl_modifier,compose:lalt";
   };
 
   # enable console to use xkb settings
