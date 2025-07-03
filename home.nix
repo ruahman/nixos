@@ -8,7 +8,16 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    #thunderbird # email
+    colima  # container runtime selector
+    incus # LXC/LXD
+    podman
+    podman-compose
+    docker 
+    docker-compose
+
+    # bitcoin
+    bitcoind
+    lnd
 
     # paint
     drawing
@@ -27,6 +36,8 @@
 
     # notes
     obsidian
+    anytype
+    #notion-app
 
     # text editors
     neovim
