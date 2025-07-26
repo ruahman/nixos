@@ -8,16 +8,11 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    colima  # container runtime selector
-    incus # LXC/LXD
-    podman
-    podman-compose
-    docker 
-    docker-compose
 
     # bitcoin
     bitcoind
     lnd
+    sparrow
 
     # paint
     drawing
@@ -53,20 +48,10 @@
 
     # browsers
     google-chrome
+    ladybird
 
     #db
     sqlitebrowser
-
-    # bitcoin
-    #bitcoind
-    #lnd
-    sparrow
-
-    # android 
-    android-studio
-
-    # rust-rover 
-    jetbrains.rust-rover
 
     # utils/tools
     lsof
@@ -114,6 +99,7 @@
     httpie # rest testing tool for console
     httpie-desktop # rest desktop tool
     just # new make tool
+    watchexec # file watcher
     github-desktop # gui client for git
 
     # nix tools
@@ -318,22 +304,6 @@
     font = "Hack Nerd Font 20";
   };
 
-  programs.nushell = {
-    enable = true;
-    extraConfig = ''
-      $env.config.show_banner = false
-      def --env y [...args] {
-	let tmp = (mktemp -t "yazi-cwd.XXXXXX")
-	yazi ...$args --cwd-file $tmp
-	let cwd = (open $tmp)
-	if $cwd != "" and $cwd != $env.PWD {
-		cd $cwd
-	}
-	rm -fp $tmp
-      }
-    '';
-  };
-
   programs.carapace = {
     enable = true;
     enableBashIntegration = true;
@@ -395,14 +365,4 @@
     ''; 
   };
   
-  programs.yazi = {
-    enable = true;
-    settings = { 
-      manager = {
-        linemode = "size";
-        show_hidden = true;
-	show_symlink = true;
-      };
-    };
-  };
 }

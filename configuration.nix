@@ -74,7 +74,7 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
+  services.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
@@ -149,22 +149,22 @@
   #};
 
   # couchdb
-  #services.couchdb = {
-  #  enable = true;                # Enable the CouchDB service
-  #  adminUser = "admin";      # Set the admin username
-  #  adminPass = "password";   # Set the admin password
-  #  bindAddress = "0.0.0.0";      # Bind address (default is localhost)
-  #};
+  services.couchdb = {
+    enable = true;                # Enable the CouchDB service
+    adminUser = "admin";      # Set the admin username
+    adminPass = "password";   # Set the admin password
+    bindAddress = "0.0.0.0";      # Bind address (default is localhost)
+  };
 
   # postgres
-  #services.postgresql = {
-  #  enable = true;
-  #  ensureDatabases = [ "mydatabase" ];
-  #  authentication = pkgs.lib.mkOverride 10 ''
-  #    #type database  DBuser  auth-method
-  #    local all       all     trust
-  #  '';
-  #};
+  services.postgresql = {
+    enable = true;
+    ensureDatabases = [ "mydatabase" ];
+    authentication = pkgs.lib.mkOverride 10 ''
+      #type database  DBuser  auth-method
+      local all       all     trust
+    '';
+  };
 
   # pgadmin
   #services.pgadmin = {
@@ -175,12 +175,12 @@
   #};
 
   # redis
-  #services.redis.servers."" = {
-  #   enable = true;
-  #   settings = {
-  #     port = 6379;
-  #   };
-  #};
+  services.redis.servers."" = {
+     enable = true;
+     settings = {
+       port = 6379;
+     };
+  };
 
   # fluent-bit
   #services.fluent-bit.enable = true;
@@ -313,26 +313,33 @@
     blueman # bluetooth control
     git # source control
     gnupg
-    #kitty  # kitty terminal
-    #ghostty  # ghostty terminal
     hplipWithPlugin  # HPLIP with proprietary plugins
     sane-backends    # For scanning
     xsane   # Optional GUI scanner tool
+
     # Virutaliztion 
     #virt-manager
-    #docker
-    #docker-compose
-    #podman
-    #podman-compose
     #qemu
-    #incus  # LXC/LXD
-    #colima # container runtime manager
+
+    # Containerization
+    colima  # container runtime selector
+    incus # LXC/LXD
+    podman
+    podman-compose
+    docker 
+    docker-compose
+
+    # build tools
     gcc
     gnumake 
     cmake 
     binutils 
     glibc.dev 
     pkg-config
+    nasm
+    fasm
+
+    # UI
     gnome-control-center  # GNOME Settings app
     gnome-tweaks          # Optional: for advanced settings
     waybar # bar for hyprland
@@ -344,8 +351,6 @@
     wl-clipboard # clipboard for hyperland
     nwg-look # GTK-setting editor
     catppuccin-gtk
-    # network manager
-    #networkmanagerapplet
     swaynotificationcenter # notifications
     libnotify # notification lib
     hyprlock # screenlock
