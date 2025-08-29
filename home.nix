@@ -9,42 +9,56 @@
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
 
-    # bitcoin
+    ## Containerization
+    colima  # container runtime selector
+    incus # LXC/LXD
+    podman
+    podman-compose
+    docker 
+    docker-compose
+
+    ## build tools
+    gcc
+    gnumake 
+    cmake 
+    binutils 
+    glibc.dev 
+    pkg-config
+    nasm
+    fasm
+
+    ## bitcoin
     bitcoind
     lnd
     sparrow
 
-    # paint
+    ## paint
     drawing
     gimp
     inkscape
 
-    # music and video
+    ## music and video
     audacity
     vlc
 
-    # office
+    ## office
     libreoffice
-    
-    # typst
-    #typst
 
-    # notes
-    #obsidian
+    ## notes
     anytype
 
-    # text editors
+    ## text editors
     neovim
     emacs30-pgtk
     zed-editor
     vscode
 
-    # terminals
+    ## terminals
     ghostty
     kitty
     terminator
 
-    # browsers
+    ## browsers
     google-chrome
 
     #db
@@ -52,7 +66,7 @@
 
     # utils/tools
     lsof
-    lazygit # git
+    lazygit 
     neofetch
     fastfetch
     cpufetch
@@ -98,13 +112,17 @@
     just # new make tool
     watchexec # file watcher
     github-desktop # gui client for git
+    gnupg
+    pavucontrol # volume control
+    blueman # bluetooth control
 
-    # nix tools
+    ## nix tools
     nix-prefetch-git
     prefetch-npm-deps
     node2nix
 
     # for neovim
+    hunspellDicts.es_PR
     lua51Packages.lua
     lua51Packages.luarocks
     lua51Packages.luacheck
@@ -135,13 +153,6 @@
   home.sessionVariables = {
   };
 
-  # for virt-manager
-  #dconf.settings = {
-  #  "org/virt-manager/virt-manager/connections" = {
-  #    autoconnect = ["qemu:///system"];
-  #    uris = ["qemu:///system"];
-  #  };
-  #};
 
   #programs.home-manager.enable = true;
 
@@ -198,10 +209,6 @@
       font-family = "JetBrainsMono Nerd Font";
       window-inherit-font-size = false;
       font-size = 18;
-      
-      #keybind = [
-      #  "ctrl+x=close_tab"
-      #];
     };
   };
 
@@ -262,10 +269,6 @@
 
   programs.tmux = {
     enable = true;
-    #plugins = with pkgs; [
-    #  tmuxPlugins.catppuccin
-    #  tmuxPlugins.power-theme
-    #];
     extraConfig = ''
       set-option -g default-shell ${pkgs.bash}/bin/bash
       set -g mouse on

@@ -75,7 +75,7 @@
 
   # Enable the GNOME Desktop Environment.
   services.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   # to get it to run:
@@ -124,67 +124,6 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-
-  # nginx
-  #services.nginx = {
-  #  enable = true;                      # Enable Nginx
-  #  virtualHosts.localhost = {
-  #    listen = [ { addr = "127.0.0.1"; port = 80; } ];  # Listen on localhost:80
-  #    #root = "/var/www/localhost";      # Directory to serve files from
-  #    locations."/" = {
-  #      extraConfig = ''
-  #        default_type text/plain;  # Set the Content-Type to text/plain
-  #        return 200 'Hello, world!, nginx';
-  #      '';
-  #    };
-  #  };
-  #};
-
-  # caddy
-  #services.caddy = {
-  #  enable = true;
-  #  virtualHosts.localhost.extraConfig = ''
-  #    respond "Hello, world!, caddy"
-  #  '';
-  #};
-
-  # couchdb
-  services.couchdb = {
-    enable = true;                # Enable the CouchDB service
-    adminUser = "admin";      # Set the admin username
-    adminPass = "password";   # Set the admin password
-    bindAddress = "0.0.0.0";      # Bind address (default is localhost)
-  };
-
-  # postgres
-  services.postgresql = {
-    enable = true;
-    ensureDatabases = [ "mydatabase" ];
-    authentication = pkgs.lib.mkOverride 10 ''
-      #type database  DBuser  auth-method
-      local all       all     trust
-    '';
-  };
-
-  # pgadmin
-  #services.pgadmin = {
-  #  enable = true;
-  #  port = 5050; # Default port for pgAdmin
-  #  initialEmail = "ruahman@gmail.com"; # Initial admin email
-  #  initialPasswordFile = "/etc/pgadmin-password"; # File containing the initial password
-  #};
-
-  # redis
-  services.redis.servers."" = {
-     enable = true;
-     settings = {
-       port = 6379;
-     };
-  };
-
-  # fluent-bit
-  #services.fluent-bit.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ruahman = {
     isNormalUser = true;
@@ -199,85 +138,6 @@
  
   # virt-manager 
   users.groups.libvirtd.members = ["ruahman"];
-
-  # setup docker
-  #virtualisation.docker.enable = true;
-
-  # setup virtualisation
-  #virtualisation = {
-  #  containers.enable = true;
-  #  #docker.enable = true;
-  #  podman = {
-  #    enable = true;
-  #    dockerCompat = true;  # Optional, creates `docker` alias for `podman`
-  #    defaultNetwork.settings.dns_enabled = true;  # For containers to talk to each other
-  #  };
-  #};
-
-  # virt-manager
-  #virtualisation.libvirtd.enable = true;
-  
-  # virt-manager
-  #virtualisation.spiceUSBRedirection.enable = true;
-
-
-
-  # run these containers at startup
-  #virtualisation.oci-containers.containers = {
-  #  "activemq-artemis" = {
-  #    image = "docker.io/apache/activemq-artemis:latest-alpine";
-  #    autoStart = true;
-  #    ports = [ "0.0.0.0:8161:8161" "0.0.0.0:61613:61613" "0.0.0.0:61616:61616" ];
-  #  };
-  #  #"jaeger" = {
-  #  #  image = "docker.io/jaegertracing/jaeger:2.2.0";
-  #  #  autoStart = true;
-  #  #  ports = [ "16686:16686" "4317:4317" "4318:4318" "5778:5778" "9411:9411" ];
-  #  #};
-  #  "jaeger" = {
-  #    image = "docker.io/jaegertracing/all-in-one:1.47";
-  #    autoStart = true;
-  #    environment = {
-  #      COLLECTOR_OTLP_ENABLED = "true";
-  #      COLLECTOR_ZIPKIN_HTTP_PORT = "9411";
-  #    };
-  #    ports = [ 
-  #      "6831:6831/udp"  # Jaeger compact Thrift protocol (UDP)
-  #      "6832:6832/udp"  # Jaeger binary Thrift protocol (UDP)
-  #      "5778:5778"      # Jaeger agent HTTP management port
-  #      "16686:16686"    # Jaeger query UI port
-  #      "4317:4317"      # Jaeger gRPC HTTP collector port
-  #      "4318:4318"      # Jaeger gRPC HTTP collector port (encrypted)
-  #      "14250:14250"    # Jaeger gRPC tracing port
-  #      "14268:14268"    # Jaeger gRPC HTTP internal service communication port
-  #      "14269:14269"    # Jaeger gRPC HTTP internal service communication port (encrypted) 
-  #      "9411:9411"      # Zipkin collector port
-  #    ];
-  #  };
-  #  #"zipkin" = {
-  #  #  image = "docker.io/openzipkin/zipkin";
-  #  #  autoStart = true;
-  #  #  ports = [ "9411:9411" ];
-  #  #};
-  # "esplora" = {
-  #   image = "docker.io/blockstream/esplora";
-  #   autoStart = true;
-  #   #volumes = [
-  #   #  "/var/lib/bitcoin-regtest:/data"
-  #   #];
-  #   ports = [
-  #     "50001:50001"
-  #     "8094:80" 
-  #   ];
-  #   cmd = [ "bash" "-c" "/srv/explorer/run.sh bitcoin-regtest explorer" ];
-  # };
-  #};
-
-  # setup kvm
-  #boot.kernelModules = [ "kvm-amd" ]; 
-
-  # virt-manager
-  #programs.virt-manager.enable = true;
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -297,49 +157,15 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    hunspellDicts.es_PR
-    xdg-utils
     nano
     vim
-    #(vim.overrideAttrs (old: {
-    #  postInstall = ''
-    #    ${old.postInstall or ""}
-    #    wrapProgram $out/bin/vim --add-flags "-u /etc/vimrc"
-    #  '';
-    #  buildInputs = (old.buildInputs or []) ++ [ makeWrapper ];
-    #}))
-    xclip  # for sharing clipboard in terminal 
-    pavucontrol # volume control
-    blueman # bluetooth control
-    git # source control
-    gnupg
+    git
     hplipWithPlugin  # HPLIP with proprietary plugins
     sane-backends    # For scanning
     xsane   # Optional GUI scanner tool
 
-    # Virutaliztion 
-    #virt-manager
-    #qemu
-
-    # Containerization
-    colima  # container runtime selector
-    incus # LXC/LXD
-    podman
-    podman-compose
-    docker 
-    docker-compose
-
-    # build tools
-    gcc
-    gnumake 
-    cmake 
-    binutils 
-    glibc.dev 
-    pkg-config
-    nasm
-    fasm
-
     # UI
+    xdg-utils
     gnome-control-center  # GNOME Settings app
     gnome-tweaks          # Optional: for advanced settings
     waybar # bar for hyprland
@@ -389,10 +215,6 @@
           directory = /etc/nixos
       '';
     };
-    #"pgadmin-password" = {
-    #  target = "pgadmin-password";
-    #  text = "password";
-    #};
     "vimrc".text = ''
       set number          " Show line numbers
       set relativenumber  " Relative line numbers
