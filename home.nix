@@ -274,7 +274,7 @@
       set -g mouse on
       set-option -g status-position top
       set -g base-index 1
-      bind-key -n C-Space run-shell "clear && tmux clear-history"
+      set -g pane-base-index 1
     ''; 
   };
   
