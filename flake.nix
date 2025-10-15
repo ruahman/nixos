@@ -7,13 +7,29 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      # so that rust-overlay uses the same nixpkgs
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
     hyprland = { 
       url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, rust-overlay, ... }@inputs: 
+    let
+      system = "x86_64-linux";
+      # Create a pkgs instance with rust-overlay applied
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ rust-overlay.overlays.default ]; # Apply rust-overlay
+        config.allowUnfree = true;
+      };
+    in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; }; # this is the important part
@@ -24,6 +40,9 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+
+	  # Pass the modified pkgs with rust-overlay to Home Manager
+          home-manager.extraSpecialArgs = { inherit pkgs; };
 
           home-manager.users.ruahman = import ./home.nix;
         }

@@ -52,6 +52,19 @@
     emacs30-pgtk
     zed-editor
     vscode
+    jetbrains.rust-rover
+
+    # rust
+    rust-bin.stable."1.86.0".default
+    rust-analyzer
+    sqlite
+    openssl
+    pkg-config
+    protobuf
+    #clippy
+    
+
+    cloudsmith-cli
 
     ## terminals
     ghostty
@@ -73,7 +86,7 @@
     cmatrix
     htop
     btop
-    stacer
+    #stacer
     wireshark
     angryipscanner
     gdu
@@ -203,7 +216,7 @@
     settings = {
       window-decoration = false;
 
-      theme = "AdventureTime";
+      theme = "Adventure Time";
       background-opacity = 0.85;
       
       font-family = "JetBrainsMono Nerd Font";
