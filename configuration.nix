@@ -15,7 +15,6 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      #./fluent-bit.nix
     ];
 
   # Bootloader.
@@ -132,7 +131,6 @@
     packages = with pkgs; [
     #  thunderbird
     ];
-    #shell = pkgs.nushell;
     #shell = pkgs.bash;
   };
  

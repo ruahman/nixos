@@ -23,15 +23,16 @@
   outputs = { self, nixpkgs, home-manager, rust-overlay, ... }@inputs: 
     let
       system = "x86_64-linux";
+      overlays = [ (import rust-overlay) ];
+
       # Create a pkgs instance with rust-overlay applied
       pkgs = import nixpkgs {
-        inherit system;
-        overlays = [ rust-overlay.overlays.default ]; # Apply rust-overlay
+        inherit system overlays;
         config.allowUnfree = true;
       };
     in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
+      inherit system;
       specialArgs = { inherit inputs; }; # this is the important part
 
       modules = [

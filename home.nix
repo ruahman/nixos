@@ -1,10 +1,20 @@
 { config, pkgs, ... }:
-
+let
+  MSRV = "1.86.0";
+in
 {
   home.stateVersion = "24.05";
 
   home.username = "ruahman";
   home.homeDirectory = "/home/ruahman";
+
+  home.sessionVariables = {
+      RUSTC_WRAPPER = "${pkgs.sccache}/bin/sccache";
+      PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig:$PKG_CONFIG_PATH";
+      OPENSSL_DIR = "${pkgs.openssl.dev}";
+      OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
+      OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
+  };
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
@@ -12,8 +22,8 @@
     ## Containerization
     colima  # container runtime selector
     incus # LXC/LXD
-    podman
-    podman-compose
+    #podman
+    #podman-compose
     docker 
     docker-compose
 
@@ -24,8 +34,11 @@
     binutils 
     glibc.dev 
     pkg-config
-    nasm
-    fasm
+    openssl
+    openssl.dev
+    protobuf
+    #nasm
+    #fasm
 
     ## bitcoin
     bitcoind
@@ -33,106 +46,107 @@
     sparrow
 
     ## paint
-    drawing
-    gimp
-    inkscape
+    #drawing
+    #gimp
+    #inkscape
 
     ## music and video
-    audacity
-    vlc
+    #audacity
+    #vlc
 
     ## office
-    libreoffice
+    #libreoffice
 
     ## notes
     anytype
 
     ## text editors
     neovim
-    emacs30-pgtk
+    #emacs30-pgtk
     zed-editor
     vscode
     jetbrains.rust-rover
 
-    # rust
-    rust-bin.stable."1.86.0".default
-    rust-analyzer
-    sqlite
-    openssl
-    pkg-config
-    protobuf
-    #clippy
-    
-
+    ## rust
+    #rust-bin.stable.${MSRV}.default
+    rustup
+    #rust-analyzer
+    rust-script
+    sccache
     cloudsmith-cli
+
+    ## python
+    python312
+    python312Packages.jupyterlab 
+    python312Packages.pyzmq 
 
     ## terminals
     ghostty
     kitty
-    terminator
+    #terminator
 
     ## browsers
     google-chrome
 
     #db
+    sqlite
     sqlitebrowser
 
-    # utils/tools
-    lsof
+    ## utils/tools
+    #lsof
     lazygit 
-    neofetch
-    fastfetch
-    cpufetch
-    cmatrix
+    #neofetch
+    #fastfetch
+    #cpufetch
+    #cmatrix
     htop
-    btop
-    #stacer
-    wireshark
-    angryipscanner
-    gdu
-    teller
+    #btop
+    #wireshark
+    #angryipscanner
+    #gdu
+    #teller
     xclip # clipboard
-    trashy
-    entr
-    eza
-    lsd
-    rnr
-    tldr
-    cheat
+    #trashy
+    #entr
+    #eza
+    #lsd
+    #rnr
+    #tldr
+    #cheat
     unzip
     wget
     ripgrep
-    fd
+    #fd
     fzf
-    delta
+    #delta
     ispell
-    pandoc
-    imagemagick # image
-    ffmpeg # video
-    pdfcpu
+    #pandoc
+    #imagemagick # image
+    #ffmpeg # video
+    #pdfcpu
     tree # show directory tree
     bat # cooler cat
     jq # json 
-    yq-go # yaml 
-    jqp
-    jless
-    htmlq
-    difftastic
+    #yq-go # yaml 
+    #jqp
+    #jless
+    #htmlq
+    #difftastic
     ueberzugpp # for showing pics in terminal
-    bruno # api testing tool
-    httpie # rest testing tool for console
-    httpie-desktop # rest desktop tool
+    #bruno # api testing tool
+    #httpie # rest testing tool for console
+    #httpie-desktop # rest desktop tool
     just # new make tool
     watchexec # file watcher
-    github-desktop # gui client for git
-    gnupg
+    #github-desktop # gui client for git
+    #gnupg
     pavucontrol # volume control
     blueman # bluetooth control
 
     ## nix tools
-    nix-prefetch-git
-    prefetch-npm-deps
-    node2nix
+    #nix-prefetch-git
+    #prefetch-npm-deps
+    #node2nix
 
     # for neovim
     hunspellDicts.es_PR
@@ -148,10 +162,11 @@
     whatsapp-for-linux
     signal-desktop
     slack
-    discord
+    #discord
     irssi
     
   ];
+
 
   home.file = {
     ".config/hypr/hyprland.conf".source = ./.dotfiles/hypr/hyprland.conf; 
@@ -162,12 +177,15 @@
 
     ".config/waybar".source = ./.dotfiles/waybar;
   };
-
-  home.sessionVariables = {
+  
+  programs.bash = {
+    enable = true;
+    initExtra = ''
+      export RUSTC_WRAPPER=${pkgs.sccache}/bin/sccache;
+      export PKG_CONFIG_PATH=${pkgs.openssl.dev}/lib/pkgconfig:$PKG_CONFIG_PATH;
+    '';
   };
 
-
-  #programs.home-manager.enable = true;
 
   programs.git = {
     enable = true;
@@ -195,24 +213,18 @@
     };
   };
 
-  programs.direnv = {
-    enable = true;
-    silent = true;
-    enableBashIntegration = true;
-    nix-direnv = {
-      enable = true;
-    };
-  };
+  #programs.direnv = {
+  #  enable = true;
+  #  silent = true;
+  #  enableBashIntegration = true;
+  #  nix-direnv = {
+  #    enable = true;
+  #  };
+  #};
 
-  programs.bash = {
-    enable = true;
-    initExtra = ''
-      export EDITOR="vim"
-    '';
-  };
  
   programs.ghostty = {
-    enable = true;
+    #enable = true;
     settings = {
       window-decoration = false;
 
@@ -225,60 +237,60 @@
     };
   };
 
-  programs.terminator = {
-    enable = true;
-    config = {
-      profiles.default.use_system_font = false;
-      profiles.default.font = "Terminess Nerd Font 20";
-    };
-  };
+  #programs.terminator = {
+  #  enable = true;
+  #  config = {
+  #    profiles.default.use_system_font = false;
+  #    profiles.default.font = "Terminess Nerd Font 20";
+  #  };
+  #};
 
-  programs.carapace = {
-    enable = true;
-    enableBashIntegration = true;
-  };
+  #programs.carapace = {
+  #  enable = true;
+  #  enableBashIntegration = true;
+  #};
 
-  programs.starship = {
-    enable = true;
-    settings = {
-      time = {
-        disabled = false;
-      };
-      c = {
-        symbol = " ";
-        style = "bold #005697";
-      };
-      nodejs = {
-        symbol = " ";
-        style = "bold #54a245";
-      };
-      rust = {
-        symbol = "󱘗 ";
-        style = "bold #f7931a";
-      };
-      golang = {
-        symbol = " ";
-        style = "bold #79D4FD";
-      };
-      bun = {
-        symbol = " ";
-        style = "bold #f9f1e1";
-      };
-      lua = {
-        symbol = " ";
-        style = "bold #00007F";
-      };
-      python = {
-        symbol = " ";
-        style = "bold #FFDF5A";
-      };
-      zig = {
-        symbol = " ";
-        style = "bold #F7A41D";
-      };
-    };
-    enableBashIntegration = true;
-  };
+  #programs.starship = {
+  #  enable = true;
+  #  settings = {
+  #    time = {
+  #      disabled = false;
+  #    };
+  #    c = {
+  #      symbol = " ";
+  #      style = "bold #005697";
+  #    };
+  #    nodejs = {
+  #      symbol = " ";
+  #      style = "bold #54a245";
+  #    };
+  #    rust = {
+  #      symbol = "󱘗 ";
+  #      style = "bold #f7931a";
+  #    };
+  #    golang = {
+  #      symbol = " ";
+  #      style = "bold #79D4FD";
+  #    };
+  #    bun = {
+  #      symbol = " ";
+  #      style = "bold #f9f1e1";
+  #    };
+  #    lua = {
+  #      symbol = " ";
+  #      style = "bold #00007F";
+  #    };
+  #    python = {
+  #      symbol = " ";
+  #      style = "bold #FFDF5A";
+  #    };
+  #    zig = {
+  #      symbol = " ";
+  #      style = "bold #F7A41D";
+  #    };
+  #  };
+  #  enableBashIntegration = true;
+  #};
 
   programs.tmux = {
     enable = true;
