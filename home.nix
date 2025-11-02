@@ -1,6 +1,32 @@
 { config, pkgs, ... }:
 let
   MSRV = "1.86.0";
+
+  pythonPackages = pkgs.python312.withPackages (ps: with ps; [
+      requests
+      numpy
+      pandas
+      matplotlib
+      jupyterlab 
+      marimo
+      flask
+      pyzmq
+    ]);
+
+  npmPackages = pkgs.buildEnv {
+    name = "npm-packages";
+    paths = with pkgs.nodePackages; [
+      typescript
+      ts-node
+      eslint
+      prettier
+      vscode-langservers-extracted  # for HTML/CSS/JSON
+      typescript-language-server
+    ];
+    # Optional: add node_modules/.bin to PATH
+    pathsToLink = [ "/bin" ];
+  };
+
 in
 {
   home.stateVersion = "24.05";
@@ -37,7 +63,7 @@ in
     openssl
     openssl.dev
     protobuf
-    #nasm
+    nasm
     #fasm
 
     ## bitcoin
@@ -46,7 +72,7 @@ in
     sparrow
 
     ## paint
-    #drawing
+    drawing
     #gimp
     #inkscape
 
@@ -65,20 +91,44 @@ in
     #emacs30-pgtk
     zed-editor
     vscode
-    jetbrains.rust-rover
+    #jetbrains-toolbox
+    jetbrains.idea-ultimate
 
     ## rust
     #rust-bin.stable.${MSRV}.default
     rustup
+    cargo-tauri
     #rust-analyzer
     rust-script
     sccache
-    cloudsmith-cli
+    jetbrains.rust-rover
+
+    ## golang 
+    go
+    gopls
+    delve
+    jetbrains.goland
+ 
+    ## c/c++ 
+    jetbrains.clion
+
+    ## zig
+    zig
+    zls
 
     ## python
-    python312
-    python312Packages.jupyterlab 
-    python312Packages.pyzmq 
+    #python312Packages.jupyterlab 
+    #python312Packages.pyzmq 
+    pyright
+    pythonPackages
+
+    # ruby 
+    ruby 
+    solargraph
+
+    ## nodejs
+    nodejs
+    npmPackages
 
     ## terminals
     ghostty
@@ -142,11 +192,7 @@ in
     #gnupg
     pavucontrol # volume control
     blueman # bluetooth control
-
-    ## nix tools
-    #nix-prefetch-git
-    #prefetch-npm-deps
-    #node2nix
+    cloudsmith-cli
 
     # for neovim
     hunspellDicts.es_PR
@@ -224,7 +270,6 @@ in
 
  
   programs.ghostty = {
-    #enable = true;
     settings = {
       window-decoration = false;
 
@@ -250,47 +295,47 @@ in
   #  enableBashIntegration = true;
   #};
 
-  #programs.starship = {
-  #  enable = true;
-  #  settings = {
-  #    time = {
-  #      disabled = false;
-  #    };
-  #    c = {
-  #      symbol = " ";
-  #      style = "bold #005697";
-  #    };
-  #    nodejs = {
-  #      symbol = " ";
-  #      style = "bold #54a245";
-  #    };
-  #    rust = {
-  #      symbol = "󱘗 ";
-  #      style = "bold #f7931a";
-  #    };
-  #    golang = {
-  #      symbol = " ";
-  #      style = "bold #79D4FD";
-  #    };
-  #    bun = {
-  #      symbol = " ";
-  #      style = "bold #f9f1e1";
-  #    };
-  #    lua = {
-  #      symbol = " ";
-  #      style = "bold #00007F";
-  #    };
-  #    python = {
-  #      symbol = " ";
-  #      style = "bold #FFDF5A";
-  #    };
-  #    zig = {
-  #      symbol = " ";
-  #      style = "bold #F7A41D";
-  #    };
-  #  };
-  #  enableBashIntegration = true;
-  #};
+  programs.starship = {
+    enable = true;
+    settings = {
+      time = {
+        disabled = false;
+      };
+      c = {
+        symbol = " ";
+        style = "bold #005697";
+      };
+      nodejs = {
+        symbol = " ";
+        style = "bold #54a245";
+      };
+      rust = {
+        symbol = "󱘗 ";
+        style = "bold #f7931a";
+      };
+      golang = {
+        symbol = " ";
+        style = "bold #79D4FD";
+      };
+      bun = {
+        symbol = " ";
+        style = "bold #f9f1e1";
+      };
+      lua = {
+        symbol = " ";
+        style = "bold #00007F";
+      };
+      python = {
+        symbol = " ";
+        style = "bold #FFDF5A";
+      };
+      zig = {
+        symbol = " ";
+        style = "bold #F7A41D";
+      };
+    };
+    enableBashIntegration = true;
+  };
 
   programs.tmux = {
     enable = true;
