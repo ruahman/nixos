@@ -2,30 +2,8 @@
 let
   MSRV = "1.86.0";
 
-  pythonPackages = pkgs.python312.withPackages (ps: with ps; [
-      requests
-      numpy
-      pandas
-      matplotlib
-      jupyterlab 
-      marimo
-      flask
-      pyzmq
-    ]);
 
-  npmPackages = pkgs.buildEnv {
-    name = "npm-packages";
-    paths = with pkgs.nodePackages; [
-      typescript
-      ts-node
-      eslint
-      prettier
-      vscode-langservers-extracted  # for HTML/CSS/JSON
-      typescript-language-server
-    ];
-    # Optional: add node_modules/.bin to PATH
-    pathsToLink = [ "/bin" ];
-  };
+
 
 in
 {
@@ -117,18 +95,46 @@ in
     zls
 
     ## python
-    #python312Packages.jupyterlab 
-    #python312Packages.pyzmq 
     pyright
-    pythonPackages
+    (pkgs.python312.withPackages (ps: with ps; [
+      ipython
+      pytest
+      requests
+      numpy
+      pandas
+      matplotlib
+      jupyterlab 
+      marimo
+      flask
+      pyzmq
+      mypy
+      ruff
+      isort
+    ]))
 
-    # ruby 
-    ruby 
-    solargraph
+    ## ruby 
+    (ruby.withPackages (ps: with ps; [
+      nokogiri
+      pry
+      bundler
+      solargraph
+    ]))
 
     ## nodejs
     nodejs
-    npmPackages
+    (pkgs.buildEnv {
+      name = "npm-packages";
+      paths = with pkgs.nodePackages; [
+        typescript
+        ts-node
+        eslint
+        prettier
+        vscode-langservers-extracted  # for HTML/CSS/JSON
+        typescript-language-server
+      ];
+      # Optional: add node_modules/.bin to PATH
+      pathsToLink = [ "/bin" ];
+    })
 
     ## terminals
     ghostty
@@ -212,6 +218,13 @@ in
     irssi
     
   ];
+
+  #home.activation.generateGemset = config.lib.dag.entryAfter ["writeBoundary"] ''
+  #  if [ -f ${./Gemfile.lock} ]; then
+  #    echo "Regenerating gemset.nix..."
+  #    ${pkgs.bundix}/bin/bundix --quiet
+  #  fi
+  #'';
 
 
   home.file = {
