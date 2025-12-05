@@ -85,6 +85,7 @@ in
     go
     gopls
     delve
+    golangci-lint
     jetbrains.goland
  
     ## c/c++ 
@@ -110,6 +111,15 @@ in
       mypy
       ruff
       isort
+      pip
+      fastparquet
+      openpyxl
+      watchdog
+      duckdb
+      polars
+      pyarrow
+      sqlglot
+      sympy
     ]))
 
     ## ruby 
@@ -147,6 +157,7 @@ in
     #db
     sqlite
     sqlitebrowser
+    jetbrains.datagrip
 
     ## utils/tools
     #lsof
@@ -227,15 +238,15 @@ in
   #'';
 
 
-  home.file = {
-    ".config/hypr/hyprland.conf".source = ./.dotfiles/hypr/hyprland.conf; 
-    ".config/hypr/mocha.conf".source = ./.dotfiles/hypr/mocha.conf; 
-    ".config/hypr/hyprpaper.conf".source = ./.dotfiles/hypr/hyprpaper.conf; 
-    ".config/hypr/hyprlock.conf".source = ./.dotfiles/hypr/hyprlock.conf; 
-    ".config/hypr/hypridle.conf".source = ./.dotfiles/hypr/hypridle.conf; 
+  #home.file = {
+  #  ".config/hypr/hyprland.conf".source = ./.dotfiles/hypr/hyprland.conf; 
+  #  ".config/hypr/mocha.conf".source = ./.dotfiles/hypr/mocha.conf; 
+  #  ".config/hypr/hyprpaper.conf".source = ./.dotfiles/hypr/hyprpaper.conf; 
+  #  ".config/hypr/hyprlock.conf".source = ./.dotfiles/hypr/hyprlock.conf; 
+  #  ".config/hypr/hypridle.conf".source = ./.dotfiles/hypr/hypridle.conf; 
 
-    ".config/waybar".source = ./.dotfiles/waybar;
-  };
+  #  ".config/waybar".source = ./.dotfiles/waybar;
+  #};
   
   programs.bash = {
     enable = true;
