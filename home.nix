@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 let
   MSRV = "1.86.0";
+  ZIG_VERSION = "0.15.2";
+  GO_VERSION = "1.25.5";
 in
 {
   home.stateVersion = "24.05";
@@ -39,8 +41,8 @@ in
     ## Containerization
     colima  # container runtime selector
     incus # LXC/LXD
-    #podman
-    #podman-compose
+    podman
+    podman-compose
     docker 
     docker-compose
 
@@ -80,19 +82,14 @@ in
     #zed-editor
     vscode
     #jetbrains-toolbox
-    #jetbrains.idea-ultimate
 
     ## rust
-    #rust-bin.stable.${MSRV}.default
     (rust-bin.stable.${MSRV}.default.override {
       extensions = [
         "rust-src"      # Required for rust-analyzer
         "rust-analyzer" # LSP server for IDEs
       ];
     })
-    #rustup
-    #cargo-tauri
-    #rust-analyzer
     rust-script
     sccache
     jetbrains.rust-rover
@@ -100,7 +97,7 @@ in
     pkg-config
 
     ## golang 
-    go
+    go-bin.versions.${GO_VERSION}
     gopls
     delve
     golangci-lint
@@ -114,7 +111,7 @@ in
     #binutils 
 
     ## zig
-    zig
+    pkgs.zigpkgs.${ZIG_VERSION}
     zls
 
     ## python

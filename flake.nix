@@ -14,12 +14,28 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+    zig-overlay = {
+      url = "github:mitchellh/zig-overlay";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+    go-overlay = {
+      url = "github:purpleclay/go-overlay";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, rust-overlay, ... }@inputs: 
+  outputs = { self, nixpkgs, home-manager, rust-overlay, zig-overlay, go-overlay, ... }@inputs: 
     let
       system = "x86_64-linux";
-      overlays = [ (import rust-overlay) ];
+      overlays = [ 
+	rust-overlay.overlays.default 
+        zig-overlay.overlays.default
+        go-overlay.overlays.default
+      ];
 
       # Create a pkgs instance with rust-overlay applied
       pkgs = import nixpkgs {
