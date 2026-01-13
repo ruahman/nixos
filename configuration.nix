@@ -8,8 +8,8 @@
 
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
-    substituters = ["https://hyprland.cachix.org"];
-    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+    #substituters = ["https://hyprland.cachix.org"];
+    #trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
   };
 
   imports =
@@ -166,19 +166,6 @@
     xdg-utils
     gnome-control-center  # GNOME Settings app
     gnome-tweaks          # Optional: for advanced settings
-    waybar # bar for hyprland
-    wofi # search for hyprland
-    hyprshot # screen shot for hyperland
-    hyprpaper # wallpaper for hyperland
-    waypaper # wallpaper selector
-    hyprpicker # color picker for hyperland
-    wl-clipboard # clipboard for hyperland
-    nwg-look # GTK-setting editor
-    catppuccin-gtk
-    swaynotificationcenter # notifications
-    libnotify # notification lib
-    hyprlock # screenlock
-    hypridle # idle 
   ];
 
 

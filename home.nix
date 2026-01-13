@@ -1,10 +1,6 @@
 { config, pkgs, ... }:
 let
   MSRV = "1.86.0";
-
-
-
-
 in
 {
   home.stateVersion = "24.05";
@@ -20,6 +16,23 @@ in
       OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
   };
 
+  xdg.configFile."bitcoin/bitcoin.conf".text = ''
+    # Run on the local regression test network
+    regtest=1
+    server=1
+    txindex=1
+
+    [regtest]
+    rpcuser=admin
+    rpcpassword=password
+    # Regtest default port is 18443
+    rpcbind=127.0.0.1
+    rpcallowip=127.0.0.1
+    
+    # Optional: allow deprecated calls often used in dev
+    deprecatedrpc=create_deterministic_wallets
+  '';
+
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
 
@@ -32,16 +45,13 @@ in
     docker-compose
 
     ## build tools
-    gcc
     gnumake 
     cmake 
-    binutils 
     glibc.dev 
-    pkg-config
     openssl
     openssl.dev
     protobuf
-    nasm
+    #nasm
     #fasm
 
     ## bitcoin
@@ -67,19 +77,27 @@ in
     ## text editors
     neovim
     #emacs30-pgtk
-    zed-editor
+    #zed-editor
     vscode
     #jetbrains-toolbox
-    jetbrains.idea-ultimate
+    #jetbrains.idea-ultimate
 
     ## rust
     #rust-bin.stable.${MSRV}.default
-    rustup
-    cargo-tauri
+    (rust-bin.stable.${MSRV}.default.override {
+      extensions = [
+        "rust-src"      # Required for rust-analyzer
+        "rust-analyzer" # LSP server for IDEs
+      ];
+    })
+    #rustup
+    #cargo-tauri
     #rust-analyzer
     rust-script
     sccache
     jetbrains.rust-rover
+    vscode-extensions.vadimcn.vscode-lldb.adapter
+    pkg-config
 
     ## golang 
     go
@@ -90,6 +108,10 @@ in
  
     ## c/c++ 
     jetbrains.clion
+    clang
+    clang-tools
+    #gcc
+    #binutils 
 
     ## zig
     zig
@@ -136,7 +158,7 @@ in
       name = "npm-packages";
       paths = with pkgs.nodePackages; [
         typescript
-        ts-node
+        #ts-node
         eslint
         prettier
         vscode-langservers-extracted  # for HTML/CSS/JSON
@@ -148,8 +170,8 @@ in
 
     ## terminals
     ghostty
-    kitty
-    #terminator
+    #kitty
+    terminator
 
     ## browsers
     google-chrome
@@ -199,7 +221,7 @@ in
     #jless
     #htmlq
     #difftastic
-    ueberzugpp # for showing pics in terminal
+    #ueberzugpp # for showing pics in terminal
     #bruno # api testing tool
     #httpie # rest testing tool for console
     #httpie-desktop # rest desktop tool
@@ -222,7 +244,8 @@ in
 
     # message apps
     telegram-desktop
-    whatsapp-for-linux
+    #whatsapp-for-linux
+    wasistlos
     signal-desktop
     slack
     #discord
@@ -237,16 +260,11 @@ in
   #  fi
   #'';
 
+  home.shellAliases = {
+    bitcoin-cli = "bitcoin-cli -conf=${config.xdg.configHome}/bitcoin/bitcoin.conf -regtest";
+    bitcoind = "bitcoind -conf=${config.xdg.configHome}/bitcoin/bitcoin.conf";
+  };
 
-  #home.file = {
-  #  ".config/hypr/hyprland.conf".source = ./.dotfiles/hypr/hyprland.conf; 
-  #  ".config/hypr/mocha.conf".source = ./.dotfiles/hypr/mocha.conf; 
-  #  ".config/hypr/hyprpaper.conf".source = ./.dotfiles/hypr/hyprpaper.conf; 
-  #  ".config/hypr/hyprlock.conf".source = ./.dotfiles/hypr/hyprlock.conf; 
-  #  ".config/hypr/hypridle.conf".source = ./.dotfiles/hypr/hypridle.conf; 
-
-  #  ".config/waybar".source = ./.dotfiles/waybar;
-  #};
   
   programs.bash = {
     enable = true;
@@ -259,10 +277,12 @@ in
 
   programs.git = {
     enable = true;
-    userName = "Diego R Vila";
-    userEmail = "dego_vila@yahoo.com";
-    extraConfig = {
+    #userName = "Diego R Vila";
+    #userEmail = "dego_vila@yahoo.com";
+    settings = {
       user = {
+        name = "Diego R vila";
+        email = "dego_vila@yahoo.com";
         signkey = "06F1C22CE653AEF5";
       };
       credential = {
@@ -305,14 +325,6 @@ in
       font-size = 18;
     };
   };
-
-  #programs.terminator = {
-  #  enable = true;
-  #  config = {
-  #    profiles.default.use_system_font = false;
-  #    profiles.default.font = "Terminess Nerd Font 20";
-  #  };
-  #};
 
   #programs.carapace = {
   #  enable = true;
