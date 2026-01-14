@@ -53,8 +53,8 @@ in
     openssl
     openssl.dev
     protobuf
-    #nasm
-    #fasm
+    nasm
+    fasm
 
     ## bitcoin
     bitcoind
@@ -79,7 +79,7 @@ in
     ## text editors
     neovim
     #emacs30-pgtk
-    #zed-editor
+    zed-editor
     vscode
     #jetbrains-toolbox
 
@@ -149,21 +149,24 @@ in
       solargraph
     ]))
 
-    ## nodejs
+    ## javascript/typescript
     nodejs
     (pkgs.buildEnv {
       name = "npm-packages";
       paths = with pkgs.nodePackages; [
         typescript
-        #ts-node
+        typescript-language-server
         eslint
         prettier
-        vscode-langservers-extracted  # for HTML/CSS/JSON
-        typescript-language-server
+        biome
       ];
       # Optional: add node_modules/.bin to PATH
       pathsToLink = [ "/bin" ];
     })
+    deno
+    bun
+    vscode-langservers-extracted
+    vscode-js-debug
 
     ## terminals
     ghostty
@@ -181,7 +184,7 @@ in
     ## utils/tools
     #lsof
     lazygit 
-    #neofetch
+    neofetch
     #fastfetch
     #cpufetch
     #cmatrix
@@ -241,7 +244,6 @@ in
 
     # message apps
     telegram-desktop
-    #whatsapp-for-linux
     wasistlos
     signal-desktop
     slack
@@ -249,13 +251,6 @@ in
     irssi
     
   ];
-
-  #home.activation.generateGemset = config.lib.dag.entryAfter ["writeBoundary"] ''
-  #  if [ -f ${./Gemfile.lock} ]; then
-  #    echo "Regenerating gemset.nix..."
-  #    ${pkgs.bundix}/bin/bundix --quiet
-  #  fi
-  #'';
 
   home.shellAliases = {
     bitcoin-cli = "bitcoin-cli -conf=${config.xdg.configHome}/bitcoin/bitcoin.conf -regtest";
@@ -268,6 +263,7 @@ in
     initExtra = ''
       export RUSTC_WRAPPER=${pkgs.sccache}/bin/sccache;
       export PKG_CONFIG_PATH=${pkgs.openssl.dev}/lib/pkgconfig:$PKG_CONFIG_PATH;
+      neofetch
     '';
   };
 
