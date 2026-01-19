@@ -163,10 +163,10 @@ in
       # Optional: add node_modules/.bin to PATH
       pathsToLink = [ "/bin" ];
     })
-    deno
-    bun
     vscode-langservers-extracted
     vscode-js-debug
+    #deno
+    #bun
 
     ## terminals
     ghostty
