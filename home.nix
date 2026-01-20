@@ -83,6 +83,9 @@ in
     vscode
     #jetbrains-toolbox
 
+    ## email
+    evolution
+
     ## rust
     (rust-bin.stable.${MSRV}.default.override {
       extensions = [
