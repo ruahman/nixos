@@ -78,6 +78,8 @@ in
 
     ## text editors
     neovim
+    emacs
+
     #emacs30-pgtk
     zed-editor
     vscode
@@ -252,6 +254,8 @@ in
     slack
     #discord
     irssi
+
+    zoom-us
     
   ];
 

@@ -81,7 +81,7 @@
   services.xserver.xkb = {
     layout = "us";
     variant = "";
-    options = "caps:ctrl_modifier,compose:lalt";
+    #options = "caps:ctrl_modifier,compose:lalt";
   };
 
   # enable console to use xkb settings
@@ -116,6 +116,13 @@
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
+  };
+
+  # fixes blutooth headset problem
+  services.pipewire.wireplumber.extraConfig."10-disable-bt-autoswitch" = {
+    "wireplumber.settings" = {
+      "bluetooth.autoswitch-to-headset-profile" = false;
+    };
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
