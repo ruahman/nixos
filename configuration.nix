@@ -6,12 +6,14 @@
 
 {
 
+  # setup flakes
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
   };
 
+  # import hardware configuration
   imports =
-    [ # Include the results of the hardware scan.
+    [ 
       ./hardware-configuration.nix
     ];
 
@@ -136,7 +138,7 @@
     packages = with pkgs; [
     #  thunderbird
     ];
-    #shell = pkgs.bash;
+    #shell = pkgs.nushell;
   };
  
   # virt-manager 
@@ -154,7 +156,9 @@
   environment.systemPackages = with pkgs; [
     nano
     vim
+    neovim
     git
+    lazygit
     hplipWithPlugin  # HPLIP with proprietary plugins
     sane-backends    # For scanning
     xsane   # Optional GUI scanner tool

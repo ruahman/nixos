@@ -26,15 +26,25 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+    claude-code-nix = {
+      url = "github:sadjow/claude-code-nix";
+	    inputs.nixpkgs.follows = "nixpkgs";
+    };
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, rust-overlay, zig-overlay, go-overlay, ... }@inputs: 
+  outputs = { self, nixpkgs, home-manager, rust-overlay, zig-overlay, go-overlay, claude-code-nix, neovim-nightly-overlay, ... }@inputs: 
     let
       system = "x86_64-linux";
       overlays = [ 
 	rust-overlay.overlays.default 
         zig-overlay.overlays.default
         go-overlay.overlays.default
+        claude-code-nix.overlays.default
+	neovim-nightly-overlay.overlays.default
       ];
 
       # Create a pkgs instance with rust-overlay applied

@@ -38,9 +38,13 @@ in
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
 
+    ##
+    claude-code
+    claude-agent-acp
+
     ## Containerization
-    colima  # container runtime selector
-    incus # LXC/LXD
+    #colima  # container runtime selector
+    #incus # LXC/LXD
     podman
     podman-compose
     docker 
@@ -54,12 +58,11 @@ in
     openssl.dev
     protobuf
     nasm
-    fasm
 
     ## bitcoin
-    bitcoind
-    lnd
-    sparrow
+    #bitcoind
+    #lnd
+    #sparrow
 
     ## paint
     drawing
@@ -71,17 +74,14 @@ in
     #vlc
 
     ## office
-    #libreoffice
+    libreoffice
 
     ## notes
-    anytype
+    #anytype
 
     ## text editors
     neovim
     emacs
-
-    #emacs30-pgtk
-    zed-editor
     vscode
     #jetbrains-toolbox
 
@@ -110,10 +110,10 @@ in
  
     ## c/c++ 
     jetbrains.clion
-    clang
-    clang-tools
-    #gcc
-    #binutils 
+    #clang
+    #clang-tools
+    gcc
+    binutils 
 
     ## zig
     pkgs.zigpkgs.${ZIG_VERSION}
@@ -121,7 +121,7 @@ in
 
     ## python
     pyright
-    (pkgs.python312.withPackages (ps: with ps; [
+    (pkgs.python313.withPackages (ps: with ps; [
       ipython
       pytest
       requests
@@ -131,20 +131,13 @@ in
       jupyterlab 
       marimo
       flask
-      pyzmq
       mypy
       ruff
       isort
       pip
-      fastparquet
-      openpyxl
-      watchdog
-      duckdb
-      polars
-      pyarrow
-      sqlglot
-      sympy
+      pipenv
     ]))
+    jetbrains.pycharm
 
     ## ruby 
     (ruby.withPackages (ps: with ps; [
@@ -153,29 +146,24 @@ in
       bundler
       solargraph
     ]))
+    jetbrains.ruby-mine
 
     ## javascript/typescript
     nodejs
-    (pkgs.buildEnv {
-      name = "npm-packages";
-      paths = with pkgs.nodePackages; [
-        typescript
-        typescript-language-server
-        eslint
-        prettier
-        biome
-      ];
-      # Optional: add node_modules/.bin to PATH
-      pathsToLink = [ "/bin" ];
-    })
+    typescript
+    tsx
+    eslint
+    prettier
+    typescript-language-server
     vscode-langservers-extracted
     vscode-js-debug
-    #deno
-    #bun
+    jetbrains.webstorm
+
+    ## dotnet
+    dotnet-aspnetcore
 
     ## terminals
     ghostty
-    #kitty
     terminator
 
     ## browsers
@@ -183,56 +171,36 @@ in
 
     #db
     sqlite
-    sqlitebrowser
     jetbrains.datagrip
 
     ## utils/tools
-    #lsof
     lazygit 
-    neofetch
-    #fastfetch
-    #cpufetch
-    #cmatrix
+    nushell
+
     htop
-    #btop
     #wireshark
     #angryipscanner
-    #gdu
-    #teller
     xclip # clipboard
-    #trashy
-    #entr
-    #eza
-    #lsd
-    #rnr
-    #tldr
-    #cheat
     unzip
     wget
     ripgrep
     #fd
     fzf
-    #delta
     ispell
-    #pandoc
-    #imagemagick # image
-    #ffmpeg # video
+    pandoc
+    imagemagick # image
+    ffmpeg # video
     #pdfcpu
     tree # show directory tree
     bat # cooler cat
     jq # json 
-    #yq-go # yaml 
-    #jqp
-    #jless
-    #htmlq
-    #difftastic
-    #ueberzugpp # for showing pics in terminal
-    #bruno # api testing tool
+    yq-go # yaml 
+    ueberzugpp # for showing pics in terminal
     #httpie # rest testing tool for console
     #httpie-desktop # rest desktop tool
+    postman
     just # new make tool
     watchexec # file watcher
-    #github-desktop # gui client for git
     #gnupg
     pavucontrol # volume control
     blueman # bluetooth control
@@ -249,20 +217,20 @@ in
 
     # message apps
     telegram-desktop
-    wasistlos
+    karere
     signal-desktop
     slack
-    #discord
+    discord
     irssi
 
     zoom-us
     
   ];
 
-  home.shellAliases = {
-    bitcoin-cli = "bitcoin-cli -conf=${config.xdg.configHome}/bitcoin/bitcoin.conf -regtest";
-    bitcoind = "bitcoind -conf=${config.xdg.configHome}/bitcoin/bitcoin.conf";
-  };
+  #home.shellAliases = {
+  #  bitcoin-cli = "bitcoin-cli -conf=${config.xdg.configHome}/bitcoin/bitcoin.conf -regtest";
+  #  bitcoind = "bitcoind -conf=${config.xdg.configHome}/bitcoin/bitcoin.conf";
+  #};
 
   
   programs.bash = {
@@ -270,10 +238,22 @@ in
     initExtra = ''
       export RUSTC_WRAPPER=${pkgs.sccache}/bin/sccache;
       export PKG_CONFIG_PATH=${pkgs.openssl.dev}/lib/pkgconfig:$PKG_CONFIG_PATH;
-      neofetch
     '';
   };
 
+  #programs.nushell = {
+  #  enable = true;
+  #  # Optional: Custom config/env.nu settings
+  #  configFile.source = ''
+  #    # Your custom config.nu content here
+  #  '';
+  #  envFile.source = ''
+  #    # Custom env.nu for PATH, aliases, etc.
+  #    $env.config = {
+  #      show_banner: false
+  #    }
+  #  '';
+  #};
 
   programs.git = {
     enable = true;
@@ -326,10 +306,6 @@ in
     };
   };
 
-  #programs.carapace = {
-  #  enable = true;
-  #  enableBashIntegration = true;
-  #};
 
   programs.starship = {
     enable = true;
