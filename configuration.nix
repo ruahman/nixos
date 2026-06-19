@@ -181,8 +181,22 @@
   };
 
   environment.etc = {
-    "gitconfig" = {
-      target = ".gitconfig";
+    "vimrc".text = ''
+      set number          " Show line numbers
+      set relativenumber  " Relative line numbers
+      set tabstop=4       " 4 spaces for tabs
+      set shiftwidth=4    " Indentation width
+      set expandtab       " Use spaces instead of tabs
+      syntax on           " Enable syntax highlighting
+ 
+      " Set leader to space
+      let mapleader = " " 
+
+      " xclip integration (if xclip is installed)
+      noremap <Leader>y :w !xclip -selection clipboard<CR><CR>
+      noremap <Leader>p :r !xclip -o -selection clipboard<CR>
+    '';
+    "xdg/git/config" = {
       text = ''
         [user]
           name = Diego R Vila
@@ -199,22 +213,17 @@
           directory = /etc/nixos
       '';
     };
-    "vimrc".text = ''
-      set number          " Show line numbers
-      set relativenumber  " Relative line numbers
-      set tabstop=4       " 4 spaces for tabs
-      set shiftwidth=4    " Indentation width
-      set expandtab       " Use spaces instead of tabs
-      syntax on           " Enable syntax highlighting
- 
-      " Set leader to space
-      let mapleader = " " 
-
-      " xclip integration (if xclip is installed)
-      noremap <Leader>y :w !xclip -selection clipboard<CR><CR>
-      noremap <Leader>p :r !xclip -o -selection clipboard<CR>
+    "xdg/nvim/init.lua".text = ''
+      vim.opt.number = true
+      vim.opt.relativenumber = true
+      vim.opt.tabstop = 4
+      vim.opt.shiftwidth = 4
+      vim.opt.expandtab = true
+    
+      vim.g.mapleader = " "
     '';
   };
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
