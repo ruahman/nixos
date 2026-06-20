@@ -41,6 +41,8 @@ in
     ##
     claude-code
     claude-agent-acp
+    opencode
+    codex
 
     ## Containerization
     #colima  # container runtime selector
@@ -168,6 +170,7 @@ in
 
     ## browsers
     google-chrome
+    microsoft-edge
 
     #db
     sqlite
@@ -184,13 +187,12 @@ in
     unzip
     wget
     ripgrep
-    #fd
+    fd
     fzf
     ispell
     pandoc
     imagemagick # image
     ffmpeg # video
-    #pdfcpu
     tree # show directory tree
     bat # cooler cat
     jq # json 
@@ -199,7 +201,7 @@ in
     #httpie # rest testing tool for console
     #httpie-desktop # rest desktop tool
     postman
-    just # new make tool
+    just
     watchexec # file watcher
     #gnupg
     pavucontrol # volume control

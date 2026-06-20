@@ -196,7 +196,7 @@
       noremap <Leader>y :w !xclip -selection clipboard<CR><CR>
       noremap <Leader>p :r !xclip -o -selection clipboard<CR>
     '';
-    "xdg/git/config" = {
+    "gitconfig" = {
       text = ''
         [user]
           name = Diego R Vila
