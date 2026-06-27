@@ -10,30 +10,33 @@ in
   home.username = "ruahman";
   home.homeDirectory = "/home/ruahman";
 
-  home.sessionVariables = {
-      RUSTC_WRAPPER = "${pkgs.sccache}/bin/sccache";
-      PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig:$PKG_CONFIG_PATH";
-      OPENSSL_DIR = "${pkgs.openssl.dev}";
-      OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
-      OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
-  };
+  # home.sessionVariables = {
+  #     RUSTC_WRAPPER = "${pkgs.sccache}/bin/sccache";
+  #     PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig:$PKG_CONFIG_PATH";
+  #     OPENSSL_DIR = "${pkgs.openssl.dev}";
+  #     OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
+  #     OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
+  #     PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
+  #     PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
+  #     PLAYWRIGHT_HOST_PLATFORM_OVERRIDE = "ubuntu-24.04";
+  # };
 
-  xdg.configFile."bitcoin/bitcoin.conf".text = ''
-    # Run on the local regression test network
-    regtest=1
-    server=1
-    txindex=1
-
-    [regtest]
-    rpcuser=admin
-    rpcpassword=password
-    # Regtest default port is 18443
-    rpcbind=127.0.0.1
-    rpcallowip=127.0.0.1
-    
-    # Optional: allow deprecated calls often used in dev
-    deprecatedrpc=create_deterministic_wallets
-  '';
+  # xdg.configFile."bitcoin/bitcoin.conf".text = ''
+  #   # Run on the local regression test network
+  #   regtest=1
+  #   server=1
+  #   txindex=1
+  #
+  #   [regtest]
+  #   rpcuser=admin
+  #   rpcpassword=password
+  #   # Regtest default port is 18443
+  #   rpcbind=127.0.0.1
+  #   rpcallowip=127.0.0.1
+  #
+  #   # Optional: allow deprecated calls often used in dev
+  #   deprecatedrpc=create_deterministic_wallets
+  # '';
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
@@ -160,6 +163,7 @@ in
     vscode-langservers-extracted
     vscode-js-debug
     jetbrains.webstorm
+    playwright-driver.browsers
 
     ## dotnet
     dotnet-aspnetcore
@@ -240,6 +244,12 @@ in
     initExtra = ''
       export RUSTC_WRAPPER=${pkgs.sccache}/bin/sccache;
       export PKG_CONFIG_PATH=${pkgs.openssl.dev}/lib/pkgconfig:$PKG_CONFIG_PATH;
+      export OPENSSL_DIR="${pkgs.openssl.dev}";
+      export OPENSSL_LIB_DIR="${pkgs.openssl.out}/lib";
+      export OPENSSL_INCLUDE_DIR="${pkgs.openssl.dev}/include";
+      export PLAYWRIGHT_BROWSERS_PATH="${pkgs.playwright-driver.browsers}";
+      export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS="true";
+      export PLAYWRIGHT_HOST_PLATFORM_OVERRIDE="ubuntu-24.04";
     '';
   };
 
