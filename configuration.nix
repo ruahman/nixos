@@ -135,7 +135,7 @@
     packages = with pkgs; [
     #  thunderbird
     ];
-    #shell = pkgs.nushell;
+    shell = pkgs.nushell;
   };
  
   # virt-manager 

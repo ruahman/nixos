@@ -182,7 +182,6 @@ in
 
     ## utils/tools
     lazygit 
-    nushell
 
     htop
     #wireshark
@@ -239,33 +238,41 @@ in
   #};
 
   
-  programs.bash = {
-    enable = true;
-    initExtra = ''
-      export RUSTC_WRAPPER=${pkgs.sccache}/bin/sccache;
-      export PKG_CONFIG_PATH=${pkgs.openssl.dev}/lib/pkgconfig:$PKG_CONFIG_PATH;
-      export OPENSSL_DIR="${pkgs.openssl.dev}";
-      export OPENSSL_LIB_DIR="${pkgs.openssl.out}/lib";
-      export OPENSSL_INCLUDE_DIR="${pkgs.openssl.dev}/include";
-      export PLAYWRIGHT_BROWSERS_PATH="${pkgs.playwright-driver.browsers}";
-      export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS="true";
-      export PLAYWRIGHT_HOST_PLATFORM_OVERRIDE="ubuntu-24.04";
-    '';
-  };
-
-  #programs.nushell = {
+  #programs.bash = {
   #  enable = true;
-  #  # Optional: Custom config/env.nu settings
-  #  configFile.source = ''
-  #    # Your custom config.nu content here
-  #  '';
-  #  envFile.source = ''
-  #    # Custom env.nu for PATH, aliases, etc.
-  #    $env.config = {
-  #      show_banner: false
-  #    }
+  #  initExtra = ''
+  #    export RUSTC_WRAPPER=${pkgs.sccache}/bin/sccache;
+  #    export PKG_CONFIG_PATH=${pkgs.openssl.dev}/lib/pkgconfig:$PKG_CONFIG_PATH;
+  #    export OPENSSL_DIR="${pkgs.openssl.dev}";
+  #    export OPENSSL_LIB_DIR="${pkgs.openssl.out}/lib";
+  #    export OPENSSL_INCLUDE_DIR="${pkgs.openssl.dev}/include";
+  #    export PLAYWRIGHT_BROWSERS_PATH="${pkgs.playwright-driver.browsers}";
+  #    export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS="true";
+  #    export PLAYWRIGHT_HOST_PLATFORM_OVERRIDE="ubuntu-24.04";
   #  '';
   #};
+
+  #programs.bash.shellAliases = {
+  #  nvim-mcp = "nvim --listen /tmp/nvim";
+  #};
+
+  programs.nushell = {
+    enable = true;
+    settings = {
+      show_banner = false;
+    };
+    # statically evaluate env variables
+    environmentVariables = {
+      RUSTC_WRAPPER = "${pkgs.sccache}/bin/sccache";
+      OPENSSL_DIR = "${pkgs.openssl.dev}";
+      OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
+      OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
+   };
+   # this dynamically evaluates env variables
+   extraEnv = ''
+     $env.PKG_CONFIG_PATH = $"${pkgs.openssl.dev}/lib/pkgconfig(char esep)($env.PKG_CONFIG_PATH? | default "")"
+   '';
+  };
 
   programs.git = {
     enable = true;
@@ -318,48 +325,17 @@ in
     };
   };
 
-
   programs.starship = {
     enable = true;
-    settings = {
-      time = {
-        disabled = false;
-      };
-      c = {
-        symbol = " ";
-        style = "bold #005697";
-      };
-      nodejs = {
-        symbol = " ";
-        style = "bold #54a245";
-      };
-      rust = {
-        symbol = "󱘗 ";
-        style = "bold #f7931a";
-      };
-      golang = {
-        symbol = " ";
-        style = "bold #79D4FD";
-      };
-      bun = {
-        symbol = " ";
-        style = "bold #f9f1e1";
-      };
-      lua = {
-        symbol = " ";
-        style = "bold #00007F";
-      };
-      python = {
-        symbol = " ";
-        style = "bold #FFDF5A";
-      };
-      zig = {
-        symbol = " ";
-        style = "bold #F7A41D";
-      };
-    };
-    enableBashIntegration = true;
+    enableNushellIntegration = true;
   };
+
+  programs.carapace = {
+    enable = true;
+    enableNushellIntegration = true;
+  };
+
+
 
   programs.tmux = {
     enable = true;
