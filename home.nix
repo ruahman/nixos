@@ -10,17 +10,6 @@ in
   home.username = "ruahman";
   home.homeDirectory = "/home/ruahman";
 
-  # home.sessionVariables = {
-  #     RUSTC_WRAPPER = "${pkgs.sccache}/bin/sccache";
-  #     PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig:$PKG_CONFIG_PATH";
-  #     OPENSSL_DIR = "${pkgs.openssl.dev}";
-  #     OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
-  #     OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
-  #     PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
-  #     PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
-  #     PLAYWRIGHT_HOST_PLATFORM_OVERRIDE = "ubuntu-24.04";
-  # };
-
   # xdg.configFile."bitcoin/bitcoin.conf".text = ''
   #   # Run on the local regression test network
   #   regtest=1
@@ -238,20 +227,6 @@ in
   #};
 
   
-  #programs.bash = {
-  #  enable = true;
-  #  initExtra = ''
-  #    export RUSTC_WRAPPER=${pkgs.sccache}/bin/sccache;
-  #    export PKG_CONFIG_PATH=${pkgs.openssl.dev}/lib/pkgconfig:$PKG_CONFIG_PATH;
-  #    export OPENSSL_DIR="${pkgs.openssl.dev}";
-  #    export OPENSSL_LIB_DIR="${pkgs.openssl.out}/lib";
-  #    export OPENSSL_INCLUDE_DIR="${pkgs.openssl.dev}/include";
-  #    export PLAYWRIGHT_BROWSERS_PATH="${pkgs.playwright-driver.browsers}";
-  #    export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS="true";
-  #    export PLAYWRIGHT_HOST_PLATFORM_OVERRIDE="ubuntu-24.04";
-  #  '';
-  #};
-
   #programs.bash.shellAliases = {
   #  nvim-mcp = "nvim --listen /tmp/nvim";
   #};
@@ -267,6 +242,9 @@ in
       OPENSSL_DIR = "${pkgs.openssl.dev}";
       OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
       OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
+      PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
+      PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
+      PLAYWRIGHT_HOST_PLATFORM_OVERRIDE = "ubuntu-24.04";
    };
    # this dynamically evaluates env variables
    extraEnv = ''
@@ -276,8 +254,6 @@ in
 
   programs.git = {
     enable = true;
-    #userName = "Diego R Vila";
-    #userEmail = "dego_vila@yahoo.com";
     settings = {
       user = {
         name = "Diego R vila";
@@ -302,15 +278,6 @@ in
     };
   };
 
-  #programs.direnv = {
-  #  enable = true;
-  #  silent = true;
-  #  enableBashIntegration = true;
-  #  nix-direnv = {
-  #    enable = true;
-  #  };
-  #};
-
  
   programs.ghostty = {
     settings = {
@@ -334,8 +301,6 @@ in
     enable = true;
     enableNushellIntegration = true;
   };
-
-
 
   programs.tmux = {
     enable = true;
