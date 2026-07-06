@@ -250,6 +250,9 @@ in
    extraEnv = ''
      $env.PKG_CONFIG_PATH = $"${pkgs.openssl.dev}/lib/pkgconfig(char esep)($env.PKG_CONFIG_PATH? | default "")"
    '';
+   shellAliases = {
+     nvim-mcp = "nvim --listen /tmp/nvim";
+   };
   };
 
   programs.git = {
