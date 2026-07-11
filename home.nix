@@ -34,7 +34,7 @@ in
     claude-code
     claude-agent-acp
     opencode
-    codex
+    #codex
 
     ## Containerization
     #colima  # container runtime selector
@@ -65,7 +65,7 @@ in
 
     ## music and video
     #audacity
-    #vlc
+    vlc
 
     ## office
     libreoffice
@@ -171,7 +171,6 @@ in
 
     ## utils/tools
     lazygit 
-
     htop
     #wireshark
     #angryipscanner
@@ -180,6 +179,7 @@ in
     wget
     ripgrep
     fd
+    lf # list files like ranger
     fzf
     ispell
     pandoc
@@ -190,15 +190,13 @@ in
     jq # json 
     yq-go # yaml 
     ueberzugpp # for showing pics in terminal
-    #httpie # rest testing tool for console
-    #httpie-desktop # rest desktop tool
     postman
-    just
+    just # make like tool
     watchexec # file watcher
-    #gnupg
     pavucontrol # volume control
     blueman # bluetooth control
     cloudsmith-cli
+    #gnupg # good enough privacy
 
     # for neovim
     hunspellDicts.es_PR
@@ -218,18 +216,8 @@ in
     irssi
 
     zoom-us
-    
   ];
 
-  #home.shellAliases = {
-  #  bitcoin-cli = "bitcoin-cli -conf=${config.xdg.configHome}/bitcoin/bitcoin.conf -regtest";
-  #  bitcoind = "bitcoind -conf=${config.xdg.configHome}/bitcoin/bitcoin.conf";
-  #};
-
-  
-  #programs.bash.shellAliases = {
-  #  nvim-mcp = "nvim --listen /tmp/nvim";
-  #};
 
   programs.nushell = {
     enable = true;
@@ -245,13 +233,10 @@ in
       PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
       PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
       PLAYWRIGHT_HOST_PLATFORM_OVERRIDE = "ubuntu-24.04";
+      PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
    };
-   # this dynamically evaluates env variables
-   extraEnv = ''
-     $env.PKG_CONFIG_PATH = $"${pkgs.openssl.dev}/lib/pkgconfig(char esep)($env.PKG_CONFIG_PATH? | default "")"
-   '';
    shellAliases = {
-     nvim-mcp = "nvim --listen /tmp/nvim";
+     nvim = "nvim --listen /tmp/nvim";
    };
   };
 
