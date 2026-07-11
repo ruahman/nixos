@@ -223,6 +223,7 @@ in
     enable = true;
     settings = {
       show_banner = false;
+      scan_timeout = 500;  # in milliseconds
     };
     # statically evaluate env variables
     environmentVariables = {
