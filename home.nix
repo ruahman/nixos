@@ -172,8 +172,8 @@ in
     sqlite
     postgresql
     redis
-    #mongodb
-    #couchdb3
+    mongodb-ce
+    couchdb3
     jetbrains.datagrip
 
     ## utils/tools
