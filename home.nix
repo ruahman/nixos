@@ -98,14 +98,17 @@ in
     ## golang 
     go-bin.versions.${GO_VERSION}
     gopls
+    gotools
+    gofumpt
+    golines
     delve
     golangci-lint
     jetbrains.goland
  
     ## c/c++ 
     jetbrains.clion
-    #clang
-    #clang-tools
+    (lib.hiPrio clang)
+    clang-tools
     gcc
     binutils 
 
@@ -133,13 +136,13 @@ in
     ]))
     jetbrains.pycharm
 
-    ## ruby 
-    (ruby.withPackages (ps: with ps; [
+    ## ruby, make ruby bundler is higher priority 
+    (lib.hiPrio (ruby.withPackages (ps: with ps; [
       nokogiri
       pry
       bundler
       solargraph
-    ]))
+    ])))
     jetbrains.ruby-mine
 
     ## javascript/typescript
@@ -167,6 +170,10 @@ in
 
     #db
     sqlite
+    postgresql
+    redis
+    #mongodb
+    #couchdb3
     jetbrains.datagrip
 
     ## utils/tools
@@ -223,7 +230,6 @@ in
     enable = true;
     settings = {
       show_banner = false;
-      scan_timeout = 500;  # in milliseconds
     };
     # statically evaluate env variables
     environmentVariables = {
@@ -283,6 +289,9 @@ in
 
   programs.starship = {
     enable = true;
+    settings = {
+      scan_timeout = 500;  # in milliseconds
+    };
     enableNushellIntegration = true;
   };
 
