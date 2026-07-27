@@ -223,6 +223,10 @@ in
     irssi
 
     zoom-us
+
+    # dictionary
+    hunspell
+    hunspellDicts.en_US
   ];
 
 
