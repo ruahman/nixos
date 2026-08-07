@@ -133,15 +133,30 @@
     description = "ruahman";
     extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "podman" ];
     packages = with pkgs; [
-    #  thunderbird
     ];
     shell = pkgs.nushell;
   };
- 
+  
+  # Virtualization: KVM/QEMU via libvirt
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;               # emulated TPM 2.0 — required for Windows 11
+    };
+  };
+
+  # virt-manager GUI
+  programs.virt-manager.enable = true;
+
+  # USB passthrough / redirection from the SPICE console
+  virtualisation.spiceUSBRedirection.enable = true;
+
   # virt-manager 
   users.groups.libvirtd.members = ["ruahman"];
-
-  # Install firefox.
+ 
+ # Install firefox.
   programs.firefox.enable = true;
 
   # Allow unfree packages
@@ -151,6 +166,10 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    podman
+    podman-compose
+    docker 
+    docker-compose
     nano
     vim
     neovim

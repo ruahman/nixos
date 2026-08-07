@@ -39,10 +39,6 @@ in
     ## Containerization
     #colima  # container runtime selector
     #incus # LXC/LXD
-    podman
-    podman-compose
-    docker 
-    docker-compose
 
     ## build tools
     gnumake 
@@ -91,14 +87,14 @@ in
     })
     rust-script
     sccache
-    jetbrains.rust-rover
     vscode-extensions.vadimcn.vscode-lldb.adapter
     pkg-config
+    jetbrains.rust-rover
 
     ## golang 
     go-bin.versions.${GO_VERSION}
     gopls
-    gotools
+    (lib.lowPrio gotools)
     gofumpt
     golines
     delve
@@ -117,32 +113,27 @@ in
     zls
 
     ## python
+    python314
+    python314Packages.pip
+    python314Packages.ipython
+    python314Packages.numpy
+    python314Packages.pandas
+    python314Packages.matplotlib
+    python314Packages.pyzmq
+    pipenv
+    marimo
+    mypy
+    isort
+    ruff
     pyright
-    (pkgs.python313.withPackages (ps: with ps; [
-      ipython
-      pytest
-      requests
-      numpy
-      pandas
-      matplotlib
-      jupyterlab 
-      marimo
-      flask
-      mypy
-      ruff
-      isort
-      pip
-      pipenv
-    ]))
     jetbrains.pycharm
 
     ## ruby, make ruby bundler is higher priority 
-    (lib.hiPrio (ruby.withPackages (ps: with ps; [
-      nokogiri
-      pry
-      bundler
-      solargraph
-    ])))
+    ruby
+    rubyPackages.nokogiri
+    pry
+    rubocop
+    solargraph
     jetbrains.ruby-mine
 
     ## javascript/typescript
@@ -151,6 +142,7 @@ in
     tsx
     eslint
     prettier
+    #nub
     typescript-language-server
     vscode-langservers-extracted
     vscode-js-debug
@@ -158,7 +150,7 @@ in
     playwright-driver.browsers
 
     ## dotnet
-    dotnet-aspnetcore
+    #dotnet-aspnetcore
 
     ## terminals
     ghostty
@@ -171,9 +163,9 @@ in
     #db
     sqlite
     postgresql
-    redis
-    mongodb-ce
-    couchdb3
+    #redis
+    #mongodb-ce
+    #couchdb3
     jetbrains.datagrip
 
     ## utils/tools
