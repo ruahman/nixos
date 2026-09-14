@@ -70,8 +70,16 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
+  # services.displayManager.gdm.enable = true;
+  # services.desktopManager.gnome.enable = true;
+
+  # Enable XFCE Desktop Environment
+  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.desktopManager.xfce.enable = true;
+
+  # Enable the KDE Plasma Desktop Environment.
+  #services.displayManager.sddm.enable = true;
+  #services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
   # to get it to run:
@@ -80,7 +88,7 @@
   services.xserver.xkb = {
     layout = "us";
     variant = "";
-    #options = "caps:ctrl_modifier,compose:lalt";
+    options = "caps:ctrl_modifier,compose:lalt";
   };
 
   # enable console to use xkb settings
@@ -181,9 +189,9 @@
     xsane   # Optional GUI scanner tool
 
     # UI
-    xdg-utils
-    gnome-control-center  # GNOME Settings app
-    gnome-tweaks          # Optional: for advanced settings
+    #xdg-utils
+    #gnome-control-center  # GNOME Settings app
+    #gnome-tweaks          # Optional: for advanced settings
   ];
 
 
