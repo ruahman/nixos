@@ -66,14 +66,11 @@ in
     ## office
     libreoffice
 
-    ## notes
-    #anytype
-
     ## text editors
     neovim
     emacs
     vscode
-    #jetbrains-toolbox
+    zed-editor
 
     ## email
     evolution
@@ -150,7 +147,8 @@ in
     playwright-driver.browsers
 
     ## dotnet
-    #dotnet-aspnetcore
+    dotnet-aspnetcore
+    jetbrains.rider
 
     ## terminals
     ghostty
@@ -306,5 +304,7 @@ in
       set -g pane-base-index 1
     ''; 
   };
+
+  programs.herdr.enable = true;
   
 }
