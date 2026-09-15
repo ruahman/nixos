@@ -41,6 +41,7 @@ in
     #incus # LXC/LXD
 
     ## build tools
+    bruno-cli
     gnumake 
     cmake 
     glibc.dev 
@@ -147,6 +148,7 @@ in
     playwright-driver.browsers
 
     ## dotnet
+    #dotnet-sdk
     dotnet-aspnetcore
     jetbrains.rider
 
