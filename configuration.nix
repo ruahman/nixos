@@ -167,6 +167,7 @@
  # Install firefox.
   programs.firefox.enable = true;
 
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   #nixpkgs.config.allowUnsupportedSystem = true;
@@ -192,6 +193,10 @@
     #xdg-utils
     #gnome-control-center  # GNOME Settings app
     #gnome-tweaks          # Optional: for advanced settings
+    xfce4-whiskermenu-plugin
+    xfce4-dict
+    xfce4-notes-plugin
+    plank
   ];
 
 

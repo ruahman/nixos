@@ -148,8 +148,8 @@ in
     playwright-driver.browsers
 
     ## dotnet
-    #dotnet-sdk
-    dotnet-aspnetcore
+    dotnet-sdk
+    #dotnet-aspnetcore
     jetbrains.rider
 
     ## terminals
@@ -169,6 +169,7 @@ in
     jetbrains.datagrip
 
     ## utils/tools
+    fastfetch
     lazygit 
     htop
     #wireshark
@@ -241,6 +242,9 @@ in
    shellAliases = {
      nvim = "nvim --listen /tmp/nvim";
    };
+   extraConfig = ''
+      fastfetch
+   '';
   };
 
   programs.git = {
