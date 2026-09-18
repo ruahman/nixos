@@ -72,6 +72,7 @@ in
     emacs
     vscode
     zed-editor
+    #jetbrains-toolbox
 
     ## email
     evolution
@@ -118,7 +119,9 @@ in
     python314Packages.pandas
     python314Packages.matplotlib
     python314Packages.pyzmq
+    uv
     pipenv
+    poetry
     marimo
     mypy
     isort
@@ -148,8 +151,7 @@ in
     playwright-driver.browsers
 
     ## dotnet
-    dotnet-sdk
-    #dotnet-aspnetcore
+    dotnet-sdk_10
     jetbrains.rider
 
     ## terminals
@@ -158,7 +160,7 @@ in
 
     ## browsers
     google-chrome
-    microsoft-edge
+    #microsoft-edge
 
     #db
     sqlite
@@ -166,7 +168,7 @@ in
     #redis
     #mongodb-ce
     #couchdb3
-    jetbrains.datagrip
+    #jetbrains.datagrip
 
     ## utils/tools
     fastfetch
@@ -253,13 +255,9 @@ in
       user = {
         name = "Diego R vila";
         email = "dego_vila@yahoo.com";
-        signkey = "06F1C22CE653AEF5";
       };
       credential = {
         helper = "store";
-      };
-      commit = {
-        gpgsign = "true";
       };
       safe = {
         directory = "/etc/nixos";
