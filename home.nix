@@ -143,7 +143,7 @@ in
     tsx
     eslint
     prettier
-    #nub
+    nub
     typescript-language-server
     vscode-langservers-extracted
     vscode-js-debug
