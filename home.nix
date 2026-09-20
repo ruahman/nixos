@@ -34,14 +34,14 @@ in
     claude-code
     claude-agent-acp
     opencode
-    #codex
 
     ## Containerization
     #colima  # container runtime selector
     #incus # LXC/LXD
 
     ## build tools
-    bruno-cli
+    #bruno-cli
+    bruno
     gnumake 
     cmake 
     glibc.dev 
