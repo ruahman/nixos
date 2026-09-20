@@ -152,6 +152,8 @@ in
 
     ## dotnet
     dotnet-sdk_10
+    roslyn-ls # C# language server
+    csharpier # C# code formatter
     jetbrains.rider
 
     ## terminals
