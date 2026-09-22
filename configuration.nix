@@ -87,7 +87,7 @@
   # gsettings reset org.gnome.desktop.input-sources sources
   services.xserver.xkb = {
     layout = "us";
-    variant = "";
+    variant = "intl";
     options = "caps:ctrl_modifier,compose:lalt";
   };
 
