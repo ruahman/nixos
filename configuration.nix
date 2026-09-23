@@ -175,6 +175,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    unetbootin
     podman
     podman-compose
     docker 
