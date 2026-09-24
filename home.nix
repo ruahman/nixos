@@ -40,7 +40,6 @@ in
     #incus # LXC/LXD
 
     ## build tools
-    #bruno-cli
     bruno
     gnumake 
     cmake 
