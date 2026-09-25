@@ -34,6 +34,7 @@ in
     claude-code
     claude-agent-acp
     opencode
+    pi-coding-agent
 
     ## Containerization
     #colima  # container runtime selector
