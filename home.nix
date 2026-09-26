@@ -284,6 +284,9 @@ in
       font-family = "JetBrainsMono Nerd Font";
       window-inherit-font-size = false;
       font-size = 18;
+
+      window-height = 50;
+      window-width = 225;
     };
   };
 
