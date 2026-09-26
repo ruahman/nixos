@@ -30,11 +30,12 @@ in
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
 
-    ##
+    ## AI
     claude-code
     claude-agent-acp
     opencode
     pi-coding-agent
+    omp # oh-my-pi
 
     ## Containerization
     #colima  # container runtime selector
@@ -42,6 +43,7 @@ in
 
     ## build tools
     bruno
+    postman
     gnumake 
     cmake 
     glibc.dev 
@@ -101,11 +103,11 @@ in
     jetbrains.goland
  
     ## c/c++ 
-    jetbrains.clion
     (lib.hiPrio clang)
     clang-tools
     gcc
     binutils 
+    jetbrains.clion
 
     ## zig
     pkgs.zigpkgs.${ZIG_VERSION}
@@ -147,8 +149,8 @@ in
     typescript-language-server
     vscode-langservers-extracted
     vscode-js-debug
-    jetbrains.webstorm
     playwright-driver.browsers
+    jetbrains.webstorm
 
     ## dotnet
     dotnet-sdk_10
@@ -157,7 +159,7 @@ in
     jetbrains.rider
 
     ## terminals
-    ghostty
+    #ghostty
     terminator
 
     ## browsers
@@ -194,7 +196,6 @@ in
     jq # json 
     yq-go # yaml 
     ueberzugpp # for showing pics in terminal
-    postman
     just # make like tool
     watchexec # file watcher
     pavucontrol # volume control
@@ -203,7 +204,6 @@ in
     #gnupg # good enough privacy
 
     # for neovim
-    hunspellDicts.es_PR
     lua51Packages.lua
     lua51Packages.luarocks
     lua51Packages.luacheck
@@ -224,6 +224,7 @@ in
     # dictionary
     hunspell
     hunspellDicts.en_US
+    hunspellDicts.es_PR
   ];
 
 
@@ -243,9 +244,9 @@ in
       PLAYWRIGHT_HOST_PLATFORM_OVERRIDE = "ubuntu-24.04";
       PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
    };
-   shellAliases = {
-     nvim = "nvim --listen /tmp/nvim";
-   };
+   #shellAliases = {
+   #  nvim = "nvim --listen /tmp/nvim";
+   #};
    extraConfig = ''
       fastfetch
    '';
@@ -275,18 +276,19 @@ in
 
  
   programs.ghostty = {
+    enable = true;
     settings = {
-      window-decoration = false;
+      #window-decoration = false;
 
       theme = "Adventure Time";
       background-opacity = 0.85;
       
-      font-family = "JetBrainsMono Nerd Font";
+      font-family = "FiraCode Nerd Font";
       window-inherit-font-size = false;
       font-size = 18;
 
-      window-height = 50;
-      window-width = 225;
+      window-height = 25;
+      window-width = 100;
     };
   };
 
