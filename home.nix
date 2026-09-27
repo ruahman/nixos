@@ -10,22 +10,16 @@ in
   home.username = "ruahman";
   home.homeDirectory = "/home/ruahman";
 
-  # xdg.configFile."bitcoin/bitcoin.conf".text = ''
-  #   # Run on the local regression test network
-  #   regtest=1
-  #   server=1
-  #   txindex=1
-  #
-  #   [regtest]
-  #   rpcuser=admin
-  #   rpcpassword=password
-  #   # Regtest default port is 18443
-  #   rpcbind=127.0.0.1
-  #   rpcallowip=127.0.0.1
-  #
-  #   # Optional: allow deprecated calls often used in dev
-  #   deprecatedrpc=create_deterministic_wallets
-  # '';
+
+  xdg.configFile."zed/keymap.json".text = builtins.toJSON [
+    {
+        context = "Workspace";
+        bindings = {
+            "space p" = "project_panel::Toggle";
+            "space f" = "file_finder::Toggle";
+        };
+    }
+  ];
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
@@ -73,7 +67,6 @@ in
     neovim
     emacs
     vscode
-    zed-editor
     #jetbrains-toolbox
 
     ## email
@@ -227,6 +220,46 @@ in
     hunspellDicts.es_PR
   ];
 
+  programs.zed-editor = {
+    enable = true;
+    userSettings = {
+      vim_mode = true;
+      relative_line_numbers = "enabled";
+      format_on_save = "on";
+      icon_theme = "Material Icon Theme";
+      ui_font_size = 20;
+      ui_font_family = "JetBrainsMono Nerd Font";
+      buffer_font_size = 20;
+      buffer_font_family = "JetBrainsMono Nerd Font";
+      auto_update = false;
+      extend_comment_on_newline = false;
+
+      theme = {
+        mode = "dark";
+        light = "Tokyo Night Light";
+        dark = "Tokyo Night";
+      };
+      title_bar = {
+        show_menus = false;
+        show_user_picture = false;
+        show_user_menu = true;
+        show_sign_in = false;
+        show_onboarding_banner = false;
+        show_project_items = true;
+        show_worktree_name = false;
+        show_branch_name = true;
+      };
+      toolbar = {
+        quick_actions = false;
+      };
+      status_bar = {
+        "experimental.show" = false;
+      };
+      project_panel = {
+        dock = "right";
+      };
+    };
+  };
 
   programs.nushell = {
     enable = true;
