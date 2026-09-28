@@ -50,13 +50,13 @@
       font-awesome
       nerd-fonts.fira-code 
       nerd-fonts.fira-mono
-      nerd-fonts.hack
-      nerd-fonts.hasklug
+      # nerd-fonts.hack
+      # nerd-fonts.hasklug
       nerd-fonts.caskaydia-cove
       nerd-fonts.caskaydia-mono
       nerd-fonts.jetbrains-mono 
-      nerd-fonts.symbols-only
-      nerd-fonts.terminess-ttf 
+      # nerd-fonts.symbols-only
+      # nerd-fonts.terminess-ttf 
       nerd-fonts.im-writing
     ];
   };
@@ -171,7 +171,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    caligula
+    caligula # bootstick burner
     podman
     podman-compose
     docker 
@@ -180,7 +180,7 @@
     vim
     neovim
     git
-    github-cli
+    github-cli # provide authentication for git
     lazygit
 
     hplipWithPlugin  # HPLIP with proprietary plugins
@@ -226,23 +226,6 @@
       noremap <Leader>y :w !xclip -selection clipboard<CR><CR>
       noremap <Leader>p :r !xclip -o -selection clipboard<CR>
     '';
-    #"gitconfig" = {
-    #  text = ''
-    #    [user]
-    #      name = Diego R Vila
-    #      email = dego_vila@yahoo.com
-    #    [pull]
-    #      rebase = true
-    #    [init]
-    #      defaultBranch = main
-    #    [credential]
-    #      helper = store
-    #    [core]
-    #      editor = nano
-    #    [safe]
-    #      directory = /etc/nixos
-    #  '';
-    #};
     "xdg/nvim/init.lua".text = ''
       vim.opt.number = true
       vim.opt.relativenumber = true
