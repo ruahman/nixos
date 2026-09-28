@@ -139,6 +139,7 @@
     packages = with pkgs; [
     ];
     shell = pkgs.nushell;
+    #shell = pkgs.bash;
   };
   
   # Virtualization: KVM/QEMU via libvirt

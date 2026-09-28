@@ -30,6 +30,9 @@ in
     pi-coding-agent
     omp # oh-my-pi
 
+    ## AWS
+    awscli2
+
     ## Containerization
     #colima  # container runtime selector
     #incus # LXC/LXD
@@ -133,6 +136,7 @@ in
 
     ## javascript/typescript
     nodejs
+    #fnm
     typescript
     tsx
     eslint
@@ -284,10 +288,16 @@ in
    '';
   };
 
+  programs.bash = {
+    enable = true;
+    #initExtra = ''
+    #  eval "$(fnm env --use-on-cd)"
+    #'';
+  };
+
   programs.git = {
     enable = true;
   };
-
  
   programs.ghostty = {
     enable = true;
@@ -308,15 +318,39 @@ in
 
   programs.starship = {
     enable = true;
+    enableNushellIntegration = true;
+    enableBashIntegration = true;
     settings = {
       scan_timeout = 500;  # in milliseconds
+      nodejs = {
+        symbol = "󰎙 ";
+      };
+      python = {
+        symbol = " ";
+      };
+      ruby = {
+        symbol = " ";
+      };
+      golang = {
+        symbol = " ";
+      };
+      rust = {
+        symbol = " ";
+      };
+      zig = {
+        symbol = " ";
+      };
+      lua = {
+        symbol = " ";
+      };
     };
-    enableNushellIntegration = true;
   };
+
 
   programs.carapace = {
     enable = true;
     enableNushellIntegration = true;
+    enableBashIntegration = true;
   };
 
   programs.tmux = {
