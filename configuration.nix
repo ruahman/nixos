@@ -180,6 +180,7 @@
     vim
     neovim
     git
+    github-cli
     lazygit
 
     hplipWithPlugin  # HPLIP with proprietary plugins
@@ -225,23 +226,23 @@
       noremap <Leader>y :w !xclip -selection clipboard<CR><CR>
       noremap <Leader>p :r !xclip -o -selection clipboard<CR>
     '';
-    "gitconfig" = {
-      text = ''
-        [user]
-          name = Diego R Vila
-          email = dego_vila@yahoo.com
-        [pull]
-          rebase = true
-        [init]
-          defaultBranch = main
-        [credential]
-          helper = store
-        [core]
-          editor = nano
-        [safe]
-          directory = /etc/nixos
-      '';
-    };
+    #"gitconfig" = {
+    #  text = ''
+    #    [user]
+    #      name = Diego R Vila
+    #      email = dego_vila@yahoo.com
+    #    [pull]
+    #      rebase = true
+    #    [init]
+    #      defaultBranch = main
+    #    [credential]
+    #      helper = store
+    #    [core]
+    #      editor = nano
+    #    [safe]
+    #      directory = /etc/nixos
+    #  '';
+    #};
     "xdg/nvim/init.lua".text = ''
       vim.opt.number = true
       vim.opt.relativenumber = true
