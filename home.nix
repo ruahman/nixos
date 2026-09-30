@@ -182,7 +182,7 @@ in
     ripgrep
     fd
     #eza
-    lf # list files like ranger
+    #lf # list files like ranger
     #fzf
     ispell
     pandoc
@@ -239,8 +239,10 @@ in
 
   programs.eza = {
     enable = true;
-    #enableBashIntegration = true;
-    #enableNushellIntegration = true;
+  };
+
+  programs.lf = {
+    enable = true;
   };
 
 
@@ -327,15 +329,18 @@ in
     lsz = "eza -l --git --icons --tree --level=2";
    };
    extraConfig = ''
+      def --env --wrapped lsf [...args] {
+        let dir = (^lf -print-last-dir ...$args | str trim)
+        if ($dir | is-not-empty) and ($dir | path exists) {
+          cd $dir
+        }
+      }
       fastfetch
    '';
   };
 
   programs.bash = {
     enable = true;
-    #initExtra = ''
-    #  eval "$(fnm env --use-on-cd)"
-    #'';
   };
 
   programs.git = {
