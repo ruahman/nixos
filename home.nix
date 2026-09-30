@@ -181,7 +181,7 @@ in
     wget
     ripgrep
     fd
-    eza
+    #eza
     lf # list files like ranger
     #fzf
     ispell
@@ -224,10 +224,25 @@ in
     hunspellDicts.es_PR
   ];
 
+
+  programs.zoxide = {
+    enable = true;
+    enableBashIntegration = true;
+    enableNushellIntegration = true;
+  };
+
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
+    enableNushellIntegration = true;
   };
+
+  programs.eza = {
+    enable = true;
+    #enableBashIntegration = true;
+    #enableNushellIntegration = true;
+  };
+
 
   programs.zed-editor = {
     enable = true;
@@ -308,9 +323,9 @@ in
       PLAYWRIGHT_HOST_PLATFORM_OVERRIDE = "ubuntu-24.04";
       PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
    };
-   #shellAliases = {
-   #  nvim = "nvim --listen /tmp/nvim";
-   #};
+   shellAliases = {
+    lsz = "eza -l --git --icons --tree --level=2";
+   };
    extraConfig = ''
       fastfetch
    '';
