@@ -11,14 +11,14 @@ in
   home.homeDirectory = "/home/ruahman";
 
 
-  xdg.configFile."zed/keymap.json".text = builtins.toJSON [
-    {
-        context = "Workspace";
-        bindings = {
-            "space p" = "project_panel::Toggle";
-        };
-    }
-  ];
+  #xdg.configFile."zed/keymap.json".text = builtins.toJSON [
+  #  {
+  #      context = "Workspace";
+  #      bindings = {
+  #          "space p" = "project_panel::Toggle";
+  #      };
+  #  }
+  #];
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
@@ -181,8 +181,9 @@ in
     wget
     ripgrep
     fd
+    eza
     lf # list files like ranger
-    fzf
+    #fzf
     ispell
     pandoc
     imagemagick # image
@@ -223,6 +224,11 @@ in
     hunspellDicts.es_PR
   ];
 
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
+  };
+
   programs.zed-editor = {
     enable = true;
     userSettings = {
@@ -260,6 +266,28 @@ in
       };
       project_panel = {
         dock = "right";
+        default_width = 350.0;
+      };
+      agent = {
+        dock = "right";
+        sidebar_side = "right";
+      };
+      agent_servers = {
+        "claude-code" = {
+          type = "custom";
+          command = "claude-agent-acp";
+          args = [];
+        };
+        "omp" = {
+          type = "custom";
+          command = "omp";
+          args = [ "acp" ];
+        };
+        "opencode" = {
+          type = "custom";
+          command = "opencode";
+          args = [ "acp" ];
+        };
       };
     };
   };
