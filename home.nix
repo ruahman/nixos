@@ -67,8 +67,8 @@ in
 
     ## text editors
     neovim
-    emacs
-    vscode
+    #emacs
+    #vscode
     #jetbrains-toolbox
 
     ## email
@@ -223,6 +223,17 @@ in
     hunspellDicts.en_US
     hunspellDicts.es_PR
   ];
+
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacs;  # or pkgs.emacs-pgtk, pkgs.emacs-nox, etc.
+  };
+
+  services.emacs = {
+    enable = true;
+    defaultEditor = true;  # sets EDITOR/VISUAL to emacsclient
+    client.enable = true;  # installs a desktop entry for emacsclient
+  };
 
 
   programs.zoxide = {
