@@ -106,6 +106,12 @@ in
     pkgs.zigpkgs.${ZIG_VERSION}
     zls
 
+    ## odin
+    odin
+
+    ## jai
+    #jai
+
     ## python
     python314
     python314Packages.pytest
