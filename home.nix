@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 let
-  MSRV = "1.86.0";
-  ZIG_VERSION = "0.15.2";
-  GO_VERSION = "1.25.5";
+  MSRV = "1.99.0";
+  ZIG_VERSION = "0.16.0";
+  GO_VERSION = "1.27.0";
 in
 {
   home.stateVersion = "24.05";
@@ -66,10 +66,7 @@ in
     libreoffice
 
     ## text editors
-    neovim
-    #emacs
-    #vscode
-    #jetbrains-toolbox
+    #neovim
 
     ## email
     evolution
@@ -85,6 +82,7 @@ in
     sccache
     vscode-extensions.vadimcn.vscode-lldb.adapter
     pkg-config
+    lldb
     jetbrains.rust-rover
 
     ## golang 
@@ -110,6 +108,7 @@ in
 
     ## python
     python314
+    python314Packages.pytest
     python314Packages.pip
     python314Packages.ipython
     python314Packages.numpy
@@ -124,6 +123,7 @@ in
     isort
     ruff
     pyright
+    basedpyright
     jetbrains.pycharm
 
     ## ruby, make ruby bundler is higher priority 
@@ -256,6 +256,13 @@ in
     enable = true;
   };
 
+  programs.vscode = {
+    enable = true;
+  };
+
+  programs.neovim = {
+    enable = true;
+  };
 
   programs.zed-editor = {
     enable = true;
@@ -401,6 +408,9 @@ in
       };
       lua = {
         symbol = " ";
+      };
+      dotnet = {
+        symbol = " ";
       };
     };
   };

@@ -152,6 +152,9 @@
     };
   };
 
+  # allow dynamic link
+  programs.nix-ld.enable = true;
+
   # virt-manager GUI
   programs.virt-manager.enable = true;
 
