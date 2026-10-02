@@ -66,7 +66,7 @@ in
     libreoffice
 
     ## text editors
-    #neovim
+    neovim
 
     ## email
     evolution
@@ -82,7 +82,7 @@ in
     sccache
     vscode-extensions.vadimcn.vscode-lldb.adapter
     pkg-config
-    lldb
+    (lib.lowPrio lldb)
     jetbrains.rust-rover
 
     ## golang 
@@ -115,10 +115,11 @@ in
     python314Packages.pandas
     python314Packages.matplotlib
     python314Packages.pyzmq
+    python314Packages.jupyter
+    python314Packages.marimo
     uv
     pipenv
     poetry
-    marimo
     mypy
     isort
     ruff
@@ -126,11 +127,14 @@ in
     basedpyright
     jetbrains.pycharm
 
+    # mojo
+    mojo-bin
+
     ## ruby, make ruby bundler is higher priority 
     ruby
     rubyPackages.nokogiri
-    pry
-    rubocop
+    rubyPackages.pry
+    rubyPackages.rubocop
     solargraph
     jetbrains.ruby-mine
 
@@ -174,6 +178,8 @@ in
     fastfetch
     lazygit 
     htop
+    nmap
+    dirb
     #wireshark
     #angryipscanner
     xclip # clipboard
@@ -260,9 +266,9 @@ in
     enable = true;
   };
 
-  programs.neovim = {
-    enable = true;
-  };
+  #programs.neovim = {
+  #  enable = true;
+  #};
 
   programs.zed-editor = {
     enable = true;
