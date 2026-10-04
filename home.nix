@@ -108,6 +108,7 @@ in
 
     ## odin
     odin
+    ols
 
     ## jai
     #jai
@@ -359,13 +360,12 @@ in
     lsz = "eza -l --git --icons --tree --level=2";
    };
    extraConfig = ''
-      def --env --wrapped lsf [...args] {
+      def --env --wrapped cdlf [...args] {
         let dir = (^lf -print-last-dir ...$args | str trim)
         if ($dir | is-not-empty) and ($dir | path exists) {
           cd $dir
         }
       }
-      fastfetch
    '';
   };
 
