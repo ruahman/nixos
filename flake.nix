@@ -37,19 +37,30 @@
       };
     };
 
+    # odin overlay
+    odin-overlay = {
+      url = "github:ArMonarch/odin-overlay";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
     # claude code
     claude-code-nix = {
       url = "github:sadjow/claude-code-nix";
 	    inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nub-overlay = {
-      url = "github:alleneubank/nub-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { self, nixpkgs, home-manager, rust-overlay, zig-overlay, go-overlay, claude-code-nix, nub-overlay, ... }@inputs: 
+  outputs = { self, 
+    nixpkgs, 
+    home-manager, 
+    rust-overlay, 
+    zig-overlay, 
+    go-overlay, 
+    odin-overlay, 
+    claude-code-nix, ... }@inputs: 
     let
       system = "x86_64-linux";
 
@@ -57,8 +68,9 @@
 	    rust-overlay.overlays.default 
         zig-overlay.overlays.default
         go-overlay.overlays.default
+        odin-overlay.overlays.odin-overlays
+        odin-overlay.overlays.ols-overlays
         claude-code-nix.overlays.default
-        nub-overlay.overlays.default
       ];
 
       # Create a pkgs instance with overlays applied

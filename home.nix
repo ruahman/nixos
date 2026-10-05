@@ -3,6 +3,8 @@ let
   MSRV = "1.99.0";
   ZIG_VERSION = "0.16.0";
   GO_VERSION = "1.27.0";
+  ODIN_VERSION = "dev-2026-09";
+  OLS_VERSION = "dev-2026-08";
 in
 {
   home.stateVersion = "24.05";
@@ -107,8 +109,8 @@ in
     zls
 
     ## odin
-    odin
-    ols
+    odin-bin.${ODIN_VERSION}
+    ols-bin.${OLS_VERSION}
 
     ## jai
     #jai
@@ -152,7 +154,7 @@ in
     tsx
     eslint
     prettier
-    nub
+    #nub
     typescript-language-server
     vscode-langservers-extracted
     vscode-js-debug
