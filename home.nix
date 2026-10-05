@@ -69,6 +69,7 @@ in
 
     ## text editors
     neovim
+    neovide
 
     ## email
     evolution
@@ -85,7 +86,7 @@ in
     vscode-extensions.vadimcn.vscode-lldb.adapter
     pkg-config
     (lib.lowPrio lldb)
-    jetbrains.rust-rover
+    #jetbrains.rust-rover
 
     ## golang 
     go-bin.versions.${GO_VERSION}
@@ -95,7 +96,7 @@ in
     golines
     delve
     golangci-lint
-    jetbrains.goland
+    #jetbrains.goland
  
     ## c/c++ 
     (lib.hiPrio clang)
@@ -112,8 +113,6 @@ in
     odin-bin.${ODIN_VERSION}
     ols-bin.${OLS_VERSION}
 
-    ## jai
-    #jai
 
     ## python
     python314
@@ -134,7 +133,7 @@ in
     ruff
     pyright
     basedpyright
-    jetbrains.pycharm
+    #jetbrains.pycharm
 
     # mojo
     mojo-bin
@@ -145,7 +144,7 @@ in
     rubyPackages.pry
     rubyPackages.rubocop
     solargraph
-    jetbrains.ruby-mine
+    #jetbrains.ruby-mine
 
     ## javascript/typescript
     nodejs
@@ -159,16 +158,16 @@ in
     vscode-langservers-extracted
     vscode-js-debug
     playwright-driver.browsers
-    jetbrains.webstorm
+    #jetbrains.webstorm
 
     ## dotnet
     dotnet-sdk_10
     roslyn-ls # C# language server
     csharpier # C# code formatter
+    avalonia
     jetbrains.rider
 
     ## terminals
-    #ghostty
     terminator
 
     ## browsers
@@ -185,19 +184,13 @@ in
 
     ## utils/tools
     fastfetch
-    lazygit 
     htop
-    nmap
-    dirb
-    #wireshark
-    #angryipscanner
+    lazygit 
     xclip # clipboard
     unzip
     wget
     ripgrep
     fd
-    #eza
-    #lf # list files like ranger
     #fzf
     ispell
     pandoc
@@ -237,6 +230,12 @@ in
     hunspell
     hunspellDicts.en_US
     hunspellDicts.es_PR
+
+    # security
+    nmap
+    dirb
+    wireshark
+    angryipscanner
   ];
 
   programs.emacs = {
@@ -382,7 +381,7 @@ in
   programs.ghostty = {
     enable = true;
     settings = {
-      #window-decoration = false;
+      window-decoration = false;
 
       theme = "Adventure Time";
       background-opacity = 0.85;
