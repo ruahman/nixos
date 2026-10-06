@@ -381,7 +381,8 @@ in
   programs.ghostty = {
     enable = true;
     settings = {
-      window-decoration = false;
+      #window-decoration = false;
+      #fullscreen = true;
 
       theme = "Adventure Time";
       background-opacity = 0.85;
