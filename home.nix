@@ -30,7 +30,7 @@ in
     claude-agent-acp
     opencode
     pi-coding-agent
-    omp # oh-my-pi
+    omp
 
     ## AWS
     awscli2
@@ -69,7 +69,7 @@ in
 
     ## text editors
     neovim
-    neovide
+    #neovide
 
     ## email
     evolution
@@ -191,7 +191,6 @@ in
     wget
     ripgrep
     fd
-    #fzf
     ispell
     pandoc
     imagemagick # image
@@ -273,10 +272,6 @@ in
   programs.vscode = {
     enable = true;
   };
-
-  #programs.neovim = {
-  #  enable = true;
-  #};
 
   programs.zed-editor = {
     enable = true;
