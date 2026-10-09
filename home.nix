@@ -57,6 +57,7 @@ in
 
     ## paint
     drawing
+    pinta
     #gimp
     #inkscape
 
@@ -185,6 +186,8 @@ in
     ## utils/tools
     fastfetch
     htop
+    btop
+    tldr
     lazygit 
     xclip # clipboard
     unzip

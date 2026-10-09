@@ -58,6 +58,7 @@
       # nerd-fonts.symbols-only
       # nerd-fonts.terminess-ttf 
       nerd-fonts.im-writing
+      nerd-fonts.code-new-roman
     ];
   };
 
@@ -180,6 +181,7 @@
     podman-compose
     docker 
     docker-compose
+    lazydocker
     nano
     vim
     neovim
