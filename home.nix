@@ -38,6 +38,11 @@ in
     ## Containerization
     #colima  # container runtime selector
     #incus # LXC/LXD
+    podman
+    podman-compose
+    docker 
+    docker-compose
+    lazydocker
 
     ## build tools
     bruno

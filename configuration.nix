@@ -50,13 +50,11 @@
       font-awesome
       nerd-fonts.fira-code 
       nerd-fonts.fira-mono
-      # nerd-fonts.hack
-      # nerd-fonts.hasklug
+      nerd-fonts.hack
       nerd-fonts.caskaydia-cove
       nerd-fonts.caskaydia-mono
       nerd-fonts.jetbrains-mono 
-      # nerd-fonts.symbols-only
-      # nerd-fonts.terminess-ttf 
+      nerd-fonts.terminess-ttf 
       nerd-fonts.im-writing
       nerd-fonts.code-new-roman
     ];
@@ -136,7 +134,7 @@
   users.users.ruahman = {
     isNormalUser = true;
     description = "ruahman";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "podman" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "podman" "incus-admin"];
     packages = with pkgs; [
     ];
     shell = pkgs.nushell;
@@ -152,6 +150,22 @@
       swtpm.enable = true;               # emulated TPM 2.0 — required for Windows 11
     };
   };
+
+  virtualisation.docker = {
+    enable = true;
+    #autoPrune.enable = true;   # optional: periodically removes unused images/containers
+  };
+
+  virtualisation.incus = {
+    enable = true;
+    ui.enable = true;
+  };
+
+  # Recommended: Incus's bridge networking works best with nftables
+  networking.nftables.enable = true;
+
+  # Let containers/VMs reach the host and the internet through the bridge
+  networking.firewall.trustedInterfaces = [ "incusbr0" ];
 
   # allow dynamic link
   programs.nix-ld.enable = true;
@@ -177,11 +191,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     caligula # bootstick burner
-    podman
-    podman-compose
-    docker 
-    docker-compose
-    lazydocker
+
     nano
     vim
     neovim
@@ -194,9 +204,6 @@
     xsane   # Optional GUI scanner tool
 
     # UI
-    #xdg-utils
-    #gnome-control-center  # GNOME Settings app
-    #gnome-tweaks          # Optional: for advanced settings
     xfce4-whiskermenu-plugin
     xfce4-dict
     xfce4-notes-plugin
