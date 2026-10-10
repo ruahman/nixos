@@ -46,6 +46,9 @@ in
 
     ## build tools
     bruno
+    bruno-cli
+    httpie-desktop
+    httpie
     postman
     gnumake 
     cmake 
@@ -165,6 +168,9 @@ in
     vscode-js-debug
     playwright-driver.browsers
     #jetbrains.webstorm
+
+    ## wasm
+    wasmtime
 
     ## dotnet
     dotnet-sdk_10
@@ -362,6 +368,8 @@ in
    };
    shellAliases = {
     lsz = "eza -l --git --icons --tree --level=2";
+    httpie = "^http";
+    httpies = "^https";
    };
    extraConfig = ''
       def --env --wrapped lfcd [...args] {

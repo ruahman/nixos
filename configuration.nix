@@ -134,7 +134,7 @@
   users.users.ruahman = {
     isNormalUser = true;
     description = "ruahman";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "podman" "incus-admin"];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "podman" "incus-admin" "vmware"];
     packages = with pkgs; [
     ];
     shell = pkgs.nushell;
@@ -151,9 +151,28 @@
     };
   };
 
+  virtualisation.vmware = {
+    host.enable = true;
+  };
+
+  virtualisation.virtualbox = {
+    host = {
+      enable = true;
+      enableExtensionPack = true;
+    };
+  };
+
+  # Let your user access USB devices and create VMs
+  users.extraGroups.vboxusers.members = [ "ruahman" ];
+
+
   virtualisation.docker = {
     enable = true;
     #autoPrune.enable = true;   # optional: periodically removes unused images/containers
+  };
+
+  virtualisation.podman = {
+    enable = true;
   };
 
   virtualisation.incus = {
