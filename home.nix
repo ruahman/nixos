@@ -73,6 +73,10 @@ in
     ## office
     libreoffice
 
+    ## math
+    typst
+    miktex
+
     ## text editors
     neovim
     #neovide
