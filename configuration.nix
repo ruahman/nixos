@@ -14,6 +14,12 @@
       ./hardware-configuration.nix
     ];
 
+  fileSystems."/mnt/nvme" = {
+      device = "/dev/nvme0n1p1";
+      fsType = "ext4";
+      options = [ "nofail" ];
+    };
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 5;

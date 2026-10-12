@@ -36,8 +36,6 @@ in
     awscli2
 
     ## Containerization
-    #colima  # container runtime selector
-    #incus # LXC/LXD
     podman
     podman-compose
     docker 
@@ -64,7 +62,6 @@ in
     #sparrow
 
     ## paint
-    drawing
     pinta
     #gimp
     #inkscape
@@ -82,6 +79,9 @@ in
 
     ## email
     evolution
+
+    ## torrent
+    qbittorrent
 
     ## rust
     (rust-bin.stable.${MSRV}.default.override {
@@ -198,9 +198,13 @@ in
     fastfetch
     htop
     btop
-    tldr
+    tldr # to long don't read
+    duf  # disk utility find
+    delta # diff
+    pass # passwords
     lazygit 
     xclip # clipboard
+    p7zip # 7zip compression
     unzip
     wget
     ripgrep
@@ -269,6 +273,7 @@ in
     enableNushellIntegration = true;
   };
 
+  # fuzy find
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
