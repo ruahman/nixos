@@ -162,6 +162,8 @@ in
     tsx
     eslint
     prettier
+    bun
+    deno
     #nub
     typescript-language-server
     vscode-langservers-extracted
