@@ -87,6 +87,13 @@ in
     ## torrent
     qbittorrent
 
+    ## video games
+    snes9x
+    #steam
+
+    # wine
+    wine
+
     ## rust
     (rust-bin.stable.${MSRV}.default.override {
       extensions = [
