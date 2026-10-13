@@ -79,7 +79,8 @@ in
 
     ## text editors
     neovim
-    #neovide
+    helix
+    sublime4
 
     ## email
     evolution
@@ -93,6 +94,7 @@ in
 
     # wine
     wine
+    bottles
 
     ## rust
     (rust-bin.stable.${MSRV}.default.override {
@@ -202,6 +204,8 @@ in
     #db
     sqlite
     postgresql
+    mariadb
+    dblab
     #redis
     #mongodb-ce
     #couchdb3
