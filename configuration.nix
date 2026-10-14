@@ -70,14 +70,18 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  # services.displayManager.gdm.enable = true;
-  # services.desktopManager.gnome.enable = true;
 
-  # Enable XFCE Desktop Environment
+  # set the Display Manger
+  #services.displayManager.gdm.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
+  # enable xfce
   services.xserver.desktopManager.xfce.enable = true;
-
+  # enable gnome
+  services.desktopManager.gnome.enable = true;
+  # enable plasma
+  services.desktopManager.plasma6.enable = true;
+  # GNOME and Plasma both set the SSH passphrase prompt; pick one.
+  programs.ssh.askPassword = pkgs.lib.mkForce "${pkgs.seahorse}/libexec/seahorse/ssh-askpass";
   # Enable the KDE Plasma Desktop Environment.
   #services.displayManager.sddm.enable = true;
   #services.desktopManager.plasma6.enable = true;
@@ -215,6 +219,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    adwaita-icon-theme
+    
     caligula # bootstick burner
 
     nano

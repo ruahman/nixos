@@ -12,6 +12,15 @@ in
   home.username = "ruahman";
   home.homeDirectory = "/home/ruahman";
 
+  home.pointerCursor = {
+    enable = true;
+    package = pkgs.adwaita-icon-theme;
+    name = "Adwaita";
+    size = 24;
+    gtk.enable = true;
+    x11.enable = true;
+  };
+
 
   #xdg.configFile."zed/keymap.json".text = builtins.toJSON [
   #  {
@@ -42,6 +51,7 @@ in
     docker 
     docker-compose
     lazydocker
+    oxker
 
     ## build tools
     bruno
@@ -49,6 +59,7 @@ in
     httpie-desktop
     httpie
     postman
+    posting
     gnumake 
     cmake 
     glibc.dev 
@@ -72,7 +83,7 @@ in
     vlc
 
     ## office
-    libreoffice
+    #libreoffice
 
     ## math
     typst
@@ -92,6 +103,7 @@ in
 
     ## video games
     snes9x
+    chess-tui
     #steam
 
     # wine
@@ -184,11 +196,11 @@ in
     vite-plus
     nub
     playwright # web testing automation
+    playwright-driver.browsers
     typescript-language-server
     vscode-langservers-extracted
     vscode-js-debug
     fnm
-    #playwright-driver.browsers
     #jetbrains.webstorm
 
     ## wasm
@@ -213,6 +225,7 @@ in
     postgresql
     mariadb
     dblab
+    lazysql
     #redis
     #mongodb-ce
     #couchdb3
@@ -222,6 +235,10 @@ in
     fastfetch
     htop
     btop
+    below
+    superfile
+    yazi
+    ranger
     tldr # to long don't read
     duf  # disk utility find
     delta # diff
@@ -248,6 +265,7 @@ in
     blueman # bluetooth control
     cloudsmith-cli
     #gnupg # good enough privacy
+
 
     # for neovim
     lua51Packages.lua
