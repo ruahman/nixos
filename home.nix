@@ -79,6 +79,7 @@ in
 
     ## text editors
     neovim
+    neovide
     helix
     sublime4
 

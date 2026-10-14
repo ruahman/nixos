@@ -161,12 +161,12 @@
     host.enable = true;
   };
 
-  virtualisation.virtualbox = {
-    host = {
-      enable = true;
-      enableExtensionPack = true;
-    };
-  };
+  # virtualisation.virtualbox = {
+  #   host = {
+  #     enable = true;
+  #     enableExtensionPack = true;
+  #   };
+  # };
 
   # Let your user access USB devices and create VMs
   users.extraGroups.vboxusers.members = [ "ruahman" ];
