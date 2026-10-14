@@ -80,6 +80,8 @@
   services.desktopManager.gnome.enable = true;
   # enable plasma
   services.desktopManager.plasma6.enable = true;
+  # enable hyperland
+  programs.hyprland.enable = true;
   # GNOME and Plasma both set the SSH passphrase prompt; pick one.
   programs.ssh.askPassword = pkgs.lib.mkForce "${pkgs.seahorse}/libexec/seahorse/ssh-askpass";
   # Enable the KDE Plasma Desktop Environment.
