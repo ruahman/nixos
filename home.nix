@@ -26,6 +26,7 @@ in
   home.packages = with pkgs; [
 
     ## AI
+    claude-desktop
     claude-code
     claude-agent-acp
     opencode
@@ -156,6 +157,7 @@ in
     ruff
     pyright
     basedpyright
+    pyenv
     #jetbrains.pycharm
 
     # mojo
@@ -167,22 +169,26 @@ in
     rubyPackages.pry
     rubyPackages.rubocop
     solargraph
+    rbenv
     #jetbrains.ruby-mine
 
     ## javascript/typescript
     nodejs
-    #fnm
+    pnpm
     typescript
     tsx
     eslint
     prettier
     bun
     deno
-    #nub
+    vite-plus
+    nub
+    playwright # web testing automation
     typescript-language-server
     vscode-langservers-extracted
     vscode-js-debug
-    playwright-driver.browsers
+    fnm
+    #playwright-driver.browsers
     #jetbrains.webstorm
 
     ## wasm

@@ -48,7 +48,24 @@
     # claude code
     claude-code-nix = {
       url = "github:sadjow/claude-code-nix";
-	    inputs.nixpkgs.follows = "nixpkgs";
+	  inputs.nixpkgs.follows = "nixpkgs";
+    };
+    
+    claude-desktop-nix-flake = {
+      url = "github:poeck/claude-desktop-nix-flake";
+	  inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # vite+
+    nix-vite-plus = {
+      url = "github:ryoppippi/nix-vite-plus";
+	  inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # nub
+    nub-overlay = {
+      url = "github:alleneubank/nub-overlay";
+	  inputs.nixpkgs.follows = "nixpkgs";
     };
 
   };
@@ -60,7 +77,10 @@
     zig-overlay, 
     go-overlay, 
     odin-overlay, 
-    claude-code-nix, ... }@inputs: 
+    claude-code-nix, 
+    claude-desktop-nix-flake,
+    nix-vite-plus, 
+    nub-overlay, ... }@inputs: 
     let
       system = "x86_64-linux";
 
@@ -71,6 +91,9 @@
         odin-overlay.overlays.odin-overlays
         odin-overlay.overlays.ols-overlays
         claude-code-nix.overlays.default
+        claude-desktop-nix-flake.overlays.default
+        nix-vite-plus.overlays.default
+        nub-overlay.overlays.default
         # Temporary fix for the typescript-language-server hash mismatch
         (final: prev: {
           typescript-language-server = prev.typescript-language-server.overrideAttrs (old: {
