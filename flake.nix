@@ -6,6 +6,12 @@
     # nix packages
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    # mango windows manager
+    mangowm = {
+      url = "github:mangowm/mango";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # home-manager
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -72,6 +78,7 @@
 
   outputs = { self, 
     nixpkgs, 
+    mangowm,
     home-manager, 
     rust-overlay, 
     zig-overlay, 
@@ -94,14 +101,6 @@
         claude-desktop-nix-flake.overlays.default
         nix-vite-plus.overlays.default
         nub-overlay.overlays.default
-        # Temporary fix for the typescript-language-server hash mismatch
-        (final: prev: {
-          typescript-language-server = prev.typescript-language-server.overrideAttrs (old: {
-            pnpmDeps = old.pnpmDeps.overrideAttrs (_: {
-              outputHash = "sha256-xR/EF60lVBsITKgH7wCM2wHM46PFQevD51KfCENSUH4=";  # paste the "got:" hash from your own terminal
-            });
-          });
-        })
       ];
 
       # Create a pkgs instance with overlays applied
@@ -117,13 +116,23 @@
 
       modules = [
         ./configuration.nix
+        # add mangowm to nixos
+        mangowm.nixosModules.mango
+        # add home-manager to nixos
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
 
+
 	  # Pass the modified pkgs with rust-overlay to Home Manager
           home-manager.extraSpecialArgs = { inherit pkgs; };
+            
+          
+          home-manager.sharedModules = [
+            # allow home-manager to configure mangowm
+            mangowm.hmModules.mango
+          ];
 
           # our home manager config
           home-manager.users.ruahman = import ./home.nix;

@@ -14,6 +14,7 @@
       ./hardware-configuration.nix
     ];
 
+  # mound nvme
   fileSystems."/mnt/nvme" = {
       device = "/dev/nvme0n1p1";
       fsType = "ext4";
@@ -66,27 +67,18 @@
     ];
   };
 
-  
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-
   # set the Display Manger
-  #services.displayManager.gdm.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
+  services.displayManager.sddm = {
+     enable = true;
+  };
+  
   # enable xfce
+  services.xserver.enable = true; # enable the x11 window system
   services.xserver.desktopManager.xfce.enable = true;
   # enable gnome
   services.desktopManager.gnome.enable = true;
-  # enable plasma
-  services.desktopManager.plasma6.enable = true;
-  # enable hyperland
-  programs.hyprland.enable = true;
-  # GNOME and Plasma both set the SSH passphrase prompt; pick one.
-  programs.ssh.askPassword = pkgs.lib.mkForce "${pkgs.seahorse}/libexec/seahorse/ssh-askpass";
-  # Enable the KDE Plasma Desktop Environment.
-  #services.displayManager.sddm.enable = true;
-  #services.desktopManager.plasma6.enable = true;
+  # enable mongowm
+  programs.mango.enable = true;
 
   # Configure keymap in X11
   # to get it to run:
@@ -222,8 +214,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     adwaita-icon-theme
-    
-    caligula # bootstick burner
 
     nano
     vim
@@ -236,11 +226,6 @@
     sane-backends    # For scanning
     xsane   # Optional GUI scanner tool
 
-    # UI
-    xfce4-whiskermenu-plugin
-    xfce4-dict
-    xfce4-notes-plugin
-    plank
   ];
 
 

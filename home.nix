@@ -1,6 +1,6 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
-  MSRV = "1.99.0";
+  MSRV = "1.99.0"; # minimual supported rust version
   ZIG_VERSION = "0.16.0";
   GO_VERSION = "1.27.0";
   ODIN_VERSION = "dev-2026-09";
@@ -11,6 +11,30 @@ in
 
   home.username = "ruahman";
   home.homeDirectory = "/home/ruahman";
+  
+  home.sessionVariables = {
+      RUSTC_WRAPPER = "${pkgs.sccache}/bin/sccache";
+      OPENSSL_DIR = "${pkgs.openssl.dev}";
+      OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
+      OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
+      PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
+      PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
+      PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
+      #PLAYWRIGHT_HOST_PLATFORM_OVERRIDE = "ubuntu-24.04";
+  };
+
+  home.shellAliases = {
+    lsz = "eza -l --git --icons --tree --level=2";
+    httpie = "^http";
+    httpies = "^https";
+  };
+
+  xdg.portal.enable = lib.mkForce true;
+
+  xdg.portal = {
+    extraPortals = [ pkgs.xdg-desktop-portal-gnome pkgs.xdg-desktop-portal-gtk ];
+    config.niri.default = [ "gnome" "gtk" ];
+  };
 
   home.pointerCursor = {
     enable = true;
@@ -21,18 +45,17 @@ in
     x11.enable = true;
   };
 
-
-  #xdg.configFile."zed/keymap.json".text = builtins.toJSON [
-  #  {
-  #      context = "Workspace";
-  #      bindings = {
-  #          "space p" = "project_panel::Toggle";
-  #      };
-  #  }
-  #];
-
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
+   
+    # bootstick burner
+    caligula 
+
+    # xfce
+    xfce4-whiskermenu-plugin
+    xfce4-dict
+    xfce4-notes-plugin
+    plank
 
     ## AI
     claude-desktop
@@ -41,6 +64,7 @@ in
     opencode
     pi-coding-agent
     omp
+    voxtype # speach-to-text
 
     ## AWS
     awscli2
@@ -53,7 +77,7 @@ in
     lazydocker
     oxker
 
-    ## build tools
+    ## building tools
     bruno
     bruno-cli
     httpie-desktop
@@ -93,7 +117,7 @@ in
     neovim
     neovide
     helix
-    sublime4
+    #sublime4
 
     ## email
     evolution
@@ -106,7 +130,7 @@ in
     chess-tui
     #steam
 
-    # wine
+    # windows emulation
     wine
     bottles
 
@@ -195,13 +219,11 @@ in
     deno
     vite-plus
     nub
-    playwright # web testing automation
     playwright-driver.browsers
     typescript-language-server
     vscode-langservers-extracted
     vscode-js-debug
     fnm
-    #jetbrains.webstorm
 
     ## wasm
     wasmtime
@@ -218,7 +240,6 @@ in
 
     ## browsers
     google-chrome
-    #microsoft-edge
 
     #db
     sqlite
@@ -229,10 +250,10 @@ in
     #redis
     #mongodb-ce
     #couchdb3
-    #jetbrains.datagrip
 
     ## utils/tools
     fastfetch
+    cmatrix
     htop
     btop
     below
@@ -330,9 +351,9 @@ in
     enable = true;
   };
 
-  programs.vscode = {
-    enable = true;
-  };
+  # programs.vscode = {
+  #   enable = true;
+  # };
 
   programs.zed-editor = {
     enable = true;
@@ -402,33 +423,23 @@ in
     settings = {
       show_banner = false;
     };
-    # statically evaluate env variables
-    environmentVariables = {
-      RUSTC_WRAPPER = "${pkgs.sccache}/bin/sccache";
-      OPENSSL_DIR = "${pkgs.openssl.dev}";
-      OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
-      OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
-      PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
-      PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
-      PLAYWRIGHT_HOST_PLATFORM_OVERRIDE = "ubuntu-24.04";
-      PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
-   };
-   shellAliases = {
-    lsz = "eza -l --git --icons --tree --level=2";
-    httpie = "^http";
-    httpies = "^https";
-   };
-   extraConfig = ''
-      def --env --wrapped lfcd [...args] {
-        let dir = (^lf -print-last-dir ...$args | str trim)
-        if ($dir | is-not-empty) and ($dir | path exists) {
-          cd $dir
-        }
-      }
-   '';
+    environmentVariables = config.home.sessionVariables;
+    shellAliases = config.home.shellAliases;
+    extraConfig = ''
+       def --env --wrapped lfcd [...args] {
+         let dir = (^lf -print-last-dir ...$args | str trim)
+         if ($dir | is-not-empty) and ($dir | path exists) {
+           cd $dir
+         }
+       }
+    '';
   };
 
   programs.bash = {
+    enable = true;
+  };
+
+  programs.zsh = {
     enable = true;
   };
 
@@ -439,9 +450,6 @@ in
   programs.ghostty = {
     enable = true;
     settings = {
-      #window-decoration = false;
-      #fullscreen = true;
-
       theme = "Adventure Time";
       background-opacity = 0.85;
       
@@ -453,6 +461,23 @@ in
       window-width = 100;
     };
   };
+
+  programs.kitty = {
+    enable = true;
+  };
+
+  programs.foot.enable = true;
+
+  programs.terminator = {
+    enable = true;
+    config = {
+      profiles.default = {
+        use_system_font = false;
+        font = "Terminess Nerd Font Mono 18";
+      };
+    };
+  };
+
 
   programs.starship = {
     enable = true;
@@ -506,5 +531,89 @@ in
   };
 
   programs.herdr.enable = true;
+
+  # wayland.windowManager.mango = {
+  #   enable = true;
+  #
+  #   settings = {
+  #     bind = [
+  #       "SUPER,Return,spawn,ghostty"
+  #       "SUPER,d,spawn,rofi -show drun"
+  #       "SUPER,q,killclient"
+  #       "SUPER,r,reload_config"
+  #       "SUPER,1,view,1"
+  #       "SUPER,2,view,2"
+  #       "SUPER,3,view,3"
+  #       "SUPER+SHIFT,1,tag,1"
+  #       "SUPER+SHIFT,2,tag,2"
+  #       "SUPER+SHIFT,3,tag,3"
+  #     ];
+  #   };
+  #
+  # };
+  wayland.windowManager.mango = {
+    enable = true;
+
+    extraConfig = ''
+      # Launchers
+      bind=ALT,Return,spawn,ghostty
+      bind=ALT,space,spawn,rofi -show drun
+
+      # Window management
+      bind=ALT,q,killclient
+      bind=SUPER,m,quit
+      bind=SUPER,f,togglefullscreen
+
+      # Focus with arrow keys
+      bind=ALT,Left,focusdir,left
+      bind=ALT,Right,focusdir,right
+      bind=ALT,Up,focusdir,up
+      bind=ALT,Down,focusdir,down
+    '' + lib.concatMapStrings (i: ''
+      bind=CTRL,${toString i},view,${toString i}
+      bind=ALT,${toString i},tag,${toString i}
+    '') (lib.range 1 9);
+  };
+
+
+  programs.waybar = {
+    enable = true;
+    systemd.enable = true;   # start with the graphical session
+
+    settings.mainBar = {
+      layer = "top";
+      position = "top";
+      height = 30;
+      modules-left = [ "mango/workspaces" ];   # or "hyprland/workspaces" / "wlr/taskbar"
+      modules-center = [ "clock" ];
+      modules-right = [ "pulseaudio" "network" "battery" "tray" ];
+
+      clock.format = "{:%a %d %b %H:%M}";
+      pulseaudio.format = "{volume}%";
+      network.format-wifi = "{essid} ({signalStrength}%)";
+    };
+
+    style = ''
+      * {
+        font-family: "JetBrainsMono Nerd Font";
+        font-size: 13px;
+      }
+      window#waybar {
+        background: rgba(30, 30, 46, 0.9);
+        color: #cdd6f4;
+      }
+    '';
+  };
+
+  programs.rofi = {
+    enable = true;
+    terminal = "${pkgs.ghostty}/bin/ghostty";
+    extraConfig = {
+      modi = "drun,run,window";
+      show-icons = true;
+      drun-display-format = "{name}";
+    };
+  };
+
   
 }
