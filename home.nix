@@ -64,6 +64,7 @@ in
     swaybg
     swaynotificationcenter
     wl-clipboard
+    grim
 
     ## AI
     claude-desktop
@@ -559,18 +560,17 @@ in
       xkb_rules_layout = "us";
       xkb_rules_variant = "intl";
       xkb_rules_options = "ctrl:nocaps";
-      var = [
-        "term,ghostty"
-        "editor,nvim"
-      ];
       bind = [
         # Launchers
-        "ALT,Return,spawn,ghostty"
+        "ALT,Return,spawn,foot"
+        "ALT,g,spawn,ghostty"
+        "ALT,e,spawn,emacsclient -c -n"
         "ALT,space,spawn,rofi -show drun"
 
         # Window management
         "ALT,q,killclient"
         "SUPER,m,quit"
+        "SUPER,r,reload_config"
         "SUPER,f,togglefullscreen"
 
         # Focus with arrow keys
@@ -587,47 +587,38 @@ in
 
       exec_once = [
         "mangobar"
+        "swaybg -i /home/ruahman/Pictures/wallhaven-p9pd23_1920x1080.png -m fill"
+        "swaync"
+        "wl-clipboard"
+        "grim"
       ];
 
     };
 
   };
 
-  # programs.waybar = {
-  #  enable = false;
-  #  systemd.enable = true;   # start with the graphical session
-  #
-  #  settings.mainBar = {
-  #    layer = "top";
-  #    position = "top";
-  #    height = 30;
-  #    modules-left = [ "mango/workspaces" ];   # or "hyprland/workspaces" / "wlr/taskbar"
-  #    modules-center = [ "clock" ];
-  #    modules-right = [ "pulseaudio" "network" "battery" "tray" ];
-  #
-  #    clock.format = "{:%a %d %b %H:%M}";
-  #    pulseaudio.format = "{volume}%";
-  #    network.format-wifi = "{essid} ({signalStrength}%)";
-  #  };
-  #
-  #  style = ''
-  #    * {
-  #      font-family: "JetBrainsMono Nerd Font";
-  #      font-size: 13px;
-  #    }
-  #    window#waybar {
-  #      background: rgba(30, 30, 46, 0.9);
-  #      color: #cdd6f4;
-  #    }
-  #  '';
-  # };
-
   services.mangobar = {
     enable = true;
     systemdTarget = "mango.target";
     settings = {
       modules-left = [ "workspaces" "layout" "window" ];
-      modules-right = [ "cpu" "memory" "clock#time" ];
+      modules-right = [ "custom/ssid" "custom/wifi" "cpu" "memory" "battery" "clock#date" "clock#time" ];
+      "custom/ssid" = {
+        exec = ''nmcli -t -f ACTIVE,SSID dev wifi | awk -F: '$1=="yes"{print $2}' '';
+        interval = 10;
+        format = "󰖩 {}";
+      };
+      "custom/wifi" = {
+        exec = ''nmcli -t -f IN-USE,SIGNAL dev wifi | awk -F: '$1=="*"{print $2"%"}' '';
+        interval = 10;
+        format = "{}";
+      };
+      "clock#date" = {
+        format = " {:L%b%d·%A}";
+      };
+      "clock#time" = {
+        format = " {:L%I:%M %p}";
+      };
     };
   };
 
