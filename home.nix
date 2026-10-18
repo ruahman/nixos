@@ -61,10 +61,13 @@ in
     plank
 
     # mangowm
-    swaybg
-    swaynotificationcenter
+    swaybg # background
+    swaynotificationcenter # notifications
+    xdg-desktop-portal-wlr # screen shots?
     wl-clipboard
+    cliphist
     grim
+    gnome-keyring # for storing passwords
 
     ## AI
     claude-desktop
@@ -572,6 +575,14 @@ in
         "SUPER,m,quit"
         "SUPER,r,reload_config"
         "SUPER,f,togglefullscreen"
+
+        # Set specific layout
+        "SUPER,t,setlayout,tile"
+        "SUPER,g,setlayout,grid"
+        "SUPER,s,setlayout,scroller"
+
+        # screen shot
+        #"Print,spawn_shell,grim $HOME/Pictures/Screenshots/$(date +%Y%m%d%H%M%S).png"
 
         # Focus with arrow keys
         "ALT,Left,focusdir,left"
