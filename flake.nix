@@ -12,6 +12,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    mangobar = {
+      url = "github:mangowm/mangobar";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # home-manager
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -79,6 +84,7 @@
   outputs = { self, 
     nixpkgs, 
     mangowm,
+    mangobar,
     home-manager, 
     rust-overlay, 
     zig-overlay, 
@@ -124,14 +130,13 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
 
-
-	  # Pass the modified pkgs with rust-overlay to Home Manager
+	      # Pass the modified pkgs with rust-overlay to Home Manager
           home-manager.extraSpecialArgs = { inherit pkgs; };
-            
           
           home-manager.sharedModules = [
             # allow home-manager to configure mangowm
             mangowm.hmModules.mango
+            mangobar.homeManagerModules.default
           ];
 
           # our home manager config

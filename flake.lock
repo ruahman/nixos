@@ -296,6 +296,26 @@
         "type": "github"
       }
     },
+    "mangobar": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792161466,
+        "narHash": "sha256-+/DKOdbwZli2WNHFXPOP5xXDKvNjRiXPz+wZDBNhNQg=",
+        "owner": "mangowm",
+        "repo": "mangobar",
+        "rev": "f543ddd3af0073a6cfaf17cda1b4926b8a27806c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mangowm",
+        "repo": "mangobar",
+        "type": "github"
+      }
+    },
     "mangowm": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -420,6 +440,7 @@
         "claude-desktop-nix-flake": "claude-desktop-nix-flake",
         "go-overlay": "go-overlay",
         "home-manager": "home-manager",
+        "mangobar": "mangobar",
         "mangowm": "mangowm",
         "nix-vite-plus": "nix-vite-plus",
         "nixpkgs": "nixpkgs",

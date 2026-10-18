@@ -1,10 +1,14 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 let
   MSRV = "1.99.0"; # minimual supported rust version
   ZIG_VERSION = "0.16.0";
   GO_VERSION = "1.27.0";
   ODIN_VERSION = "dev-2026-09";
   OLS_VERSION = "dev-2026-08";
+  workspaceBinds = lib.concatMap (n: [
+    "SUPER,${toString n},view,${toString n}"
+    "SUPER+SHIFT,${toString n},tag,${toString n}"
+  ]) (lib.range 1 9);
 in
 {
   home.stateVersion = "24.05";
@@ -20,7 +24,6 @@ in
       PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
       PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
       PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
-      #PLAYWRIGHT_HOST_PLATFORM_OVERRIDE = "ubuntu-24.04";
   };
 
   home.shellAliases = {
@@ -57,6 +60,11 @@ in
     xfce4-notes-plugin
     plank
 
+    # mangowm
+    swaybg
+    swaynotificationcenter
+    wl-clipboard
+
     ## AI
     claude-desktop
     claude-code
@@ -77,7 +85,7 @@ in
     lazydocker
     oxker
 
-    ## building tools
+    ## development tools
     bruno
     bruno-cli
     httpie-desktop
@@ -117,7 +125,6 @@ in
     neovim
     neovide
     helix
-    #sublime4
 
     ## email
     evolution
@@ -128,7 +135,6 @@ in
     ## video games
     snes9x
     chess-tui
-    #steam
 
     # windows emulation
     wine
@@ -146,7 +152,6 @@ in
     vscode-extensions.vadimcn.vscode-lldb.adapter
     pkg-config
     (lib.lowPrio lldb)
-    #jetbrains.rust-rover
 
     ## golang 
     go-bin.versions.${GO_VERSION}
@@ -156,7 +161,6 @@ in
     golines
     delve
     golangci-lint
-    #jetbrains.goland
  
     ## c/c++ 
     (lib.hiPrio clang)
@@ -194,7 +198,6 @@ in
     pyright
     basedpyright
     pyenv
-    #jetbrains.pycharm
 
     # mojo
     mojo-bin
@@ -206,7 +209,6 @@ in
     rubyPackages.rubocop
     solargraph
     rbenv
-    #jetbrains.ruby-mine
 
     ## javascript/typescript
     nodejs
@@ -223,6 +225,7 @@ in
     typescript-language-server
     vscode-langservers-extracted
     vscode-js-debug
+    jetbrains.webstorm
     fnm
 
     ## wasm
@@ -321,6 +324,7 @@ in
   programs.emacs = {
     enable = true;
     package = pkgs.emacs;  # or pkgs.emacs-pgtk, pkgs.emacs-nox, etc.
+    # package = pkgs.emacs-pgtk;  
   };
 
   services.emacs = {
@@ -328,6 +332,12 @@ in
     defaultEditor = true;  # sets EDITOR/VISUAL to emacsclient
     client.enable = true;  # installs a desktop entry for emacsclient
   };
+
+  # start emacs only after the graphical session (and its env import) is up
+  # systemd.user.services.emacs = {
+  #   Unit.After = [ "graphical-session.target" ];
+  #   Unit.Wants = [ "graphical-session.target" ];
+  # };
 
 
   programs.zoxide = {
@@ -462,12 +472,6 @@ in
     };
   };
 
-  programs.kitty = {
-    enable = true;
-  };
-
-  programs.foot.enable = true;
-
   programs.terminator = {
     enable = true;
     config = {
@@ -478,6 +482,22 @@ in
     };
   };
 
+  # programs.kitty.enable = true;
+
+  # programs.foot.enable = true;
+  programs.kitty.enable = true;
+  programs.kitty.font = {
+    name = "CaskaydiaCove Nerd Font";
+    size = 18;
+    package = pkgs.nerd-fonts.jetbrains-mono;
+  };
+
+  programs.foot.enable = true;
+  programs.foot.settings = {
+    main = {
+      font = "JetBrainsMono Nerd Font:size=18";
+    };
+  };
 
   programs.starship = {
     enable = true;
@@ -532,77 +552,83 @@ in
 
   programs.herdr.enable = true;
 
-  # wayland.windowManager.mango = {
-  #   enable = true;
-  #
-  #   settings = {
-  #     bind = [
-  #       "SUPER,Return,spawn,ghostty"
-  #       "SUPER,d,spawn,rofi -show drun"
-  #       "SUPER,q,killclient"
-  #       "SUPER,r,reload_config"
-  #       "SUPER,1,view,1"
-  #       "SUPER,2,view,2"
-  #       "SUPER,3,view,3"
-  #       "SUPER+SHIFT,1,tag,1"
-  #       "SUPER+SHIFT,2,tag,2"
-  #       "SUPER+SHIFT,3,tag,3"
-  #     ];
-  #   };
-  #
-  # };
   wayland.windowManager.mango = {
     enable = true;
 
-    extraConfig = ''
-      # Launchers
-      bind=ALT,Return,spawn,ghostty
-      bind=ALT,space,spawn,rofi -show drun
+    settings = {
+      xkb_rules_layout = "us";
+      xkb_rules_variant = "intl";
+      xkb_rules_options = "ctrl:nocaps";
+      var = [
+        "term,ghostty"
+        "editor,nvim"
+      ];
+      bind = [
+        # Launchers
+        "ALT,Return,spawn,ghostty"
+        "ALT,space,spawn,rofi -show drun"
 
-      # Window management
-      bind=ALT,q,killclient
-      bind=SUPER,m,quit
-      bind=SUPER,f,togglefullscreen
+        # Window management
+        "ALT,q,killclient"
+        "SUPER,m,quit"
+        "SUPER,f,togglefullscreen"
 
-      # Focus with arrow keys
-      bind=ALT,Left,focusdir,left
-      bind=ALT,Right,focusdir,right
-      bind=ALT,Up,focusdir,up
-      bind=ALT,Down,focusdir,down
-    '' + lib.concatMapStrings (i: ''
-      bind=CTRL,${toString i},view,${toString i}
-      bind=ALT,${toString i},tag,${toString i}
-    '') (lib.range 1 9);
-  };
+        # Focus with arrow keys
+        "ALT,Left,focusdir,left"
+        "ALT,Right,focusdir,right"
+        "ALT,Up,focusdir,up"
+        "ALT,Down,focusdir,down"
+        "SUPER,Left,viewtoleft,0"
+        "SUPER,Right,viewtoright,0"
+      ] ++ lib.concatMap (n: [
+        "SUPER,${toString n},view,${toString n}"
+        "SUPER+SHIFT,${toString n},tag,${toString n}"
+      ]) (lib.range 1 9);
 
+      exec_once = [
+        "mangobar"
+      ];
 
-  programs.waybar = {
-    enable = true;
-    systemd.enable = true;   # start with the graphical session
-
-    settings.mainBar = {
-      layer = "top";
-      position = "top";
-      height = 30;
-      modules-left = [ "mango/workspaces" ];   # or "hyprland/workspaces" / "wlr/taskbar"
-      modules-center = [ "clock" ];
-      modules-right = [ "pulseaudio" "network" "battery" "tray" ];
-
-      clock.format = "{:%a %d %b %H:%M}";
-      pulseaudio.format = "{volume}%";
-      network.format-wifi = "{essid} ({signalStrength}%)";
     };
 
-    style = ''
-      * {
-        font-family: "JetBrainsMono Nerd Font";
-        font-size: 13px;
-      }
-      window#waybar {
-        background: rgba(30, 30, 46, 0.9);
-        color: #cdd6f4;
-      }
-    '';
+  };
+
+  # programs.waybar = {
+  #  enable = false;
+  #  systemd.enable = true;   # start with the graphical session
+  #
+  #  settings.mainBar = {
+  #    layer = "top";
+  #    position = "top";
+  #    height = 30;
+  #    modules-left = [ "mango/workspaces" ];   # or "hyprland/workspaces" / "wlr/taskbar"
+  #    modules-center = [ "clock" ];
+  #    modules-right = [ "pulseaudio" "network" "battery" "tray" ];
+  #
+  #    clock.format = "{:%a %d %b %H:%M}";
+  #    pulseaudio.format = "{volume}%";
+  #    network.format-wifi = "{essid} ({signalStrength}%)";
+  #  };
+  #
+  #  style = ''
+  #    * {
+  #      font-family: "JetBrainsMono Nerd Font";
+  #      font-size: 13px;
+  #    }
+  #    window#waybar {
+  #      background: rgba(30, 30, 46, 0.9);
+  #      color: #cdd6f4;
+  #    }
+  #  '';
+  # };
+
+  services.mangobar = {
+    enable = true;
+    systemdTarget = "mango.target";
+    settings = {
+      modules-left = [ "workspaces" "layout" "window" ];
+      modules-right = [ "cpu" "memory" "clock#time" ];
+    };
   };
 
   programs.rofi = {
