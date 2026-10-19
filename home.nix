@@ -576,9 +576,10 @@ in
         "SUPER,t,setlayout,tile"
         "SUPER,g,setlayout,grid"
         "SUPER,s,setlayout,scroller"
+        "NONE,Print,spawn,sh -c 'grim \"$HOME/Pictures/Screenshots/$(date +%Y%m%d%H%M%S).png\"'"
+
 
         # screen shot
-        #"Print,spawn_shell,grim $HOME/Pictures/Screenshots/$(date +%Y%m%d%H%M%S).png"
 
         # Focus with arrow keys
         "ALT,Left,focusdir,left"
