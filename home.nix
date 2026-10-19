@@ -5,10 +5,6 @@ let
   GO_VERSION = "1.27.0";
   ODIN_VERSION = "dev-2026-09";
   OLS_VERSION = "dev-2026-08";
-  workspaceBinds = lib.concatMap (n: [
-    "SUPER,${toString n},view,${toString n}"
-    "SUPER+SHIFT,${toString n},tag,${toString n}"
-  ]) (lib.range 1 9);
 in
 {
   home.stateVersion = "24.05";
