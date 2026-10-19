@@ -613,7 +613,7 @@ in
     systemdTarget = "mango.target";
     settings = {
       modules-left = [ "workspaces" "layout" "window" ];
-      modules-right = [ "custom/ssid" "custom/wifi" "cpu" "memory" "battery" "clock#date" "clock#time" ];
+      modules-right = [ "custom/ssid" "custom/wifi" "cpu" "memory" "custom/disk" "battery" "clock#date" "clock#time" ];
       "custom/ssid" = {
         exec = ''nmcli -t -f ACTIVE,SSID dev wifi | awk -F: '$1=="yes"{print $2}' '';
         interval = 10;
@@ -623,6 +623,11 @@ in
         exec = ''nmcli -t -f IN-USE,SIGNAL dev wifi | awk -F: '$1=="*"{print $2"%"}' '';
         interval = 10;
         format = "{}";
+      };
+      "custom/disk" = {
+        exec = ''df -h / | awk 'NR==2{print $3"/"$2}' '';
+        interval = 60;
+        format = "󰋊 {}";
       };
       "clock#date" = {
         format = " {:L%b%d·%A}";
