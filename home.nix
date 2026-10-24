@@ -47,10 +47,6 @@ in
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
 
-      # wordcraft
-      # gridcraft
-      # photocraft
-
       #pkg-config
       patchelf
       wayland
@@ -340,6 +336,7 @@ in
 
   programs.gridcraft.enable = true;
   programs.wordcraft.enable = true;
+  programs.deckcraft.enable = true;
   programs.photocraft.enable = true;
   programs.pdfcraft.enable = true;
 
