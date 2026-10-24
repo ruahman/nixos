@@ -138,7 +138,8 @@
   users.users.ruahman = {
     isNormalUser = true;
     description = "ruahman";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "podman" "incus-admin" "vmware"];
+    #extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "podman" "incus-admin" "vmware"];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "podman" "incus-admin"];
     packages = with pkgs; [
     ];
     shell = pkgs.nushell;
@@ -155,9 +156,9 @@
     };
   };
 
-  virtualisation.vmware = {
-    host.enable = true;
-  };
+  # virtualisation.vmware = {
+  #   host.enable = true;
+  # };
 
   # virtualisation.virtualbox = {
   #   host = {
@@ -192,6 +193,21 @@
 
   # allow dynamic link
   programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    libxkbcommon
+    libGL
+    fontconfig
+    freetype
+    wayland
+    libx11
+    libxcb
+    libxcursor
+    libxi
+    libxrandr
+    vulkan-loader
+    libglvnd
+    dbus
+  ];
 
   # virt-manager GUI
   programs.virt-manager.enable = true;

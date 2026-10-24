@@ -46,6 +46,24 @@ in
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
+
+      # wordcraft
+      # gridcraft
+      # photocraft
+
+      #pkg-config
+      patchelf
+      wayland
+      libxkbcommon
+      libx11
+      libxcb
+      libxcursor
+      libxi
+      libxrandr
+      vulkan-loader
+      libglvnd
+      dbus
+
    
     # bootstick burner
     caligula 
@@ -70,7 +88,6 @@ in
     claude-code
     claude-agent-acp
     opencode
-    pi-coding-agent
     omp
     voxtype # speach-to-text
 
@@ -321,10 +338,25 @@ in
     angryipscanner
   ];
 
+  programs.gridcraft.enable = true;
+  programs.wordcraft.enable = true;
+  programs.photocraft.enable = true;
+  programs.pdfcraft.enable = true;
+
+  programs.pi-coding-agent = {
+    enable = true;
+    settings.packages = [
+      "npm:pi-permission-system"
+      "npm:pi-web-access"
+      "npm:pi-plan-mode"
+      "npm:pi-subagents"
+      "npm:pi-mcp-extension"
+    ];
+  };
+
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs;  # or pkgs.emacs-pgtk, pkgs.emacs-nox, etc.
-    # package = pkgs.emacs-pgtk;  
+    package = pkgs.emacs;  
   };
 
   services.emacs = {
@@ -562,8 +594,6 @@ in
       bind = [
         # Launchers
         "ALT,Return,spawn,foot"
-        "ALT,g,spawn,ghostty"
-        "ALT,e,spawn,emacsclient -c -n"
         "ALT,space,spawn,rofi -show drun"
 
         # Window management

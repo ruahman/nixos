@@ -79,6 +79,10 @@
 	  inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    artcraft = {
+      url = "github:mahlquistj/artcraft-flake";  
+	  inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, 
@@ -93,7 +97,8 @@
     claude-code-nix, 
     claude-desktop-nix-flake,
     nix-vite-plus, 
-    nub-overlay, ... }@inputs: 
+    nub-overlay, 
+    artcraft, ... }@inputs: 
     let
       system = "x86_64-linux";
 
@@ -107,6 +112,7 @@
         claude-desktop-nix-flake.overlays.default
         nix-vite-plus.overlays.default
         nub-overlay.overlays.default
+        artcraft.overlays.default
       ];
 
       # Create a pkgs instance with overlays applied
@@ -137,6 +143,7 @@
             # allow home-manager to configure mangowm
             mangowm.hmModules.mango
             mangobar.homeManagerModules.default
+            artcraft.homeModules.default
           ];
 
           # our home manager config
