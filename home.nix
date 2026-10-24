@@ -48,18 +48,20 @@ in
   home.packages = with pkgs; [
 
       #pkg-config
-      patchelf
-      wayland
-      libxkbcommon
-      libx11
-      libxcb
-      libxcursor
-      libxi
-      libxrandr
-      vulkan-loader
-      libglvnd
-      dbus
+      # patchelf
+      # wayland
+      # libxkbcommon
+      # libx11
+      # libxcb
+      # libxcursor
+      # libxi
+      # libxrandr
+      # vulkan-loader
+      # libglvnd
+      # dbus
 
+    # file explorer
+    thunar
    
     # bootstick burner
     caligula 
@@ -274,8 +276,8 @@ in
     btop
     below
     superfile
-    yazi
-    ranger
+    # yazi
+    # ranger
     tldr # to long don't read
     duf  # disk utility find
     delta # diff
@@ -340,6 +342,8 @@ in
   programs.photocraft.enable = true;
   programs.pdfcraft.enable = true;
 
+  # programs.thunar.enable = true;
+
   programs.pi-coding-agent = {
     enable = true;
     settings.packages = [
@@ -386,9 +390,10 @@ in
     enable = true;
   };
 
-  programs.lf = {
-    enable = true;
-  };
+  # programs.lf = {
+  #   enable = true;
+  # };
+  programs.yazi.enable = true;
 
   # programs.vscode = {
   #   enable = true;
@@ -586,7 +591,7 @@ in
 
     settings = {
       xkb_rules_layout = "us";
-      xkb_rules_variant = "intl";
+      xkb_rules_variant = "altgr-intl";
       xkb_rules_options = "ctrl:nocaps";
       bind = [
         # Launchers

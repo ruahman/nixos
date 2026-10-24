@@ -135,6 +135,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "backup";
 
 	      # Pass the modified pkgs with rust-overlay to Home Manager
           home-manager.extraSpecialArgs = { inherit pkgs; };

@@ -68,17 +68,56 @@
   };
 
   # set the Display Manger
-  services.displayManager.sddm = {
-     enable = true;
-  };
+  # services.displayManager.sddm = {
+  #    enable = true;
+  #    #wayland.enable = true;
+  # };
+  # Enable greetd display manager daemon
+  # services.greetd = {
+  #   enable = true;
+  #   settings = {
+  #     default_session = {
+  #       # tuigreet is used as the frontend greeter interface
+  #       # --time displays the current time on the screen
+  #       # --remember remembers the last successfully logged-in user
+  #       # --cmd specifies the command to execute after login
+  #       command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd mango";
+  #       user = "greeter";
+  #     };
+  #   };
+  # };
+  # services.greetd = {
+  #     enable = true;
+  #     settings = {
+  #       initial_session = {
+  #         command = "mango";
+  #         user = "ruahman"; # auto-login on first start, no password required
+  #       };
+  #       default_session = {
+  #         command = "${pkgs.greetd-tuigreet}/bin/tuigreet --time --remember --cmd mango";
+  #         # command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd mango";
+  #         user = "greeter";
+  #       };
+  #     };
+  #   };
   
   # enable xfce
-  services.xserver.enable = true; # enable the x11 window system
-  services.xserver.desktopManager.xfce.enable = true;
+  # services.xserver.enable = true; # enable the x11 window system
+  # services.xserver.desktopManager.xfce.enable = true;
   # enable gnome
-  services.desktopManager.gnome.enable = true;
+  # services.desktopManager.gnome.enable = true;
   # enable mongowm
   programs.mango.enable = true;
+
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd mango";
+        user = "greeter";
+      };
+    };
+  };
 
   # Configure keymap in X11
   # to get it to run:
@@ -86,7 +125,7 @@
   # gsettings reset org.gnome.desktop.input-sources sources
   services.xserver.xkb = {
     layout = "us";
-    variant = "intl";
+    variant = "altgr-intl";
     options = "caps:ctrl_modifier,compose:lalt";
   };
 
