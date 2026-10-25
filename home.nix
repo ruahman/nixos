@@ -48,18 +48,6 @@ in
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
 
-      #pkg-config
-      # patchelf
-      # wayland
-      # libxkbcommon
-      # libx11
-      # libxcb
-      # libxcursor
-      # libxi
-      # libxrandr
-      # vulkan-loader
-      # libglvnd
-      # dbus
     # a comandline tool for managing display and monitors
     wlr-randr
 
@@ -152,7 +140,6 @@ in
 
     ## video games
     snes9x
-    chess-tui
 
     # windows emulation
     wine
@@ -620,6 +607,7 @@ in
       ]) (lib.range 1 9);
 
       exec_once = [
+        # "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP && systemctl --user start mango-session.target" 
         "swaybg -i /home/ruahman/Pictures/wallhaven-p9pd23_1920x1080.png -m fill"
         "swaync"
         "wl-clipboard"
@@ -693,7 +681,7 @@ in
     enable = true;
     
     # Target MangoWM's graphical session
-    # systemdTargets = [ "mango-session.target" ]; 
+    systemdTargets = [ "mango-session.target" ]; 
     # systemdTargets = [ "graphical-session.target" ];
 
     # Extra arguments (e.g., -w to wait for command completion)
@@ -701,7 +689,7 @@ in
 
     timeouts = [
       {
-        timeout = 300; # 5 minutes
+        timeout = 20; # 5 minutes
         # Lock the screen
         command = "${pkgs.swaylock}/bin/swaylock -fF";
       }
