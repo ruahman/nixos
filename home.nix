@@ -373,7 +373,7 @@ in
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
-    enableNushellIntegration = true;
+    # enableNushellIntegration = true;
   };
 
   programs.eza = {
