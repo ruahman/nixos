@@ -67,6 +67,9 @@
     ];
   };
 
+  # Essential: Allow swaylock to verify your password via PAM
+  security.pam.services.swaylock = {};
+
   # set the Display Manger
   # services.displayManager.sddm = {
   #    enable = true;

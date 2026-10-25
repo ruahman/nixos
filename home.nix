@@ -7,7 +7,8 @@ let
   OLS_VERSION = "dev-2026-08";
 in
 {
-  home.stateVersion = "24.05";
+  # home.stateVersion = "24.05";
+  home.stateVersion = "26.05";
 
   home.username = "ruahman";
   home.homeDirectory = "/home/ruahman";
@@ -59,6 +60,8 @@ in
       # vulkan-loader
       # libglvnd
       # dbus
+    # a comandline tool for managing display and monitors
+    wlr-randr
 
     # file explorer
     thunar
@@ -390,9 +393,6 @@ in
     enable = true;
   };
 
-  # programs.lf = {
-  #   enable = true;
-  # };
   programs.yazi.enable = true;
 
   # programs.vscode = {
@@ -468,15 +468,8 @@ in
       show_banner = false;
     };
     environmentVariables = config.home.sessionVariables;
+    loadSessionVariables = false;
     shellAliases = config.home.shellAliases;
-    extraConfig = ''
-       def --env --wrapped lfcd [...args] {
-         let dir = (^lf -print-last-dir ...$args | str trim)
-         if ($dir | is-not-empty) and ($dir | path exists) {
-           cd $dir
-         }
-       }
-    '';
   };
 
   programs.bash = {
@@ -516,9 +509,6 @@ in
     };
   };
 
-  # programs.kitty.enable = true;
-
-  # programs.foot.enable = true;
   programs.kitty.enable = true;
   programs.kitty.font = {
     name = "CaskaydiaCove Nerd Font";
@@ -596,6 +586,8 @@ in
       bind = [
         # Launchers
         "ALT,Return,spawn,foot"
+        "ALT+SHIFT,Return,spawn,ghostty"
+        "ALT,f,spawn,thunar"
         "ALT,space,spawn,rofi -show drun"
 
         # Window management
@@ -608,10 +600,12 @@ in
         "SUPER,t,setlayout,tile"
         "SUPER,g,setlayout,grid"
         "SUPER,s,setlayout,scroller"
-        "NONE,Print,spawn,sh -c 'grim \"$HOME/Pictures/Screenshots/$(date +%Y%m%d%H%M%S).png\"'"
-
 
         # screen shot
+        "NONE,Print,spawn,sh -c 'grim \"$HOME/Pictures/Screenshots/$(date +%Y%m%d%H%M%S).png\"'"
+
+        # lock screen
+        "SUPER+SHIFT,l,spawn,swaylock"
 
         # Focus with arrow keys
         "ALT,Left,focusdir,left"
@@ -626,7 +620,6 @@ in
       ]) (lib.range 1 9);
 
       exec_once = [
-        "mangobar"
         "swaybg -i /home/ruahman/Pictures/wallhaven-p9pd23_1920x1080.png -m fill"
         "swaync"
         "wl-clipboard"
@@ -639,7 +632,7 @@ in
 
   services.mangobar = {
     enable = true;
-    systemdTarget = "mango.target";
+    # systemdTarget = "mango.target";
     settings = {
       modules-left = [ "workspaces" "layout" "window" ];
       modules-right = [ "custom/ssid" "custom/wifi" "cpu" "memory" "custom/disk" "battery" "clock#date" "clock#time" ];
@@ -667,10 +660,69 @@ in
     };
   };
 
+  programs.swaylock = {
+    enable = true;
+    # Package choice: pkgs.swaylock or pkgs.swaylock-effects (for blur/fade)
+    package = pkgs.swaylock; 
+    
+    settings = {
+      # Visual layout
+      # color = "000000";             # Solid black background
+      # image = "/path/to/wall.png"; # Or use a wallpaper image instead
+      image = "/home/ruahman/Pictures/wallhaven-p9pd23_1920x1080.png";
+      scaling = "fill";
+      
+      # Indicator options
+      indicator = true;
+      indicator-radius = 100;
+      indicator-thickness = 7;
+      
+      # Color themes for the ring (Hex codes without '#')
+      ring-color = "ffffff";
+      key-hl-color = "8839ef";       # Highlight color when typing
+      line-color = "00000000";       # Invisible inner line
+      inside-color = "00000088";     # Semi-transparent inside circle
+      
+      # Behavior
+      show-failed-attempts = true;
+      ignore-empty-password = true;
+    };
+  };
+
+  services.swayidle = {
+    enable = true;
+    
+    # Target MangoWM's graphical session
+    # systemdTargets = [ "mango-session.target" ]; 
+    # systemdTargets = [ "graphical-session.target" ];
+
+    # Extra arguments (e.g., -w to wait for command completion)
+    extraArgs = [ "-w" ];
+
+    timeouts = [
+      {
+        timeout = 300; # 5 minutes
+        # Lock the screen
+        command = "${pkgs.swaylock}/bin/swaylock -fF";
+      }
+      # {
+      #   timeout = 600; # 10 minutes
+      #   # Turn off display using wlr-randr (or your preferred monitor tool)
+      #   command = "${pkgs.wlr-randr}/bin/wlr-randr --output HEADLESS-1 --off"; 
+      #   resumeCommand = "${pkgs.wlr-randr}/bin/wlr-randr --output HEADLESS-1 --on";
+      # }
+    ];
+
+    events = {
+      before-sleep = "${pkgs.swaylock}/bin/swaylock -fF";
+      lock = "${pkgs.swaylock}/bin/swaylock -fF";
+    };
+  };
+
   programs.rofi = {
     enable = true;
-    terminal = "${pkgs.ghostty}/bin/ghostty";
-    extraConfig = {
+    settings.terminal = "${pkgs.ghostty}/bin/ghostty";
+    settings.extraConfig = {
       modi = "drun,run,window";
       show-icons = true;
       drun-display-format = "{name}";
