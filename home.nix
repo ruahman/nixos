@@ -133,7 +133,8 @@ in
     helix
 
     ## email
-    evolution
+    #evolution
+    thunderbird
 
     ## torrent
     qbittorrent
