@@ -128,9 +128,9 @@ in
     miktex
 
     ## text editors
-    neovim
+    # neovim
     neovide
-    helix
+    # helix
 
     ## email
     #evolution
@@ -172,6 +172,7 @@ in
     (lib.hiPrio clang)
     clang-tools
     gcc
+    seer
     binutils 
     jetbrains.clion
 
@@ -206,7 +207,7 @@ in
     pyenv
 
     # mojo
-    mojo-bin
+    # mojo-bin
 
     ## ruby, make ruby bundler is higher priority 
     ruby
@@ -227,6 +228,7 @@ in
     deno
     vite-plus
     nub
+    lazynpm
     playwright-driver.browsers
     typescript-language-server
     vscode-langservers-extracted
@@ -241,11 +243,8 @@ in
     dotnet-sdk_10
     roslyn-ls # C# language server
     csharpier # C# code formatter
-    avalonia
+    # avalonia
     jetbrains.rider
-
-    ## terminals
-    terminator
 
     ## browsers
     google-chrome
@@ -254,8 +253,8 @@ in
     sqlite
     postgresql
     mariadb
-    dblab
     lazysql
+    # dblab
     #redis
     #mongodb-ce
     #couchdb3
@@ -266,9 +265,7 @@ in
     htop
     btop
     below
-    superfile
-    # yazi
-    # ranger
+    # superfile
     tldr # to long don't read
     duf  # disk utility find
     delta # diff
@@ -307,7 +304,7 @@ in
 
     # message apps
     telegram-desktop
-    karere
+    karere # opensource whatsapp
     signal-desktop
     slack
     discord
@@ -333,8 +330,6 @@ in
   programs.photocraft.enable = true;
   programs.pdfcraft.enable = true;
 
-  # programs.thunar.enable = true;
-
   programs.pi-coding-agent = {
     enable = true;
     settings.packages = [
@@ -345,6 +340,10 @@ in
       "npm:pi-mcp-extension"
     ];
   };
+
+  programs.neovim.enable = true;
+  
+  programs.helix.enable = true;
 
   programs.emacs = {
     enable = true;
@@ -357,13 +356,6 @@ in
     client.enable = true;  # installs a desktop entry for emacsclient
   };
 
-  # start emacs only after the graphical session (and its env import) is up
-  # systemd.user.services.emacs = {
-  #   Unit.After = [ "graphical-session.target" ];
-  #   Unit.Wants = [ "graphical-session.target" ];
-  # };
-
-
   programs.zoxide = {
     enable = true;
     enableBashIntegration = true;
@@ -373,13 +365,11 @@ in
   # fuzy find
   programs.fzf = {
     enable = true;
-    enableBashIntegration = true;
+    # enableBashIntegration = true;
     # enableNushellIntegration = true;
   };
 
-  programs.eza = {
-    enable = true;
-  };
+  programs.eza.enable = true;
 
   programs.yazi.enable = true;
 
@@ -460,17 +450,11 @@ in
     shellAliases = config.home.shellAliases;
   };
 
-  programs.bash = {
-    enable = true;
-  };
+  programs.bash.enable = true;
 
-  programs.zsh = {
-    enable = true;
-  };
+  programs.zsh.enable = true;
 
-  programs.git = {
-    enable = true;
-  };
+  programs.git.enable = true;
  
   programs.ghostty = {
     enable = true;
@@ -484,6 +468,9 @@ in
 
       window-height = 25;
       window-width = 100;
+
+      window-padding-balance = true;
+      window-padding-color = "extend";
     };
   };
 
@@ -497,17 +484,21 @@ in
     };
   };
 
-  programs.kitty.enable = true;
-  programs.kitty.font = {
-    name = "CaskaydiaCove Nerd Font";
-    size = 18;
-    package = pkgs.nerd-fonts.jetbrains-mono;
+  programs.kitty = {
+    enable = true;
+    font = {
+      name = "CaskaydiaCove Nerd Font";
+      size = 18;
+      package = pkgs.nerd-fonts.jetbrains-mono;
+    };
   };
 
-  programs.foot.enable = true;
-  programs.foot.settings = {
-    main = {
-      font = "JetBrainsMono Nerd Font:size=18";
+  programs.foot = {
+    enable = true;
+    settings = {
+      main = {
+        font = "JetBrainsMono Nerd Font:size=18";
+      };
     };
   };
 
@@ -581,7 +572,7 @@ in
         # Window management
         "ALT,q,killclient"
         "SUPER,m,quit"
-        "SUPER,r,reload_config"
+        # "SUPER,r,reload_config"
         "SUPER,f,togglefullscreen"
 
         # Set specific layout
@@ -608,7 +599,6 @@ in
       ]) (lib.range 1 9);
 
       exec_once = [
-        # "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP && systemctl --user start mango-session.target" 
         "swaybg -i /home/ruahman/Pictures/wallhaven-p9pd23_1920x1080.png -m fill"
         "swaync"
         "wl-clipboard"
@@ -621,7 +611,6 @@ in
 
   services.mangobar = {
     enable = true;
-    # systemdTarget = "mango.target";
     settings = {
       modules-left = [ "workspaces" "layout" "window" ];
       modules-right = [ "custom/ssid" "custom/wifi" "cpu" "memory" "custom/disk" "battery" "clock#date" "clock#time" ];
@@ -682,15 +671,15 @@ in
     enable = true;
     
     # Target MangoWM's graphical session
-    systemdTargets = [ "mango-session.target" ]; 
+    # systemdTargets = [ "mango-session.target" ]; 
     # systemdTargets = [ "graphical-session.target" ];
 
     # Extra arguments (e.g., -w to wait for command completion)
-    extraArgs = [ "-w" ];
+    # extraArgs = [ "-w" ];
 
     timeouts = [
       {
-        timeout = 20; # 5 minutes
+        timeout = 300; # 5 minutes
         # Lock the screen
         command = "${pkgs.swaylock}/bin/swaylock -fF";
       }

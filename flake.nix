@@ -79,10 +79,16 @@
 	  inputs.nixpkgs.follows = "nixpkgs";
     };
 
+	  #  helix = {
+	  #    url = "github:helix-editor/helix";
+	  # inputs.nixpkgs.follows = "nixpkgs";
+	  #  };
+
     artcraft = {
       url = "github:mahlquistj/artcraft-flake";  
 	  inputs.nixpkgs.follows = "nixpkgs";
     };
+
   };
 
   outputs = { self, 
@@ -98,6 +104,7 @@
     claude-desktop-nix-flake,
     nix-vite-plus, 
     nub-overlay, 
+    # helix,
     artcraft, ... }@inputs: 
     let
       system = "x86_64-linux";
@@ -112,6 +119,7 @@
         claude-desktop-nix-flake.overlays.default
         nix-vite-plus.overlays.default
         nub-overlay.overlays.default
+        # helix.overlays.default
         artcraft.overlays.default
       ];
 
