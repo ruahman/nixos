@@ -172,7 +172,8 @@ in
     (lib.hiPrio clang)
     clang-tools
     gcc
-    seer
+    seer # gui debugger
+    nnd # tui debugger
     binutils 
     jetbrains.clion
 
