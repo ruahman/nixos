@@ -289,6 +289,7 @@ in
     duf  # disk utility find
     delta # diff
     pass # passwords
+    gopass
     lazygit 
     xclip # clipboard
     p7zip # 7zip compression
