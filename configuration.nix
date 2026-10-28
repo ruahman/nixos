@@ -14,7 +14,7 @@
       ./hardware-configuration.nix
     ];
 
-  # mound nvme
+  # mount nvme
   fileSystems."/mnt/nvme" = {
       device = "/dev/nvme0n1p1";
       fsType = "ext4";
@@ -71,39 +71,6 @@
   security.pam.services.swaylock = {};
 
   # set the Display Manger
-  # services.displayManager.sddm = {
-  #    enable = true;
-  #    #wayland.enable = true;
-  # };
-  # Enable greetd display manager daemon
-  # services.greetd = {
-  #   enable = true;
-  #   settings = {
-  #     default_session = {
-  #       # tuigreet is used as the frontend greeter interface
-  #       # --time displays the current time on the screen
-  #       # --remember remembers the last successfully logged-in user
-  #       # --cmd specifies the command to execute after login
-  #       command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd mango";
-  #       user = "greeter";
-  #     };
-  #   };
-  # };
-  # services.greetd = {
-  #     enable = true;
-  #     settings = {
-  #       initial_session = {
-  #         command = "mango";
-  #         user = "ruahman"; # auto-login on first start, no password required
-  #       };
-  #       default_session = {
-  #         command = "${pkgs.greetd-tuigreet}/bin/tuigreet --time --remember --cmd mango";
-  #         # command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd mango";
-  #         user = "greeter";
-  #       };
-  #     };
-  #   };
-  
   # enable xfce
   # services.xserver.enable = true; # enable the x11 window system
   # services.xserver.desktopManager.xfce.enable = true;
@@ -198,24 +165,11 @@
     };
   };
 
-  # virtualisation.vmware = {
-  #   host.enable = true;
-  # };
-
-  # virtualisation.virtualbox = {
-  #   host = {
-  #     enable = true;
-  #     enableExtensionPack = true;
-  #   };
-  # };
-
   # Let your user access USB devices and create VMs
   users.extraGroups.vboxusers.members = [ "ruahman" ];
 
-
   virtualisation.docker = {
     enable = true;
-    #autoPrune.enable = true;   # optional: periodically removes unused images/containers
   };
 
   virtualisation.podman = {
@@ -287,9 +241,25 @@
   ];
 
 
+  # cross desktop group (xdg)
   # desktop portals, enables screen share, etc???
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  # xdg.portal.enable = true;
+  # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal = {
+    enable = true;
+    
+    # Optional: ensure you have a fallback backend format (like GTK) 
+    # to handle the actual file picker rendering if your DE doesn't supply one.
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+
+    # config.common.default = "*";
+
+    config = {
+      common = {
+        default = [ "*" ];
+      };
+    };
+  };
  
   # in case of nvidia 
   environment.sessionVariables = {

@@ -29,12 +29,20 @@ in
     httpies = "^https";
   };
 
-  xdg.portal.enable = lib.mkForce true;
+  # xdg.portal.enable = lib.mkForce true;
 
+  # xdg.portal = {
+  #   extraPortals = [ pkgs.xdg-desktop-portal-gnome pkgs.xdg-desktop-portal-gtk ];
+  #   config.niri.default = [ "gnome" "gtk" ];
+  # };
   xdg.portal = {
-    extraPortals = [ pkgs.xdg-desktop-portal-gnome pkgs.xdg-desktop-portal-gtk ];
-    config.niri.default = [ "gnome" "gtk" ];
+    enable = true;
+    
+    # Optional: ensure you have a fallback backend format (like GTK) 
+    # to handle the actual file picker rendering if your DE doesn't supply one.
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
+  xdg.portal.config.common.default = "*";
 
   home.pointerCursor = {
     enable = true;
@@ -89,7 +97,7 @@ in
     docker 
     docker-compose
     lazydocker
-    oxker
+    docker-language-server
 
     ## development tools
     bruno
@@ -105,6 +113,10 @@ in
     openssl.dev
     protobuf
     nasm
+    asm-lsp
+    nil # nix lsp
+    nixd # another nix lsp
+    taplo # toml tools
 
     ## bitcoin
     #bitcoind
@@ -125,11 +137,12 @@ in
 
     ## math
     typst
-    miktex
+    tinymist # typst lsp
+    miktex # latex
 
     ## text editors
-    # neovim
-    neovide
+    neovim
+    # neovide
     # helix
 
     ## email
@@ -165,7 +178,7 @@ in
     (lib.lowPrio gotools)
     gofumpt
     golines
-    delve
+    delve # golang debugger
     golangci-lint
  
     ## c/c++ 
@@ -175,7 +188,7 @@ in
     seer # gui debugger
     nnd # tui debugger
     binutils 
-    jetbrains.clion
+    # jetbrains.clion
 
     ## zig
     pkgs.zigpkgs.${ZIG_VERSION}
@@ -197,14 +210,16 @@ in
     python314Packages.pyzmq
     python314Packages.jupyter
     python314Packages.marimo
+    python314Packages.python-lsp-server
+    python314Packages.jedi-language-server
     uv
     pipenv
     poetry
     mypy
     isort
     ruff
-    pyright
-    basedpyright
+    pyright # python lsp
+    basedpyright # python lsp
     pyenv
 
     # mojo
@@ -216,6 +231,7 @@ in
     rubyPackages.pry
     rubyPackages.rubocop
     solargraph
+    ruby-lsp
     rbenv
 
     ## javascript/typescript
@@ -233,6 +249,7 @@ in
     playwright-driver.browsers
     typescript-language-server
     vscode-langservers-extracted
+    superhtml
     vscode-js-debug
     jetbrains.webstorm
     fnm
@@ -241,11 +258,12 @@ in
     wasmtime
 
     ## dotnet
-    dotnet-sdk_10
+    dotnet-sdk_11
     roslyn-ls # C# language server
+    omnisharp-roslyn # language server
     csharpier # C# code formatter
     # avalonia
-    jetbrains.rider
+    # jetbrains.rider
 
     ## browsers
     google-chrome
@@ -342,9 +360,13 @@ in
     ];
   };
 
-  programs.neovim.enable = true;
+  # programs.neovim = {
+  #   enable = true;
+  # };
   
-  programs.helix.enable = true;
+  programs.helix = {
+    enable = true;
+  };
 
   programs.emacs = {
     enable = true;
@@ -364,11 +386,11 @@ in
   };
 
   # fuzy find
-  programs.fzf = {
-    enable = true;
-    # enableBashIntegration = true;
-    # enableNushellIntegration = true;
-  };
+  # programs.fzf = {
+  #   enable = true;
+  #   # enableBashIntegration = true;
+  #   # enableNushellIntegration = true;
+  # };
 
   programs.eza.enable = true;
 
