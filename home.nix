@@ -1,7 +1,7 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, ... }:
 let
   MSRV = "1.99.0"; # minimual supported rust version
-  ZIG_VERSION = "0.16.0";
+  ZIG_VERSION = "0.17.0";
   GO_VERSION = "1.27.0";
   ODIN_VERSION = "dev-2026-09";
   OLS_VERSION = "dev-2026-08";
@@ -366,6 +366,15 @@ in
   
   programs.helix = {
     enable = true;
+    settings = {
+      theme = "tokyonight";
+      keys.insert = {
+        "C-c" = "normal_mode"; 
+      };
+      keys.select = {
+        "C-c" = "normal_mode"; 
+      };
+    };
   };
 
   programs.emacs = {
