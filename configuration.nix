@@ -63,19 +63,12 @@
       nerd-fonts.jetbrains-mono 
       nerd-fonts.terminess-ttf 
       nerd-fonts.im-writing
-      nerd-fonts.code-new-roman
     ];
   };
 
   # Essential: Allow swaylock to verify your password via PAM
   security.pam.services.swaylock = {};
 
-  # set the Display Manger
-  # enable xfce
-  # services.xserver.enable = true; # enable the x11 window system
-  # services.xserver.desktopManager.xfce.enable = true;
-  # enable gnome
-  # services.desktopManager.gnome.enable = true;
   # enable mongowm
   programs.mango.enable = true;
 
@@ -90,9 +83,6 @@
   };
 
   # Configure keymap in X11
-  # to get it to run:
-  # gsettings reset org.gnome.desktop.input-sources xkb-options
-  # gsettings reset org.gnome.desktop.input-sources sources
   services.xserver.xkb = {
     layout = "us";
     variant = "altgr-intl";
@@ -147,7 +137,6 @@
   users.users.ruahman = {
     isNormalUser = true;
     description = "ruahman";
-    #extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "podman" "incus-admin" "vmware"];
     extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "podman" "incus-admin"];
     packages = with pkgs; [
     ];
@@ -189,21 +178,21 @@
 
   # allow dynamic link
   programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    libxkbcommon
-    libGL
-    fontconfig
-    freetype
-    wayland
-    libx11
-    libxcb
-    libxcursor
-    libxi
-    libxrandr
-    vulkan-loader
-    libglvnd
-    dbus
-  ];
+  # programs.nix-ld.libraries = with pkgs; [
+  #   libxkbcommon
+  #   libGL
+  #   fontconfig
+  #   freetype
+  #   wayland
+  #   libx11
+  #   libxcb
+  #   libxcursor
+  #   libxi
+  #   libxrandr
+  #   vulkan-loader
+  #   libglvnd
+  #   dbus
+  # ];
 
   # virt-manager GUI
   programs.virt-manager.enable = true;

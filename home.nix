@@ -7,7 +7,6 @@ let
   OLS_VERSION = "dev-2026-08";
 in
 {
-  # home.stateVersion = "24.05";
   home.stateVersion = "26.05";
 
   home.username = "ruahman";
@@ -25,51 +24,28 @@ in
 
   home.shellAliases = {
     lsz = "eza -l --git --icons --tree --level=2";
-    httpie = "^http";
-    httpies = "^https";
   };
 
-  # xdg.portal.enable = lib.mkForce true;
-
-  # xdg.portal = {
-  #   extraPortals = [ pkgs.xdg-desktop-portal-gnome pkgs.xdg-desktop-portal-gtk ];
-  #   config.niri.default = [ "gnome" "gtk" ];
-  # };
   xdg.portal = {
     enable = true;
     
     # Optional: ensure you have a fallback backend format (like GTK) 
     # to handle the actual file picker rendering if your DE doesn't supply one.
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  };
-  xdg.portal.config.common.default = "*";
-
-  home.pointerCursor = {
-    enable = true;
-    package = pkgs.adwaita-icon-theme;
-    name = "Adwaita";
-    size = 24;
-    gtk.enable = true;
-    x11.enable = true;
+    config.common.default = "*";
   };
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
 
     # a comandline tool for managing display and monitors
-    wlr-randr
+    # wlr-randr
 
     # file explorer
     thunar
    
     # bootstick burner
     caligula 
-
-    # xfce
-    xfce4-whiskermenu-plugin
-    xfce4-dict
-    xfce4-notes-plugin
-    plank
 
     # mangowm
     swaybg # background
@@ -101,9 +77,6 @@ in
 
     ## development tools
     bruno
-    bruno-cli
-    httpie-desktop
-    httpie
     postman
     posting
     gnumake 
@@ -134,6 +107,7 @@ in
 
     ## office
     #libreoffice
+    foliate
 
     ## math
     typst
@@ -141,9 +115,8 @@ in
     miktex # latex
 
     ## text editors
-    neovim
-    # neovide
-    # helix
+    neovim 
+    emacs
 
     ## email
     #evolution
@@ -273,10 +246,6 @@ in
     postgresql
     mariadb
     lazysql
-    # dblab
-    #redis
-    #mongodb-ce
-    #couchdb3
 
     ## utils/tools
     fastfetch
@@ -289,7 +258,8 @@ in
     duf  # disk utility find
     delta # diff
     pass # passwords
-    gopass
+    # gopass
+    yubikey-manager
     lazygit 
     xclip # clipboard
     p7zip # 7zip compression
@@ -361,27 +331,45 @@ in
     ];
   };
 
-  # programs.neovim = {
-  #   enable = true;
-  # };
-  
   programs.helix = {
     enable = true;
     settings = {
       theme = "tokyonight";
-      keys.insert = {
-        "C-c" = "normal_mode"; 
+      editor = {
+        line-number = "relative";
+        bufferline = "multiple";
+        cursorline = true;
+        cursor-shape = {
+          normal = "block";
+          insert = "bar";
+          select = "underline";
+        };
+        indent-guides = {
+          render = true;
+          character = "│"; # Custom vertical line character
+          skip-levels = 0; # Number of indent levels to skip rendering
+        };
+        statusline = {
+          left = [ "spinner" "mode" "read-only-indicator" "file-modification-indicator" "file-name" "version-control" ];
+          center = [ "diagnostics" ];
+          right = [ "selections" "register" "position" "position-percentage" "file-encoding" "file-type" ];
+        };
       };
-      keys.select = {
-        "C-c" = "normal_mode"; 
+      keys.insert = {
+        "j" = { "f" = "normal_mode"; };
+        "f" = { "j" = "normal_mode"; };
+        "A-h" = "move_char_left";
+        "A-j" = "move_line_down";
+        "A-k" = "move_line_up";
+        "A-l" = "move_char_right";
       };
     };
   };
 
-  programs.emacs = {
-    enable = true;
-    package = pkgs.emacs;  
-  };
+  # programs.emacs = {
+  #   enable = true;
+  #   package = pkgs.emacs;  
+  # };
 
   services.emacs = {
     enable = true;
@@ -405,10 +393,6 @@ in
   programs.eza.enable = true;
 
   programs.yazi.enable = true;
-
-  # programs.vscode = {
-  #   enable = true;
-  # };
 
   programs.zed-editor = {
     enable = true;
