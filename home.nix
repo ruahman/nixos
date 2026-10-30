@@ -567,10 +567,31 @@ in
       set-option -g status-position top
       set -g base-index 1
       set -g pane-base-index 1
+      bind t display-popup -E -w 80% -h 70% -d '#{pane_current_dir}'
+      set -g popup-style bg=default
+      set -g popup-border-lines rounded
+
     ''; 
+    plugins = with pkgs.tmuxPlugins; [
+      {
+        plugin = tokyo-night-tmux;
+        extraConfig = ''
+          set -g @tokyo-night-tmux_show_path 1
+        '';
+      }
+    ];
   };
 
-  programs.herdr.enable = true;
+  programs.herdr = {
+    enable = true;
+    settings = {
+      keys = {
+        prefix = "ctrl+b";
+        next_workspace = "prefix+Down";
+        previous_workspace = "prefix+Up";
+      };
+    };
+  };
 
   wayland.windowManager.mango = {
     enable = true;
