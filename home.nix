@@ -89,6 +89,7 @@ in
     asm-lsp
     nil # nix lsp
     nixd # another nix lsp
+    nixfmt # nix formater
     taplo # toml tools
 
     ## bitcoin
@@ -148,11 +149,12 @@ in
     ## golang 
     go-bin.versions.${GO_VERSION}
     gopls
-    (lib.lowPrio gotools)
+    # (lib.lowPrio gotools)
     gofumpt
     golines
-    delve # golang debugger
     golangci-lint
+    golangci-lint-langserver
+    delve # golang debugger
  
     ## c/c++ 
     (lib.hiPrio clang)
@@ -354,15 +356,24 @@ in
           center = [ "diagnostics" ];
           right = [ "selections" "register" "position" "position-percentage" "file-encoding" "file-type" ];
         };
+        lsp = {
+          display-messages = true;
+          display-inlay-hints = true;
+        };
       };
       keys.insert = {
-        "C-n" = "normal_mode";
+        "C-k" = "normal_mode";
         "A-h" = "move_char_left";
         "A-j" = "move_line_down";
         "A-k" = "move_line_up";
         "A-l" = "move_char_right";
       };
     };
+    # languages = {
+    #   language-server.gopls.config = {
+    #     gofumpt = true;
+    #   };
+    # };
   };
 
   # programs.emacs = {
