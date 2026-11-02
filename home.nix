@@ -24,6 +24,7 @@ in
 
   home.shellAliases = {
     lsz = "eza -l --git --icons --tree --level=2";
+    nvim = "nvim --listen /tmp/nvim";
   };
 
   xdg.portal = {
@@ -362,18 +363,13 @@ in
         };
       };
       keys.insert = {
-        "C-k" = "normal_mode";
+        "C-c" = "normal_mode";
         "A-h" = "move_char_left";
         "A-j" = "move_line_down";
         "A-k" = "move_line_up";
         "A-l" = "move_char_right";
       };
     };
-    # languages = {
-    #   language-server.gopls.config = {
-    #     gofumpt = true;
-    #   };
-    # };
   };
 
   # programs.emacs = {
@@ -571,18 +567,13 @@ in
 
   programs.tmux = {
     enable = true;
-    # Sets the default $TERM string inside tmux sessions
+    shell = "${pkgs.bash}/bin/bash";
     terminal = "tmux-256color";
     extraConfig = ''
-      set-option -g default-shell ${pkgs.bash}/bin/bash
       set -g mouse on
       set-option -g status-position top
       set -g base-index 1
       set -g pane-base-index 1
-      bind C-t run "#{@popup-toggle} -Ed'##{pane_current_path}' -w80% -h70%"
-      set -g popup-style bg=default
-      set -g popup-border-lines rounded
-      set -as terminal-overrides ",*:Tc"
     ''; 
     plugins = with pkgs.tmuxPlugins; [
       {
@@ -591,18 +582,30 @@ in
           set -g @tokyo-night-tmux_show_path 1
         '';
       }
-      tmux-toggle-popup
     ];
   };
 
   programs.herdr = {
     enable = true;
     settings = {
+      onboarding = false;
       keys = {
         prefix = "ctrl+b";
-        next_workspace = "prefix+Down";
-        previous_workspace = "prefix+Up";
       };
+      theme = {
+        name = "catppuccin";
+      };
+      terminal = {
+        default_shell = "bash";
+      };
+      ui = {
+        sound = {
+          enabled = true;
+        };
+        toast = {
+          delivery = "system";
+        };
+     };
     };
   };
 
@@ -617,7 +620,7 @@ in
         # Launchers
         "ALT,Return,spawn,foot"
         "ALT+SHIFT,Return,spawn,ghostty"
-        "ALT,f,spawn,thunar"
+        "ALT+SHIFT,f,spawn,thunar"
         "ALT,space,spawn,rofi -show drun"
 
         # Window management
