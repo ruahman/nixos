@@ -3,7 +3,7 @@ let
   MSRV = "1.99.0"; # minimual supported rust version
   ZIG_VERSION = "0.17.0";
   GO_VERSION = "1.27.0";
-  ODIN_VERSION = "dev-2026-09";
+  ODIN_VERSION = "dev-2026-10";
   OLS_VERSION = "dev-2026-08";
 in
 {
@@ -27,11 +27,10 @@ in
     nvim = "nvim --listen /tmp/nvim";
   };
 
+  # xternal desktop group
   xdg.portal = {
     enable = true;
     
-    # Optional: ensure you have a fallback backend format (like GTK) 
-    # to handle the actual file picker rendering if your DE doesn't supply one.
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     config.common.default = "*";
   };
@@ -109,7 +108,7 @@ in
 
     ## office
     #libreoffice
-    foliate
+    foliate # epub
 
     ## math
     typst
@@ -283,7 +282,7 @@ in
     watchexec # file watcher
     pavucontrol # volume control
     blueman # bluetooth control
-    cloudsmith-cli
+    # cloudsmith-cli
     #gnupg # good enough privacy
 
 
@@ -372,11 +371,6 @@ in
     };
   };
 
-  # programs.emacs = {
-  #   enable = true;
-  #   package = pkgs.emacs;  
-  # };
-
   services.emacs = {
     enable = true;
     defaultEditor = true;  # sets EDITOR/VISUAL to emacsclient
@@ -390,11 +384,11 @@ in
   };
 
   # fuzy find
-  # programs.fzf = {
-  #   enable = true;
-  #   # enableBashIntegration = true;
-  #   # enableNushellIntegration = true;
-  # };
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
+    # enableNushellIntegration = true;
+  };
 
   programs.eza.enable = true;
 
@@ -567,13 +561,14 @@ in
 
   programs.tmux = {
     enable = true;
-    shell = "${pkgs.bash}/bin/bash";
+    shell = "${pkgs.nushell}/bin/nu";
     terminal = "tmux-256color";
     extraConfig = ''
       set -g mouse on
       set-option -g status-position top
       set -g base-index 1
       set -g pane-base-index 1
+      bind-key C-t display-popup -w 80% -h 75% -d "#{pane_current_path}" -E
     ''; 
     plugins = with pkgs.tmuxPlugins; [
       {
@@ -618,8 +613,8 @@ in
       xkb_rules_options = "ctrl:nocaps";
       bind = [
         # Launchers
-        "ALT,Return,spawn,foot"
-        "ALT+SHIFT,Return,spawn,ghostty"
+        "ALT,t,spawn,foot"
+        "ALT+SHIFT,t,spawn,ghostty"
         "ALT+SHIFT,f,spawn,thunar"
         "ALT,space,spawn,rofi -show drun"
 
@@ -761,5 +756,4 @@ in
     };
   };
 
-  
 }
