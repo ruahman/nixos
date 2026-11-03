@@ -197,10 +197,7 @@ in
     basedpyright # python lsp
     pyenv
 
-    # mojo
-    # mojo-bin
-
-    ## ruby, make ruby bundler is higher priority 
+    ## ruby
     ruby
     rubyPackages.nokogiri
     rubyPackages.pry
@@ -319,8 +316,8 @@ in
   programs.gridcraft.enable = true;
   programs.wordcraft.enable = true;
   programs.deckcraft.enable = true;
-  programs.photocraft.enable = true;
   programs.pdfcraft.enable = true;
+  programs.photocraft.enable = true;
 
   programs.pi-coding-agent = {
     enable = true;
@@ -387,7 +384,7 @@ in
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
-    # enableNushellIntegration = true;
+    enableNushellIntegration = true;
   };
 
   programs.eza.enable = true;
@@ -568,8 +565,10 @@ in
       set-option -g status-position top
       set -g base-index 1
       set -g pane-base-index 1
-      bind-key C-t if-shell -F '#{==:#{session_name},popup}' 'detach-client' 'display-popup -w 80% -h 75% -d "#{pane_current_path}" -E "tmux new-session -A -s popup"'
-
+      bind-key C-t if-shell -F '#{==:#{client_session},popup}' 'detach-client' 'display-popup -w 80% -h 75% -d "#{pane_current_path}" -E "tmux new-session -A -s popup"'
+      set -g popup-style bg=default
+      set -g popup-border-lines rounded
+      set -as terminal-overrides ",*:Tc"
     ''; 
     plugins = with pkgs.tmuxPlugins; [
       {
