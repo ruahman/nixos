@@ -568,7 +568,8 @@ in
       set-option -g status-position top
       set -g base-index 1
       set -g pane-base-index 1
-      bind-key C-t display-popup -w 80% -h 75% -d "#{pane_current_path}" -E
+      bind-key C-t if-shell -F '#{==:#{session_name},popup}' 'detach-client' 'display-popup -w 80% -h 75% -d "#{pane_current_path}" -E "tmux new-session -A -s popup"'
+
     ''; 
     plugins = with pkgs.tmuxPlugins; [
       {
