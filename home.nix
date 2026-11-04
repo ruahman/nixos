@@ -370,7 +370,7 @@ in
 
   services.emacs = {
     enable = true;
-    defaultEditor = true;  # sets EDITOR/VISUAL to emacsclient
+    # defaultEditor = true;  # sets EDITOR/VISUAL to emacsclient
     client.enable = true;  # installs a desktop entry for emacsclient
   };
 
