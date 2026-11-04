@@ -1,10 +1,12 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 let
   MSRV = "1.99.0"; # minimual supported rust version
   ZIG_VERSION = "0.17.0";
   GO_VERSION = "1.27.0";
   ODIN_VERSION = "dev-2026-10";
   OLS_VERSION = "dev-2026-08";
+  # path to nvim-mcp
+  NVIM_MCP_PKG = inputs.nvim-mcp.packages.${pkgs.system}.default;
 in
 {
   home.stateVersion = "26.05";
@@ -18,8 +20,8 @@ in
       OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
       OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
       PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
-      PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
-      PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
+      # PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
+      # PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
   };
 
   home.shellAliases = {
@@ -58,10 +60,9 @@ in
 
     ## AI
     claude-desktop
-    claude-code
     claude-agent-acp
-    opencode
-    omp
+    # opencode
+    # omp
     voxtype # speach-to-text
 
     ## AWS
@@ -127,7 +128,7 @@ in
     qbittorrent
 
     ## video games
-    snes9x
+    # snes9x
 
     # windows emulation
     wine
@@ -149,7 +150,6 @@ in
     ## golang 
     go-bin.versions.${GO_VERSION}
     gopls
-    # (lib.lowPrio gotools)
     gofumpt
     golines
     golangci-lint
@@ -163,7 +163,6 @@ in
     seer # gui debugger
     nnd # tui debugger
     binutils 
-    # jetbrains.clion
 
     ## zig
     pkgs.zigpkgs.${ZIG_VERSION}
@@ -218,7 +217,6 @@ in
     vite-plus
     nub
     lazynpm
-    playwright-driver.browsers
     typescript-language-server
     vscode-langservers-extracted
     superhtml
@@ -311,13 +309,59 @@ in
     dirb
     wireshark
     angryipscanner
+
   ];
 
-  programs.gridcraft.enable = true;
-  programs.wordcraft.enable = true;
-  programs.deckcraft.enable = true;
-  programs.pdfcraft.enable = true;
-  programs.photocraft.enable = true;
+  # Centralized MCP configurations
+  programs.mcp = {
+    enable = true;
+    servers = {
+
+      context7 = {
+        # Reference the natively packaged binary
+        command = "${pkgs.context7-mcp}/bin/context7-mcp";
+        args = [
+          "--api-key"
+          "$CONTEXT7_API_KEY" # Pulls safely from your shell environment variables
+        ];
+      };
+
+      neovim = {
+        # Resolves directly to the stable /nix/store execution binary path
+        command = lib.getExe NVIM_MCP_PKG;
+        args = [ "--connect" "auto" ];
+        env = {
+          # Path to your active Neovim session socket
+          NVIM_SOCKET_PATH = "/tmp/nvim"; 
+          ALLOW_SHELL_COMMANDS = "true";
+        };
+      };
+
+      playwright = {
+        # Use the native binary from nixpkgs instead of npx
+        command = "${pkgs.playwright-mcp}/bin/playwright-mcp";
+        args = [
+          "--headless"
+        ];
+        env = {
+          # Explicitly tell Playwright where to look for the system-patched browser binaries
+          PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
+          PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
+        };
+      };
+
+    };
+  };
+
+  programs.claude-code = {
+    enable = true;
+    package = pkgs.claude-code;
+    enableMcpIntegration = true;
+    skills = {
+      herdr = builtins.readFile ./skills/herdr/skill.md;
+    };
+  };
+
 
   programs.pi-coding-agent = {
     enable = true;
@@ -359,7 +403,7 @@ in
         };
       };
       keys.insert = {
-        "C-c" = "normal_mode";
+        "C-j" = "normal_mode";
         "C-f" = "move_char_right";
         "C-b" = "move_char_left";
         "C-n" = "move_line_down";
@@ -581,6 +625,7 @@ in
 
   programs.herdr = {
     enable = true;
+    package = pkgs.herdr;
     settings = {
       onboarding = false;
       keys = {
@@ -597,7 +642,7 @@ in
           enabled = true;
         };
         toast = {
-          delivery = "system";
+          delivery = "herdr";
         };
      };
     };
@@ -647,7 +692,7 @@ in
       ]) (lib.range 1 9);
 
       exec_once = [
-        "swaybg -i /home/ruahman/Pictures/wallhaven-p9pd23_1920x1080.png -m fill"
+        "swaybg -i /etc/nixos/wallpapers/nixos.png -m fill"
         "swaync"
         "wl-clipboard"
         "grim"
@@ -754,5 +799,11 @@ in
       drun-display-format = "{name}";
     };
   };
+
+  programs.gridcraft.enable = true;
+  programs.wordcraft.enable = true;
+  programs.deckcraft.enable = true;
+  programs.pdfcraft.enable = true;
+  programs.photocraft.enable = true;
 
 }

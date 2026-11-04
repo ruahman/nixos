@@ -1,12 +1,15 @@
 {
-  description = "A simple NixOS flake";
+  description = "My NixOS flake";
 
   inputs = {
 
-    # nix packages
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    # mango windows manager
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     mangowm = {
       url = "github:mangowm/mango";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,22 +20,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # home-manager
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # helix = {
+    #   url = "github:helix-editor/helix/25.07.1";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
-    # rust overlay
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
-      # so that rust-overlay uses the same nixpkgs
       inputs = {
         nixpkgs.follows = "nixpkgs";
       };
     };
 
-    # zig overlay
     zig-overlay = {
       url = "github:mitchellh/zig-overlay";
       inputs = {
@@ -40,7 +39,6 @@
       };
     };
 
-    # go overlay
     go-overlay = {
       url = "github:purpleclay/go-overlay";
       inputs = {
@@ -48,7 +46,6 @@
       };
     };
 
-    # odin overlay
     odin-overlay = {
       url = "github:ArMonarch/odin-overlay";
       inputs = {
@@ -56,24 +53,31 @@
       };
     };
 
-    # claude code
     claude-code-nix = {
       url = "github:sadjow/claude-code-nix";
 	  inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
+    herdr-nix = {
+      url = "github:herdrdev/herdr-nix"; # Or github:herdrdev/herdr
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nvim-mcp = {
+      url = "github:linw1995/nvim-mcp";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     claude-desktop-nix-flake = {
       url = "github:poeck/claude-desktop-nix-flake";
 	  inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # vite+
     nix-vite-plus = {
       url = "github:ryoppippi/nix-vite-plus";
 	  inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # nub
     nub-overlay = {
       url = "github:alleneubank/nub-overlay";
 	  inputs.nixpkgs.follows = "nixpkgs";
@@ -90,12 +94,15 @@
     nixpkgs, 
     mangowm,
     mangobar,
+    # helix,
     home-manager, 
     rust-overlay, 
     zig-overlay, 
     go-overlay, 
     odin-overlay, 
     claude-code-nix, 
+    herdr-nix,
+    nvim-mcp,
     claude-desktop-nix-flake,
     nix-vite-plus, 
     nub-overlay, 
@@ -104,6 +111,7 @@
       system = "x86_64-linux";
 
       overlays = [ 
+        # helix.overlays.default
 	    rust-overlay.overlays.default 
         zig-overlay.overlays.default
         go-overlay.overlays.default
@@ -114,6 +122,9 @@
         nix-vite-plus.overlays.default
         nub-overlay.overlays.default
         artcraft.overlays.default
+        (final: prev: {
+          herdr = herdr-nix.packages.${prev.system}.default;
+        })
       ];
 
       # Create a pkgs instance with overlays applied
@@ -125,7 +136,7 @@
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       inherit system;
 
-      specialArgs = { inherit inputs; }; # this is the important part
+      specialArgs = { inherit inputs; };
 
       modules = [
         ./configuration.nix
@@ -138,17 +149,17 @@
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "backup";
 
-	      # Pass the modified pkgs with rust-overlay to Home Manager
-          home-manager.extraSpecialArgs = { inherit pkgs; };
+          home-manager.extraSpecialArgs = { 
+            inherit pkgs; 
+            inherit inputs;
+          };
           
           home-manager.sharedModules = [
-            # allow home-manager to configure mangowm
             mangowm.hmModules.mango
             mangobar.homeManagerModules.default
             artcraft.homeModules.default
           ];
 
-          # our home manager config
           home-manager.users.ruahman = import ./home.nix;
         }
       ];
