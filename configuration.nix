@@ -12,6 +12,7 @@
   imports =
     [ 
       ./hardware-configuration.nix
+      ./neovim/nixvim.nix
     ];
 
   # mount nvme

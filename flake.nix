@@ -20,10 +20,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # helix = {
-    #   url = "github:helix-editor/helix/25.07.1";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
@@ -94,7 +94,7 @@
     nixpkgs, 
     mangowm,
     mangobar,
-    # helix,
+    nixvim,
     home-manager, 
     rust-overlay, 
     zig-overlay, 
@@ -142,6 +142,8 @@
         ./configuration.nix
         # add mangowm to nixos
         mangowm.nixosModules.mango
+        # add nixvim to nixos
+        nixvim.nixosModules.nixvim
         # add home-manager to nixos
         home-manager.nixosModules.home-manager
         {
