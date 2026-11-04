@@ -87,7 +87,9 @@
       url = "github:mahlquistj/artcraft-flake";  
 	  inputs.nixpkgs.follows = "nixpkgs";
     };
-
+    
+    # Force Nix to track and include this Flake's submodules
+    self.submodules = true;
   };
 
   outputs = { self, 
