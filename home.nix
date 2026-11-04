@@ -360,10 +360,10 @@ in
       };
       keys.insert = {
         "C-c" = "normal_mode";
-        "A-h" = "move_char_left";
-        "A-j" = "move_line_down";
-        "A-k" = "move_line_up";
-        "A-l" = "move_char_right";
+        "C-f" = "move_char_right";
+        "C-b" = "move_char_left";
+        "C-n" = "move_line_down";
+        "C-p" = "move_line_up";
       };
     };
   };
@@ -384,7 +384,7 @@ in
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
-    enableNushellIntegration = true;
+    enableNushellIntegration = false; 
   };
 
   programs.eza.enable = true;
@@ -552,7 +552,6 @@ in
 
   programs.carapace = {
     enable = true;
-    enableNushellIntegration = true;
     enableBashIntegration = true;
   };
 
