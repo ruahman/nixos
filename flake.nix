@@ -22,7 +22,7 @@
 
     nixvim = {
       url = "github:nix-community/nixvim";
-      # inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     rust-overlay = {
@@ -55,7 +55,7 @@
 
     claude-code-nix = {
       url = "github:sadjow/claude-code-nix";
-	  inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     herdr-nix = {
@@ -70,51 +70,55 @@
 
     claude-desktop-nix-flake = {
       url = "github:poeck/claude-desktop-nix-flake";
-	  inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nix-vite-plus = {
       url = "github:ryoppippi/nix-vite-plus";
-	  inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nub-overlay = {
       url = "github:alleneubank/nub-overlay";
-	  inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     artcraft = {
-      url = "github:mahlquistj/artcraft-flake";  
-	  inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:mahlquistj/artcraft-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     # Force Nix to track and include this Flake's submodules
     self.submodules = true;
   };
 
-  outputs = { self, 
-    nixpkgs, 
-    mangowm,
-    mangobar,
-    nixvim,
-    home-manager, 
-    rust-overlay, 
-    zig-overlay, 
-    go-overlay, 
-    odin-overlay, 
-    claude-code-nix, 
-    herdr-nix,
-    nvim-mcp,
-    claude-desktop-nix-flake,
-    nix-vite-plus, 
-    nub-overlay, 
-    artcraft, ... }@inputs: 
+  outputs =
+    {
+      self,
+      nixpkgs,
+      mangowm,
+      mangobar,
+      nixvim,
+      home-manager,
+      rust-overlay,
+      zig-overlay,
+      go-overlay,
+      odin-overlay,
+      claude-code-nix,
+      herdr-nix,
+      nvim-mcp,
+      claude-desktop-nix-flake,
+      nix-vite-plus,
+      nub-overlay,
+      artcraft,
+      ...
+    }@inputs:
     let
       system = "x86_64-linux";
 
-      overlays = [ 
+      overlays = [
         # helix.overlays.default
-	    rust-overlay.overlays.default 
+        rust-overlay.overlays.default
         zig-overlay.overlays.default
         go-overlay.overlays.default
         odin-overlay.overlays.odin-overlays
@@ -134,39 +138,40 @@
         inherit system overlays;
         config.allowUnfree = true;
       };
-    in {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      inherit system;
+    in
+    {
+      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+        inherit system;
 
-      specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs; };
 
-      modules = [
-        ./configuration.nix
-        # add mangowm to nixos
-        mangowm.nixosModules.mango
-        # add nixvim to nixos
-        nixvim.nixosModules.nixvim
-        # add home-manager to nixos
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.backupFileExtension = "backup";
+        modules = [
+          ./configuration.nix
+          # add mangowm to nixos
+          mangowm.nixosModules.mango
+          # add nixvim to nixos
+          nixvim.nixosModules.nixvim
+          # add home-manager to nixos
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
 
-          home-manager.extraSpecialArgs = { 
-            inherit pkgs; 
-            inherit inputs;
-          };
-          
-          home-manager.sharedModules = [
-            mangowm.hmModules.mango
-            mangobar.homeManagerModules.default
-            artcraft.homeModules.default
-          ];
+            home-manager.extraSpecialArgs = {
+              inherit pkgs;
+              inherit inputs;
+            };
 
-          home-manager.users.ruahman = import ./home.nix;
-        }
-      ];
+            home-manager.sharedModules = [
+              mangowm.hmModules.mango
+              mangobar.homeManagerModules.default
+              artcraft.homeModules.default
+            ];
+
+            home-manager.users.ruahman = import ./home.nix;
+          }
+        ];
+      };
     };
-  };
 }
