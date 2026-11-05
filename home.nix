@@ -1,4 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 let
   MSRV = "1.99.0"; # minimual supported rust version
   ZIG_VERSION = "0.17.0";
@@ -13,15 +19,13 @@ in
 
   home.username = "ruahman";
   home.homeDirectory = "/home/ruahman";
-  
+
   home.sessionVariables = {
-      RUSTC_WRAPPER = "${pkgs.sccache}/bin/sccache";
-      OPENSSL_DIR = "${pkgs.openssl.dev}";
-      OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
-      OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
-      PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
-      # PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
-      # PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
+    RUSTC_WRAPPER = "${pkgs.sccache}/bin/sccache";
+    OPENSSL_DIR = "${pkgs.openssl.dev}";
+    OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
+    OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
+    PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
   };
 
   home.shellAliases = {
@@ -32,7 +36,7 @@ in
   # xternal desktop group
   xdg.portal = {
     enable = true;
-    
+
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     config.common.default = "*";
   };
@@ -45,9 +49,9 @@ in
 
     # file explorer
     thunar
-   
+
     # bootstick burner
-    caligula 
+    caligula
 
     # mangowm
     swaybg # background
@@ -71,7 +75,7 @@ in
     ## Containerization
     podman
     podman-compose
-    docker 
+    docker
     docker-compose
     lazydocker
     docker-language-server
@@ -80,9 +84,9 @@ in
     bruno
     postman
     posting
-    gnumake 
-    cmake 
-    glibc.dev 
+    gnumake
+    cmake
+    glibc.dev
     openssl
     openssl.dev
     protobuf
@@ -117,7 +121,7 @@ in
     miktex # latex
 
     ## text editors
-    neovim 
+    neovim
     emacs
 
     ## email
@@ -137,7 +141,7 @@ in
     ## rust
     (rust-bin.stable.${MSRV}.default.override {
       extensions = [
-        "rust-src"      # Required for rust-analyzer
+        "rust-src" # Required for rust-analyzer
         "rust-analyzer" # LSP server for IDEs
       ];
     })
@@ -147,7 +151,7 @@ in
     pkg-config
     (lib.lowPrio lldb)
 
-    ## golang 
+    ## golang
     go-bin.versions.${GO_VERSION}
     gopls
     gofumpt
@@ -155,14 +159,14 @@ in
     golangci-lint
     golangci-lint-langserver
     delve # golang debugger
- 
-    ## c/c++ 
+
+    ## c/c++
     (lib.hiPrio clang)
     clang-tools
     gcc
     seer # gui debugger
     nnd # tui debugger
-    binutils 
+    binutils
 
     ## zig
     pkgs.zigpkgs.${ZIG_VERSION}
@@ -171,7 +175,6 @@ in
     ## odin
     odin-bin.${ODIN_VERSION}
     ols-bin.${OLS_VERSION}
-
 
     ## python
     python314
@@ -252,12 +255,12 @@ in
     below
     # superfile
     tldr # to long don't read
-    duf  # disk utility find
+    duf # disk utility find
     delta # diff
     pass # passwords
     # gopass
     yubikey-manager
-    lazygit 
+    lazygit
     xclip # clipboard
     p7zip # 7zip compression
     unzip
@@ -270,8 +273,8 @@ in
     ffmpeg # video
     tree # show directory tree
     bat # cooler cat
-    jq # json 
-    yq-go # yaml 
+    jq # json
+    yq-go # yaml
     ueberzugpp # for showing pics in terminal
     just # make like tool
     watchexec # file watcher
@@ -279,7 +282,6 @@ in
     blueman # bluetooth control
     # cloudsmith-cli
     #gnupg # good enough privacy
-
 
     # for neovim
     lua51Packages.lua
@@ -329,10 +331,13 @@ in
       neovim = {
         # Resolves directly to the stable /nix/store execution binary path
         command = lib.getExe NVIM_MCP_PKG;
-        args = [ "--connect" "auto" ];
+        args = [
+          "--connect"
+          "auto"
+        ];
         env = {
           # Path to your active Neovim session socket
-          NVIM_SOCKET_PATH = "/tmp/nvim"; 
+          NVIM_SOCKET_PATH = "/tmp/nvim";
           ALLOW_SHELL_COMMANDS = "true";
         };
       };
@@ -361,7 +366,6 @@ in
       herdr = builtins.readFile ./skills/herdr/skill.md;
     };
   };
-
 
   programs.pi-coding-agent = {
     enable = true;
@@ -393,9 +397,23 @@ in
           skip-levels = 0; # Number of indent levels to skip rendering
         };
         statusline = {
-          left = [ "spinner" "mode" "read-only-indicator" "file-modification-indicator" "file-name" "version-control" ];
+          left = [
+            "spinner"
+            "mode"
+            "read-only-indicator"
+            "file-modification-indicator"
+            "file-name"
+            "version-control"
+          ];
           center = [ "diagnostics" ];
-          right = [ "selections" "register" "position" "position-percentage" "file-encoding" "file-type" ];
+          right = [
+            "selections"
+            "register"
+            "position"
+            "position-percentage"
+            "file-encoding"
+            "file-type"
+          ];
         };
         lsp = {
           display-messages = true;
@@ -415,7 +433,7 @@ in
   services.emacs = {
     enable = true;
     # defaultEditor = true;  # sets EDITOR/VISUAL to emacsclient
-    client.enable = true;  # installs a desktop entry for emacsclient
+    client.enable = true; # installs a desktop entry for emacsclient
   };
 
   programs.zoxide = {
@@ -428,7 +446,7 @@ in
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
-    enableNushellIntegration = false; 
+    enableNushellIntegration = false;
   };
 
   programs.eza.enable = true;
@@ -482,7 +500,7 @@ in
         "claude-code" = {
           type = "custom";
           command = "claude-agent-acp";
-          args = [];
+          args = [ ];
         };
         "omp" = {
           type = "custom";
@@ -513,13 +531,13 @@ in
   programs.zsh.enable = true;
 
   programs.git.enable = true;
- 
+
   programs.ghostty = {
     enable = true;
     settings = {
       theme = "Adventure Time";
       background-opacity = 0.85;
-      
+
       font-family = "FiraCode Nerd Font";
       window-inherit-font-size = false;
       font-size = 18;
@@ -565,7 +583,7 @@ in
     enableNushellIntegration = true;
     enableBashIntegration = true;
     settings = {
-      scan_timeout = 500;  # in milliseconds
+      scan_timeout = 500; # in milliseconds
       nodejs = {
         symbol = "󰎙 ";
       };
@@ -593,7 +611,6 @@ in
     };
   };
 
-
   programs.carapace = {
     enable = true;
     enableBashIntegration = true;
@@ -612,7 +629,7 @@ in
       set -g popup-style bg=default
       set -g popup-border-lines rounded
       set -as terminal-overrides ",*:Tc"
-    ''; 
+    '';
     plugins = with pkgs.tmuxPlugins; [
       {
         plugin = tokyo-night-tmux;
@@ -644,7 +661,7 @@ in
         toast = {
           delivery = "herdr";
         };
-     };
+      };
     };
   };
 
@@ -686,7 +703,8 @@ in
         "ALT,Down,focusdir,down"
         "SUPER,Left,viewtoleft,0"
         "SUPER,Right,viewtoright,0"
-      ] ++ lib.concatMap (n: [
+      ]
+      ++ lib.concatMap (n: [
         "SUPER,${toString n},view,${toString n}"
         "SUPER+SHIFT,${toString n},tag,${toString n}"
       ]) (lib.range 1 9);
@@ -705,8 +723,21 @@ in
   services.mangobar = {
     enable = true;
     settings = {
-      modules-left = [ "workspaces" "layout" "window" ];
-      modules-right = [ "custom/ssid" "custom/wifi" "cpu" "memory" "custom/disk" "battery" "clock#date" "clock#time" ];
+      modules-left = [
+        "workspaces"
+        "layout"
+        "window"
+      ];
+      modules-right = [
+        "custom/ssid"
+        "custom/wifi"
+        "cpu"
+        "memory"
+        "custom/disk"
+        "battery"
+        "clock#date"
+        "clock#time"
+      ];
       "custom/ssid" = {
         exec = ''nmcli -t -f ACTIVE,SSID dev wifi | awk -F: '$1=="yes"{print $2}' '';
         interval = 10;
@@ -734,26 +765,26 @@ in
   programs.swaylock = {
     enable = true;
     # Package choice: pkgs.swaylock or pkgs.swaylock-effects (for blur/fade)
-    package = pkgs.swaylock; 
-    
+    package = pkgs.swaylock;
+
     settings = {
       # Visual layout
       # color = "000000";             # Solid black background
       # image = "/path/to/wall.png"; # Or use a wallpaper image instead
       image = "/home/ruahman/Pictures/wallhaven-p9pd23_1920x1080.png";
       scaling = "fill";
-      
+
       # Indicator options
       indicator = true;
       indicator-radius = 100;
       indicator-thickness = 7;
-      
+
       # Color themes for the ring (Hex codes without '#')
       ring-color = "ffffff";
-      key-hl-color = "8839ef";       # Highlight color when typing
-      line-color = "00000000";       # Invisible inner line
-      inside-color = "00000088";     # Semi-transparent inside circle
-      
+      key-hl-color = "8839ef"; # Highlight color when typing
+      line-color = "00000000"; # Invisible inner line
+      inside-color = "00000088"; # Semi-transparent inside circle
+
       # Behavior
       show-failed-attempts = true;
       ignore-empty-password = true;
@@ -762,9 +793,9 @@ in
 
   services.swayidle = {
     enable = true;
-    
+
     # Target MangoWM's graphical session
-    # systemdTargets = [ "mango-session.target" ]; 
+    # systemdTargets = [ "mango-session.target" ];
     # systemdTargets = [ "graphical-session.target" ];
 
     # Extra arguments (e.g., -w to wait for command completion)
@@ -779,7 +810,7 @@ in
       # {
       #   timeout = 600; # 10 minutes
       #   # Turn off display using wlr-randr (or your preferred monitor tool)
-      #   command = "${pkgs.wlr-randr}/bin/wlr-randr --output HEADLESS-1 --off"; 
+      #   command = "${pkgs.wlr-randr}/bin/wlr-randr --output HEADLESS-1 --off";
       #   resumeCommand = "${pkgs.wlr-randr}/bin/wlr-randr --output HEADLESS-1 --on";
       # }
     ];
