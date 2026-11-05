@@ -13,7 +13,7 @@
   # import hardware configuration
   imports = [
     ./hardware-configuration.nix
-    ./neovim/nixvim-root.nix
+    ./neovim/root.nix
   ];
 
   # mount nvme
