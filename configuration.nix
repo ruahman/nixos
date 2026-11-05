@@ -1,26 +1,27 @@
-
 { pkgs, ... }:
 
 {
 
   # setup flakes
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
 
   # import hardware configuration
-  imports =
-    [ 
-      ./hardware-configuration.nix
-      ./neovim/nixvim.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ./neovim/nixvim-root.nix
+  ];
 
   # mount nvme
   fileSystems."/mnt/nvme" = {
-      device = "/dev/nvme0n1p1";
-      fsType = "ext4";
-      options = [ "nofail" ];
-    };
+    device = "/dev/nvme0n1p1";
+    fsType = "ext4";
+    options = [ "nofail" ];
+  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -54,21 +55,21 @@
   # setup fonts
   fonts = {
     fontDir.enable = true;
-    packages = with pkgs; [ 
+    packages = with pkgs; [
       font-awesome
-      nerd-fonts.fira-code 
+      nerd-fonts.fira-code
       nerd-fonts.fira-mono
       nerd-fonts.hack
       nerd-fonts.caskaydia-cove
       nerd-fonts.caskaydia-mono
-      nerd-fonts.jetbrains-mono 
-      nerd-fonts.terminess-ttf 
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.terminess-ttf
       nerd-fonts.im-writing
     ];
   };
 
   # Essential: Allow swaylock to verify your password via PAM
-  security.pam.services.swaylock = {};
+  security.pam.services.swaylock = { };
 
   # enable mongowm
   programs.mango.enable = true;
@@ -138,20 +139,27 @@
   users.users.ruahman = {
     isNormalUser = true;
     description = "ruahman";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "podman" "incus-admin"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "libvirtd"
+      "podman"
+      "incus-admin"
+    ];
     packages = with pkgs; [
     ];
     shell = pkgs.nushell;
     #shell = pkgs.bash;
   };
-  
+
   # Virtualization: KVM/QEMU via libvirt
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
       package = pkgs.qemu_kvm;
       runAsRoot = true;
-      swtpm.enable = true;               # emulated TPM 2.0 — required for Windows 11
+      swtpm.enable = true; # emulated TPM 2.0 — required for Windows 11
     };
   };
 
@@ -201,12 +209,11 @@
   # USB passthrough / redirection from the SPICE console
   virtualisation.spiceUSBRedirection.enable = true;
 
-  # virt-manager 
-  users.groups.libvirtd.members = ["ruahman"];
- 
- # Install firefox.
-  programs.firefox.enable = true;
+  # virt-manager
+  users.groups.libvirtd.members = [ "ruahman" ];
 
+  # Install firefox.
+  programs.firefox.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -224,12 +231,11 @@
     github-cli # provide authentication for git
     lazygit
 
-    hplipWithPlugin  # HPLIP with proprietary plugins
-    sane-backends    # For scanning
-    xsane   # Optional GUI scanner tool
+    hplipWithPlugin # HPLIP with proprietary plugins
+    sane-backends # For scanning
+    xsane # Optional GUI scanner tool
 
   ];
-
 
   # cross desktop group (xdg)
   # desktop portals, enables screen share, etc???
@@ -237,8 +243,8 @@
   # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   xdg.portal = {
     enable = true;
-    
-    # Optional: ensure you have a fallback backend format (like GTK) 
+
+    # Optional: ensure you have a fallback backend format (like GTK)
     # to handle the actual file picker rendering if your DE doesn't supply one.
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
@@ -250,8 +256,8 @@
       };
     };
   };
- 
-  # in case of nvidia 
+
+  # in case of nvidia
   environment.sessionVariables = {
     # disable hardware cursors, on some systems the cursor becomes invisable without it
     WLR_NO_HARDWARE_CURSORS = "1";
@@ -269,7 +275,7 @@
     #   syntax on           " Enable syntax highlighting
     #
     #   " Set leader to space
-    #   let mapleader = " " 
+    #   let mapleader = " "
     #
     #   " xclip integration (if xclip is installed)
     #   noremap <Leader>y :w !xclip -selection clipboard<CR><CR>
@@ -285,7 +291,6 @@
     #   vim.g.mapleader = " "
     # '';
   };
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
