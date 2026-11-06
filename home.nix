@@ -152,11 +152,11 @@ in
 
     ## golang
     go-bin.versions.${GO_VERSION}
-    # gopls
-    # gofumpt
-    # golines
-    # golangci-lint
-    # golangci-lint-langserver
+    gopls
+    gofumpt
+    golines
+    golangci-lint
+    golangci-lint-langserver
     delve # golang debugger
 
     ## c/c++
@@ -169,7 +169,7 @@ in
 
     ## zig
     pkgs.zigpkgs.${ZIG_VERSION}
-    # zls
+    zls
 
     ## odin
     odin-bin.${ODIN_VERSION}
@@ -192,6 +192,7 @@ in
     pipenv
     poetry
     mypy
+    ty
     isort
     ruff
     pyright # python lsp
@@ -219,7 +220,7 @@ in
     vite-plus
     nub
     lazynpm
-    # typescript-language-server
+    typescript-language-server
     vscode-langservers-extracted
     superhtml
     vscode-js-debug
