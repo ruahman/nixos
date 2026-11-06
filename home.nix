@@ -20,6 +20,11 @@ in
   home.username = "ruahman";
   home.homeDirectory = "/home/ruahman";
 
+  # import hardware configuration
+  imports = [
+    ./neovim/home.nix
+  ];
+
   home.sessionVariables = {
     RUSTC_WRAPPER = "${pkgs.sccache}/bin/sccache";
     OPENSSL_DIR = "${pkgs.openssl.dev}";

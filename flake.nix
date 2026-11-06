@@ -166,6 +166,7 @@
             home-manager.sharedModules = [
               mangowm.hmModules.mango
               mangobar.homeManagerModules.default
+              nixvim.homeModules.nixvim
               artcraft.homeModules.default
             ];
 
