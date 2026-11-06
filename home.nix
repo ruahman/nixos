@@ -97,9 +97,6 @@ in
     protobuf
     nasm
     asm-lsp
-    nil # nix lsp
-    nixd # another nix lsp
-    nixfmt # nix formater
     taplo # toml tools
 
     ## bitcoin
@@ -286,14 +283,6 @@ in
     blueman # bluetooth control
     # cloudsmith-cli
     #gnupg # good enough privacy
-
-    # for neovim
-    lua51Packages.lua
-    lua51Packages.luarocks
-    lua51Packages.luacheck
-    lua-language-server
-    stylua
-    tree-sitter
 
     # message apps
     telegram-desktop
