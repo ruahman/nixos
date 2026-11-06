@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  inputs,
   ...
 }:
 let
@@ -11,7 +10,6 @@ let
   GO_VERSION = "1.27.0";
   ODIN_VERSION = "dev-2026-10";
   OLS_VERSION = "dev-2026-08";
-  # NVIM_MCP_PKG = inputs.nvim-mcp.packages.${pkgs.system}.default;
 in
 {
   home = {
@@ -238,7 +236,6 @@ in
     omnisharp-roslyn # language server
     csharpier # C# code formatter
     # avalonia
-    # jetbrains.rider
 
     ## browsers
     google-chrome
@@ -309,122 +306,311 @@ in
 
   ];
 
-  # programs = {
-  #   # Centralized MCP configurations
-  #   mcp = {
-  #     enable = true;
-  #     servers = {
-  #
-  #       context7 = {
-  #         # Reference the natively packaged binary
-  #         command = "${pkgs.context7-mcp}/bin/context7-mcp";
-  #         args = [
-  #           "--api-key"
-  #           "$CONTEXT7_API_KEY" # Pulls safely from your shell environment variables
-  #         ];
-  #       };
-  #
-  #       neovim = {
-  #         # Resolves directly to the stable /nix/store execution binary path
-  #         command = lib.getExe NVIM_MCP_PKG;
-  #         args = [
-  #           "--connect"
-  #           "auto"
-  #         ];
-  #         env = {
-  #           # Path to your active Neovim session socket
-  #           NVIM_SOCKET_PATH = "/tmp/nvim";
-  #           ALLOW_SHELL_COMMANDS = "true";
-  #         };
-  #       };
-  #
-  #       playwright = {
-  #         # Use the native binary from nixpkgs instead of npx
-  #         command = "${pkgs.playwright-mcp}/bin/playwright-mcp";
-  #         args = [
-  #           "--headless"
-  #         ];
-  #         env = {
-  #           # Explicitly tell Playwright where to look for the system-patched browser binaries
-  #           PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
-  #           PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
-  #         };
-  #       };
-  #
-  #     };
-  #   };
-  #
-  #   claude-code = {
-  #     enable = true;
-  #     package = pkgs.claude-code;
-  #     enableMcpIntegration = true;
-  #     skills = {
-  #       herdr = builtins.readFile ./skills/herdr/skill.md;
-  #     };
-  #   };
-  #
-  #   pi-coding-agent = {
-  #     enable = true;
-  #     settings.packages = [
-  #       "npm:pi-permission-system"
-  #       "npm:pi-web-access"
-  #       "npm:pi-plan-mode"
-  #       "npm:pi-subagents"
-  #       "npm:pi-mcp-extension"
-  #     ];
-  #   };
-  # };
-
-  programs.helix = {
-    enable = true;
-    settings = {
-      theme = "tokyonight";
-      editor = {
-        line-number = "relative";
-        bufferline = "multiple";
-        cursorline = true;
-        cursor-shape = {
-          normal = "block";
-          insert = "bar";
-          select = "underline";
+  programs = {
+    helix = {
+      enable = true;
+      settings = {
+        theme = "tokyonight";
+        editor = {
+          line-number = "relative";
+          bufferline = "multiple";
+          cursorline = true;
+          cursor-shape = {
+            normal = "block";
+            insert = "bar";
+            select = "underline";
+          };
+          indent-guides = {
+            render = true;
+            character = "│"; # Custom vertical line character
+            skip-levels = 0; # Number of indent levels to skip rendering
+          };
+          statusline = {
+            left = [
+              "spinner"
+              "mode"
+              "read-only-indicator"
+              "file-modification-indicator"
+              "file-name"
+              "version-control"
+            ];
+            center = [ "diagnostics" ];
+            right = [
+              "selections"
+              "register"
+              "position"
+              "position-percentage"
+              "file-encoding"
+              "file-type"
+            ];
+          };
+          lsp = {
+            display-messages = true;
+            display-inlay-hints = true;
+          };
         };
-        indent-guides = {
-          render = true;
-          character = "│"; # Custom vertical line character
-          skip-levels = 0; # Number of indent levels to skip rendering
+        keys.insert = {
+          "C-j" = "normal_mode";
+          "C-f" = "move_char_right";
+          "C-b" = "move_char_left";
+          "C-n" = "move_line_down";
+          "C-p" = "move_line_up";
         };
-        statusline = {
-          left = [
-            "spinner"
-            "mode"
-            "read-only-indicator"
-            "file-modification-indicator"
-            "file-name"
-            "version-control"
-          ];
-          center = [ "diagnostics" ];
-          right = [
-            "selections"
-            "register"
-            "position"
-            "position-percentage"
-            "file-encoding"
-            "file-type"
-          ];
-        };
-        lsp = {
-          display-messages = true;
-          display-inlay-hints = true;
-        };
-      };
-      keys.insert = {
-        "C-j" = "normal_mode";
-        "C-f" = "move_char_right";
-        "C-b" = "move_char_left";
-        "C-n" = "move_line_down";
-        "C-p" = "move_line_up";
       };
     };
+
+    lazygit = {
+      enable = true;
+      settings.os = {
+        openLink = "xdg-open {{link}}"; # used for "create pull request", open in browser, etc.
+        open = "xdg-open {{filename}}"; # used for opening files ("o")
+      };
+    };
+
+    zoxide = {
+      enable = true;
+      enableBashIntegration = true;
+      enableNushellIntegration = true;
+    };
+
+    # fuzy find
+    fzf = {
+      enable = true;
+      enableBashIntegration = true;
+      enableNushellIntegration = false;
+    };
+
+    eza.enable = true;
+
+    yazi.enable = true;
+
+    zed-editor = {
+      enable = true;
+      userSettings = {
+        vim_mode = true;
+        relative_line_numbers = "enabled";
+        format_on_save = "on";
+        icon_theme = "Material Icon Theme";
+        ui_font_size = 20;
+        ui_font_family = "JetBrainsMono Nerd Font";
+        buffer_font_size = 20;
+        buffer_font_family = "JetBrainsMono Nerd Font";
+        auto_update = false;
+        extend_comment_on_newline = false;
+
+        theme = {
+          mode = "dark";
+          light = "Tokyo Night Light";
+          dark = "Tokyo Night";
+        };
+        title_bar = {
+          show_menus = false;
+          show_user_picture = false;
+          show_user_menu = true;
+          show_sign_in = false;
+          show_onboarding_banner = false;
+          show_project_items = true;
+          show_worktree_name = false;
+          show_branch_name = true;
+        };
+        toolbar = {
+          quick_actions = false;
+        };
+        status_bar = {
+          "experimental.show" = false;
+        };
+        project_panel = {
+          dock = "right";
+          default_width = 350.0;
+        };
+        agent = {
+          dock = "right";
+          sidebar_side = "right";
+        };
+        agent_servers = {
+          "claude-code" = {
+            type = "custom";
+            command = "claude-agent-acp";
+            args = [ ];
+          };
+          "omp" = {
+            type = "custom";
+            command = "omp";
+            args = [ "acp" ];
+          };
+          "opencode" = {
+            type = "custom";
+            command = "opencode";
+            args = [ "acp" ];
+          };
+        };
+      };
+    };
+
+    nushell = {
+      enable = true;
+      settings = {
+        show_banner = false;
+      };
+      environmentVariables = config.home.sessionVariables;
+      loadSessionVariables = false;
+      shellAliases = config.home.shellAliases;
+    };
+
+    bash.enable = true;
+
+    zsh.enable = true;
+
+    git.enable = true;
+
+    ghostty = {
+      enable = true;
+      settings = {
+        theme = "Adventure Time";
+        background-opacity = 0.85;
+
+        font-family = "FiraCode Nerd Font";
+        window-inherit-font-size = false;
+        font-size = 18;
+
+        window-height = 25;
+        window-width = 100;
+
+        window-padding-balance = true;
+        window-padding-color = "extend";
+      };
+    };
+
+    terminator = {
+      enable = true;
+      config = {
+        profiles.default = {
+          use_system_font = false;
+          font = "Terminess Nerd Font Mono 18";
+        };
+      };
+    };
+
+    kitty = {
+      enable = true;
+      font = {
+        name = "CaskaydiaCove Nerd Font";
+        size = 18;
+        package = pkgs.nerd-fonts.jetbrains-mono;
+      };
+    };
+
+    foot = {
+      enable = true;
+      settings = {
+        main = {
+          font = "JetBrainsMono Nerd Font:size=18";
+        };
+      };
+    };
+
+    starship = {
+      enable = true;
+      enableNushellIntegration = true;
+      enableBashIntegration = true;
+      settings = {
+        scan_timeout = 500; # in milliseconds
+        nodejs = {
+          symbol = "󰎙 ";
+        };
+        python = {
+          symbol = " ";
+        };
+        ruby = {
+          symbol = " ";
+        };
+        golang = {
+          symbol = " ";
+        };
+        rust = {
+          symbol = " ";
+        };
+        zig = {
+          symbol = " ";
+        };
+        lua = {
+          symbol = " ";
+        };
+        dotnet = {
+          symbol = " ";
+        };
+      };
+    };
+
+    carapace = {
+      enable = true;
+      enableBashIntegration = true;
+    };
+
+    tmux = {
+      enable = true;
+      shell = "${pkgs.nushell}/bin/nu";
+      terminal = "tmux-256color";
+      extraConfig = ''
+        set -g mouse on
+        set-option -g status-position top
+        set -g base-index 1
+        set -g pane-base-index 1
+        bind-key C-t if-shell -F '#{==:#{client_session},popup}' 'detach-client' 'display-popup -w 80% -h 75% -d "#{pane_current_path}" -E "tmux new-session -A -s popup"'
+        set -g popup-style bg=default
+        set -g popup-border-lines rounded
+        set -as terminal-overrides ",*:Tc"
+      '';
+      plugins = with pkgs.tmuxPlugins; [
+        {
+          plugin = tokyo-night-tmux;
+          extraConfig = ''
+            set -g @tokyo-night-tmux_show_path 1
+          '';
+        }
+      ];
+    };
+
+    herdr = {
+      enable = true;
+      package = pkgs.herdr;
+      settings = {
+        onboarding = false;
+        keys = {
+          prefix = "ctrl+b";
+        };
+        theme = {
+          name = "catppuccin";
+        };
+        terminal = {
+          default_shell = "bash";
+        };
+        ui = {
+          sound = {
+            enabled = true;
+          };
+          toast = {
+            delivery = "herdr";
+          };
+        };
+      };
+    };
+
+    rofi = {
+      enable = true;
+      settings.terminal = "${pkgs.ghostty}/bin/ghostty";
+      settings.extraConfig = {
+        modi = "drun,run,window";
+        show-icons = true;
+        drun-display-format = "{name}";
+      };
+    };
+
+    gridcraft.enable = true;
+    wordcraft.enable = true;
+    deckcraft.enable = true;
+    pdfcraft.enable = true;
+    photocraft.enable = true;
   };
 
   services.emacs = {
@@ -432,258 +618,5 @@ in
     # defaultEditor = true;  # sets EDITOR/VISUAL to emacsclient
     client.enable = true; # installs a desktop entry for emacsclient
   };
-
-  programs.lazygit = {
-    enable = true;
-    settings.os = {
-      openLink = "xdg-open {{link}}"; # used for "create pull request", open in browser, etc.
-      open = "xdg-open {{filename}}"; # used for opening files ("o")
-    };
-  };
-
-  programs.zoxide = {
-    enable = true;
-    enableBashIntegration = true;
-    enableNushellIntegration = true;
-  };
-
-  # fuzy find
-  programs.fzf = {
-    enable = true;
-    enableBashIntegration = true;
-    enableNushellIntegration = false;
-  };
-
-  programs.eza.enable = true;
-
-  programs.yazi.enable = true;
-
-  programs.zed-editor = {
-    enable = true;
-    userSettings = {
-      vim_mode = true;
-      relative_line_numbers = "enabled";
-      format_on_save = "on";
-      icon_theme = "Material Icon Theme";
-      ui_font_size = 20;
-      ui_font_family = "JetBrainsMono Nerd Font";
-      buffer_font_size = 20;
-      buffer_font_family = "JetBrainsMono Nerd Font";
-      auto_update = false;
-      extend_comment_on_newline = false;
-
-      theme = {
-        mode = "dark";
-        light = "Tokyo Night Light";
-        dark = "Tokyo Night";
-      };
-      title_bar = {
-        show_menus = false;
-        show_user_picture = false;
-        show_user_menu = true;
-        show_sign_in = false;
-        show_onboarding_banner = false;
-        show_project_items = true;
-        show_worktree_name = false;
-        show_branch_name = true;
-      };
-      toolbar = {
-        quick_actions = false;
-      };
-      status_bar = {
-        "experimental.show" = false;
-      };
-      project_panel = {
-        dock = "right";
-        default_width = 350.0;
-      };
-      agent = {
-        dock = "right";
-        sidebar_side = "right";
-      };
-      agent_servers = {
-        "claude-code" = {
-          type = "custom";
-          command = "claude-agent-acp";
-          args = [ ];
-        };
-        "omp" = {
-          type = "custom";
-          command = "omp";
-          args = [ "acp" ];
-        };
-        "opencode" = {
-          type = "custom";
-          command = "opencode";
-          args = [ "acp" ];
-        };
-      };
-    };
-  };
-
-  programs.nushell = {
-    enable = true;
-    settings = {
-      show_banner = false;
-    };
-    environmentVariables = config.home.sessionVariables;
-    loadSessionVariables = false;
-    shellAliases = config.home.shellAliases;
-  };
-
-  programs.bash.enable = true;
-
-  programs.zsh.enable = true;
-
-  programs.git.enable = true;
-
-  programs.ghostty = {
-    enable = true;
-    settings = {
-      theme = "Adventure Time";
-      background-opacity = 0.85;
-
-      font-family = "FiraCode Nerd Font";
-      window-inherit-font-size = false;
-      font-size = 18;
-
-      window-height = 25;
-      window-width = 100;
-
-      window-padding-balance = true;
-      window-padding-color = "extend";
-    };
-  };
-
-  programs.terminator = {
-    enable = true;
-    config = {
-      profiles.default = {
-        use_system_font = false;
-        font = "Terminess Nerd Font Mono 18";
-      };
-    };
-  };
-
-  programs.kitty = {
-    enable = true;
-    font = {
-      name = "CaskaydiaCove Nerd Font";
-      size = 18;
-      package = pkgs.nerd-fonts.jetbrains-mono;
-    };
-  };
-
-  programs.foot = {
-    enable = true;
-    settings = {
-      main = {
-        font = "JetBrainsMono Nerd Font:size=18";
-      };
-    };
-  };
-
-  programs.starship = {
-    enable = true;
-    enableNushellIntegration = true;
-    enableBashIntegration = true;
-    settings = {
-      scan_timeout = 500; # in milliseconds
-      nodejs = {
-        symbol = "󰎙 ";
-      };
-      python = {
-        symbol = " ";
-      };
-      ruby = {
-        symbol = " ";
-      };
-      golang = {
-        symbol = " ";
-      };
-      rust = {
-        symbol = " ";
-      };
-      zig = {
-        symbol = " ";
-      };
-      lua = {
-        symbol = " ";
-      };
-      dotnet = {
-        symbol = " ";
-      };
-    };
-  };
-
-  programs.carapace = {
-    enable = true;
-    enableBashIntegration = true;
-  };
-
-  programs.tmux = {
-    enable = true;
-    shell = "${pkgs.nushell}/bin/nu";
-    terminal = "tmux-256color";
-    extraConfig = ''
-      set -g mouse on
-      set-option -g status-position top
-      set -g base-index 1
-      set -g pane-base-index 1
-      bind-key C-t if-shell -F '#{==:#{client_session},popup}' 'detach-client' 'display-popup -w 80% -h 75% -d "#{pane_current_path}" -E "tmux new-session -A -s popup"'
-      set -g popup-style bg=default
-      set -g popup-border-lines rounded
-      set -as terminal-overrides ",*:Tc"
-    '';
-    plugins = with pkgs.tmuxPlugins; [
-      {
-        plugin = tokyo-night-tmux;
-        extraConfig = ''
-          set -g @tokyo-night-tmux_show_path 1
-        '';
-      }
-    ];
-  };
-
-  programs.herdr = {
-    enable = true;
-    package = pkgs.herdr;
-    settings = {
-      onboarding = false;
-      keys = {
-        prefix = "ctrl+b";
-      };
-      theme = {
-        name = "catppuccin";
-      };
-      terminal = {
-        default_shell = "bash";
-      };
-      ui = {
-        sound = {
-          enabled = true;
-        };
-        toast = {
-          delivery = "herdr";
-        };
-      };
-    };
-  };
-
-  programs.rofi = {
-    enable = true;
-    settings.terminal = "${pkgs.ghostty}/bin/ghostty";
-    settings.extraConfig = {
-      modi = "drun,run,window";
-      show-icons = true;
-      drun-display-format = "{name}";
-    };
-  };
-
-  programs.gridcraft.enable = true;
-  programs.wordcraft.enable = true;
-  programs.deckcraft.enable = true;
-  programs.pdfcraft.enable = true;
-  programs.photocraft.enable = true;
 
 }
