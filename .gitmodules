@@ -5,3 +5,4 @@
 [submodule "emacs"]
 	path = emacs
 	url = https://github.com/ruahman/emacs.git
+	branch = nixos
