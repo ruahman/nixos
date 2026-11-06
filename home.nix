@@ -256,7 +256,8 @@ in
     # superfile
     tldr # to long don't read
     duf # disk utility find
-    delta # diff
+    delta # diff tool
+    difftastic # diff tool
     pass # passwords
     # gopass
     yubikey-manager
