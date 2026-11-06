@@ -1,4 +1,9 @@
-{ config, pkgs, ... }: {
+{
+  pkgs,
+  lib,
+  ...
+}:
+{
 
   wayland.windowManager.mango = {
     enable = true;
