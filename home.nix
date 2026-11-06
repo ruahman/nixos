@@ -11,14 +11,14 @@ let
   GO_VERSION = "1.27.0";
   ODIN_VERSION = "dev-2026-10";
   OLS_VERSION = "dev-2026-08";
-  # path to nvim-mcp
   NVIM_MCP_PKG = inputs.nvim-mcp.packages.${pkgs.system}.default;
 in
 {
-  home.stateVersion = "26.05";
-
-  home.username = "ruahman";
-  home.homeDirectory = "/home/ruahman";
+  home = {
+    stateVersion = "26.05";
+    username = "ruahman";
+    homeDirectory = "/home/ruahman";
+  };
 
   # import hardware configuration
   imports = [
@@ -106,8 +106,6 @@ in
 
     ## paint
     pinta
-    #gimp
-    #inkscape
 
     ## music and video
     #audacity
@@ -154,11 +152,11 @@ in
 
     ## golang
     go-bin.versions.${GO_VERSION}
-    gopls
-    gofumpt
-    golines
-    golangci-lint
-    golangci-lint-langserver
+    # gopls
+    # gofumpt
+    # golines
+    # golangci-lint
+    # golangci-lint-langserver
     delve # golang debugger
 
     ## c/c++
@@ -171,7 +169,7 @@ in
 
     ## zig
     pkgs.zigpkgs.${ZIG_VERSION}
-    zls
+    # zls
 
     ## odin
     odin-bin.${ODIN_VERSION}
@@ -221,7 +219,7 @@ in
     vite-plus
     nub
     lazynpm
-    typescript-language-server
+    # typescript-language-server
     vscode-langservers-extracted
     superhtml
     vscode-js-debug
@@ -233,7 +231,7 @@ in
 
     ## dotnet
     dotnet-sdk_11
-    roslyn-ls # C# language server
+    # roslyn-ls # C# language server
     omnisharp-roslyn # language server
     csharpier # C# code formatter
     # avalonia
