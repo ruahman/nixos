@@ -2,3 +2,7 @@
 	path = neovim
 	url = https://github.com/ruahman/neovim.git
 	branch = nixos
+[submodule "emacs"]
+	path = emacs
+	url = https://github.com/ruahman/emacs.git
+	branch = nixos

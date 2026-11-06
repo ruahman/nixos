@@ -613,6 +613,12 @@ in
     photocraft.enable = true;
   };
 
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacs;
+    extraConfig = builtins.readFile ./emacs/init.el;
+  };
+
   services.emacs = {
     enable = true;
     # defaultEditor = true;  # sets EDITOR/VISUAL to emacsclient
