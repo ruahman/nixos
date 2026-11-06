@@ -126,7 +126,6 @@ in
     miktex # latex
 
     ## text editors
-    neovim
     emacs
 
     ## email
