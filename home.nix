@@ -121,7 +121,7 @@ in
     miktex # latex
 
     ## text editors
-    emacs
+    # emacs
 
     ## email
     #evolution
