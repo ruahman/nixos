@@ -16,7 +16,6 @@
         # Launchers
         "ALT,t,spawn,foot"
         "ALT+SHIFT,t,spawn,ghostty"
-        "ALT+SHIFT,f,spawn,thunar"
         "ALT,space,spawn,rofi -show drun"
 
         # Window management
