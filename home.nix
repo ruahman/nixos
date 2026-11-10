@@ -567,14 +567,14 @@ in
         set-option -g status-position top
         set -g base-index 1
         set -g pane-base-index 1
+
+        # popup
         bind-key C-t if-shell -F '#{==:#{client_session},popup}' 'detach-client' 'display-popup -w 80% -h 75% -d "#{pane_current_path}" -E "tmux new-session -A -s popup"'
-        # 1. Pin the popup border so it doesn't depend on the terminal (recommended)
         set -g popup-border-style bg=default,fg=brightblack
         set -g popup-border-lines rounded
-
-        # 2. And/or stop tmux from following the terminal's light/dark report.
-        #    Also affects menus, messages and other theme-colored defaults.
         set -g theme dark        # or "terminal" to just use your ANSI colors
+        set -g popup-style bg=default          # without this, the popup's inside turns gray15
+        set -as terminal-overrides ",*:Tc"     # true color, if you still want it
       '';
       plugins = with pkgs.tmuxPlugins; [
         {
