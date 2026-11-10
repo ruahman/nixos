@@ -573,13 +573,20 @@ in
         set -as terminal-overrides ",*:Tc"
       '';
       plugins = with pkgs.tmuxPlugins; [
-        tmux-powerline
         {
-          plugin = tmux-which-key;
+          plugin = nord;
           extraConfig = ''
-            set -g @tmux-which-key-xdg-enable 1
+            set -g @nord_tmux_date_format "%Y-%m-%d"
+            # set -g @nord_tmux_no_patched_font "1"   # if you don't use a Nerd Font
           '';
         }
+        # tmux-powerline
+        # {
+        #   plugin = tmux-which-key;
+        #   extraConfig = ''
+        #     set -g @tmux-which-key-xdg-enable 1
+        #   '';
+        # }
         # {
         #   plugin = tokyo-night-tmux;
         #   extraConfig = ''
