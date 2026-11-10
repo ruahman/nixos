@@ -568,9 +568,10 @@ in
         set -g base-index 1
         set -g pane-base-index 1
         bind-key C-t if-shell -F '#{==:#{client_session},popup}' 'detach-client' 'display-popup -w 80% -h 75% -d "#{pane_current_path}" -E "tmux new-session -A -s popup"'
-        set -g popup-style bg=default
-        set -g popup-border-lines rounded
         set -as terminal-overrides ",*:Tc"
+        set -g popup-style bg=default
+        set -g popup-border-style bg=default,fg=brightblack   # or fg=blue for a Nord accent
+        set -g popup-border-lines rounded
       '';
       plugins = with pkgs.tmuxPlugins; [
         {
