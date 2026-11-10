@@ -358,6 +358,16 @@ in
           "C-p" = "move_line_up";
         };
       };
+      languages.language = [
+        {
+          name = "c-sharp";
+          auto-format = true;
+          formatter = {
+            command = "csharpier";
+            args = [ "format" ];
+          };
+        }
+      ];
     };
 
     lazygit = {
