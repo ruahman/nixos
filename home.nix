@@ -573,12 +573,19 @@ in
         set -as terminal-overrides ",*:Tc"
       '';
       plugins = with pkgs.tmuxPlugins; [
+        tmux-powerline
         {
-          plugin = tokyo-night-tmux;
+          plugin = tmux-which-key;
           extraConfig = ''
-            set -g @tokyo-night-tmux_show_path 1
+            set -g @tmux-which-key-xdg-enable 1
           '';
         }
+        # {
+        #   plugin = tokyo-night-tmux;
+        #   extraConfig = ''
+        #     set -g @tokyo-night-tmux_show_path 1
+        #   '';
+        # }
       ];
     };
 
