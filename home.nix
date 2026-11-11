@@ -488,7 +488,7 @@ in
         window-width = 100;
 
         window-padding-balance = true;
-        window-padding-color = "extend";
+        window-padding-color = "extend-always";
       };
     };
 
