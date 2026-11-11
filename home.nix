@@ -564,7 +564,7 @@ in
       terminal = "tmux-256color";
       extraConfig = ''
         set -g mouse on
-        set-option -g status-position top
+        set-option -g status-position bottom
         set -g base-index 1
         set -g pane-base-index 1
 
