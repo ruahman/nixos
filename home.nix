@@ -488,7 +488,7 @@ in
         window-width = 100;
 
         window-padding-balance = true;
-        window-padding-color = "extend-always";
+        window-padding-color = "extend";
       };
     };
 
@@ -564,7 +564,7 @@ in
       terminal = "tmux-256color";
       extraConfig = ''
         set -g mouse on
-        set-option -g status-position bottom
+        set-option -g status-position top
         set -g base-index 1
         set -g pane-base-index 1
 
@@ -572,8 +572,8 @@ in
         bind-key C-t if-shell -F '#{==:#{client_session},popup}' 'detach-client' 'display-popup -w 80% -h 75% -d "#{pane_current_path}" -E "tmux new-session -A -s popup"'
         set -g popup-border-style bg=default,fg=brightblack
         set -g popup-border-lines rounded
-        set -g theme dark        # or "terminal" to just use your ANSI colors
-        set -g popup-style bg=default          # without this, the popup's inside turns gray15
+        set -g theme dark     
+        set -g popup-style bg=default  
         set -as terminal-overrides ",*:Tc"     # true color, if you still want it
       '';
       plugins = with pkgs.tmuxPlugins; [
