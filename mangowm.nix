@@ -53,6 +53,7 @@
         "swaync"
         "wl-clipboard"
         "grim"
+        "gobatmon"
       ];
 
     };

@@ -66,6 +66,7 @@ in
     wl-clipboard
     cliphist
     grim
+    gobatmon
     gnome-keyring # for storing passwords
 
     ## AI

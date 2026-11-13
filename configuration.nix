@@ -11,6 +11,7 @@
   };
 
   # import hardware configuration
+  # and neovim config
   imports = [
     ./hardware-configuration.nix
     ./neovim/root.nix
@@ -24,15 +25,23 @@
   };
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 5;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot = {
+    loader = {
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 5;
+      };
+      efi.canTouchEfiVariables = true;
+    };
+  };
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking = {
+    hostName = "nixos"; # Define your hostname.
+    # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Enable networking
-  networking.networkmanager.enable = true;
+    # Enable networking
+    networkmanager.enable = true;
+  };
 
   # Set your time zone.
   time.timeZone = "America/Puerto_Rico";
@@ -74,31 +83,32 @@
   # enable mongowm
   programs.mango.enable = true;
 
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd mango";
-        user = "greeter";
+  services = {
+    greetd = {
+      enable = true;
+      settings = {
+        default_session = {
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd mango";
+          user = "greeter";
+        };
       };
     };
-  };
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "altgr-intl";
-    options = "caps:ctrl_modifier,compose:lalt";
+    # Configure keymap in X11
+    xserver.xkb = {
+      layout = "us";
+      variant = "altgr-intl";
+      options = "caps:ctrl_modifier,compose:lalt";
+    };
+    # Enable CUPS to print documents.
+    printing = {
+      enable = true;
+      # Install HPLIP with plugin support
+      drivers = [ pkgs.hplipWithPlugin ];
+    };
   };
 
   # enable console to use xkb settings
   console.useXkbConfig = true;
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Install HPLIP with plugin support
-  services.printing.drivers = [ pkgs.hplipWithPlugin ];
 
   # Optionally, enable Avahi for network printer discovery
   services.avahi.enable = true;
